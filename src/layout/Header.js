@@ -1,36 +1,50 @@
+import * as React from 'react';
 import PropTypes from 'prop-types';
-// import Button from './Buttons';
-import Button from '@material-ui/core/Button';
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
-import Badge from '@material-ui/core/Badge';
-
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import CssBaseline from '@mui/material/CssBaseline';
 import { useLocation } from 'react-router-dom';
-import { usePeopleState} from '../context/people/PeopleStore';
-import  Typography from '@material-ui/core/Typography';
+import { useBlogState} from '../context/blogs/BlogStore';
+import Badge from '@mui/material/Badge';
+import Button from '@mui/material/Button';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 const Header = ({title } ) => {
-
-  const [{peopleCount},] = usePeopleState();
+	const [{blogCount},] = useBlogState();
     const location = useLocation ()
-    return (
-        <header className="header">
-          <Badge badgeContent={peopleCount} color="primary" anchorOrigin={{vertical: 'top',horizontal: 'left'}}> 
-            <AssignmentOutlinedIcon  />
-          </Badge>
-          <Typography variant='h5'>{title}&nbsp;</Typography>  
-          {location.pathname === '/' &&  
-          <Button href='/addPeople' variant={"contained"} color="primary" size="small"  
-              endIcon={<AddCircleOutlineOutlinedIcon/>}>
-              Add        
-          </Button> 
-          }
-        </header>
-    )
+	return (
+		<React.Fragment>
+			<CssBaseline />
+			<AppBar
+				position="static"
+				color='inherit'
+				elevation={0}
+                    sx={{borderBottom: 1, 
+						borderColor: (theme) => theme.palette.divider }}
+			>
+                <Toolbar>
+                    <Typography variant="h6" color="inherit" noWrap>
+                       {title} 
+                    </Typography>
+				    <Badge badgeContent={blogCount} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
+            			<NotificationsIcon />
+          			</Badge>
+					{location.pathname === '/' &&  
+         				<Button href='/addPeople' variant={"contained"} color="info" size="small"  
+              				endIcon={<AddCircleOutlineOutlinedIcon/>}
+							  sx={{marginLeft:5}}>
+              				Add        
+         			 	</Button> 
+         			}
+                </Toolbar>
+			</AppBar>
+		</React.Fragment>
+	);
 }
-
-
 
 Header.defaultProps = {
     title: 'No Title pass in App.js',
@@ -39,4 +53,5 @@ Header.defaultProps = {
 Header.propTypes={
     title: PropTypes.string
 }
-export default Header
+
+export default Header;

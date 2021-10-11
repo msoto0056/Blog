@@ -9,7 +9,7 @@ import {
   Route,
 } from "react-router-dom";
 import App from './App';
-import Header from './components/Header';
+import Header from './layout/Header';
 import Footer from './layout/Footer';
 import {GlobalProvider} from './context/GlobalStore';
 import {BlogProvider} from './context/blogs/BlogStore';

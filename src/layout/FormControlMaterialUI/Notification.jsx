@@ -1,9 +1,9 @@
 import React from 'react'
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/core/Alert';
-import {useGlobalStore, useGlobalDispatch} from '../../context/GlobalStore';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import {useGlobalStore, useGlobalDispatch} from '../context/GlobalStore';
 
-import { actions } from '../../context/Types';
+import { actions } from '../context/Types';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

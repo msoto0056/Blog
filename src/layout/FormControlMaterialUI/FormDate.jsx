@@ -1,10 +1,10 @@
 import React from "react";
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import DatePicker from '@material-ui/lab/DatePicker';
-import DateTimePicker from '@material-ui/lab/DateTimePicker';
-import TextField from '@material-ui/core/TextField';
-import TimePicker from '@material-ui/lab/TimePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+import TextField from '@mui/material/TextField';
+import TimePicker from '@mui/lab/TimePicker';
 import { Controller, useFormContext } from "react-hook-form";
 
 export const FormInputDate = ({ name, label, rules="" }) => {

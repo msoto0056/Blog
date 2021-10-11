@@ -12,13 +12,14 @@ function App() {
 
 	useEffect(() => {
 		setAppState({ loading: true });
-		const apiUrl = `http://127.0.0.1:8000/api/`;
+		const apiUrl = `http://127.0.0.1:8000/blog/api/`;
 		fetch(apiUrl)
 			.then((data) => data.json())
 			.then((posts) => {
 				setAppState({ loading: false, posts: posts });
 			});
 	}, [setAppState]);
+	console.log(appState)
 	return (
 		<div className="App">
 			<h1>Latest Posts</h1>

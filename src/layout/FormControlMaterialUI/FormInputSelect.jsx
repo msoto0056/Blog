@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 export const FormInputSelect = ({ name="Name", label="Label", options, rules="" }) => {
   const {control} = useFormContext();
