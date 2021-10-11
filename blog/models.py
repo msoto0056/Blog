@@ -32,6 +32,7 @@ class Post(models.Model):
     published = models.DateTimeField(default=timezone.now)
     author= models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     status= models.CharField(max_length=10, choices=options, default='publiished')
+    active=models.BooleanField(default=True)
 
     objects=models.Manager()
     postobjects = PostObjects()
