@@ -3,11 +3,6 @@ import ReactDOM from 'react-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
 import App from './App';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
@@ -18,26 +13,16 @@ import { QueryClientProvider, QueryClient } from "react-query";
 const queryClient = new QueryClient();
 
 const routing = (
-  <QueryClientProvider client={queryClient}>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
       <GlobalProvider>
         <BlogProvider>
-          <Router>
-            <React.StrictMode>
-              <Header title='BlogmeUp'/>
-              <Switch>
-                <Route exact path="/" >
-                    <App/>
-                </Route>
-              </Switch>
-              <Footer /> 
-            </React.StrictMode>
-          </Router>
+          <App/>
         </BlogProvider>
       </GlobalProvider>
   </QueryClientProvider>
+  </React.StrictMode>
 );
-
-console.log(routing)
 
 ReactDOM.render(routing, document.getElementById('root'));
 

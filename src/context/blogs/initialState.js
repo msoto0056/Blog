@@ -1,12 +1,13 @@
 export const initialState = {
-    blogCount:10,
+    blogCount:0,
     blog: {
       "title": "",
       "author": 0,
       "excerpt": "",
       "content":"",
       "status":'',
-      "published":new Date(),
+      // "published":new Date(),
+      "active": true
     },
     isLoading: false,  
     isError: false,
@@ -14,3 +15,5 @@ export const initialState = {
     count:0,
     url: 'http://localhost:8000/blog/api/'
 };
+
+        
