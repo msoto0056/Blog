@@ -19,12 +19,12 @@ import Divider from '@mui/material/Divider';
 
 const SelectOptions = [
   {
-    label: 'draft',
-    value: 'Draft',
+    label: 'Draft',
+    value: 'draft',
   },
   {
-    label: 'published',
-    value: 'Published',
+    label: 'Published',
+    value: 'published',
   },
 ]
 

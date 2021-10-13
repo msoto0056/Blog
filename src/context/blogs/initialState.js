@@ -5,7 +5,7 @@ export const initialState = {
       "author": 0,
       "excerpt": "",
       "content":"",
-      "status":'',
+      "status":"",
       // "published":new Date(),
       "active": true
     },

@@ -43,7 +43,7 @@ export default function ListBlog() {
     }
     const handleUpdate = (blog) => {
       // const newBlog={...blog,birthday:new Date(person.birthday)}
-      // dispatch({type:actions.FIELDS, fieldName: 'person', payload: newTask})
+      dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
       history.push(`/updateTask/:${blog.id}`);
     }
     const handleDelete = (id)=>{
