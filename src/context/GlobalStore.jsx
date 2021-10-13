@@ -15,7 +15,12 @@ export const initialState = {
       "isOpen":false,
       "message":'',
       "type":'info'
-    }
+    },
+    authentication: {
+      'method':'JWT',
+      'accessToken':'',
+      'refreshToken':''
+    },
 };
 const GlobalReducer = (state, action) => {
     switch (action.type) {

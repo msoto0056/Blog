@@ -1,6 +1,7 @@
 export const initialState = {
     blogCount:0,
     blog: {
+      "id":0,
       "title": "",
       "author": 0,
       "excerpt": "",
