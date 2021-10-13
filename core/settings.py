@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg'
+# SECRET_KEY = 'django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 
@@ -33,6 +33,7 @@ if not DEBUG:
     ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
 # Application definition
+AUTH_USER_MODEL = 'users.NewUser'  # Custom user model from .user using Email
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,10 +45,12 @@ INSTALLED_APPS = [
     # 3rd Party,
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt',
 
     # My Apps,
     'blog.apps.BlogConfig',
     'blog_api.apps.BlogApiConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,20 +142,29 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Global Project permissions.
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',  # allow all
-    ]
-}
+# Global Project permissions. using Django-est-framework
+if os.environ.get('API_AUTHENTICATION') == 'JWT':
+    REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.AllowAny',  # allow all
+        ],
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ],
+
+    }
+else:
+    REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        ]
+    }
 
 # Permissions:
-    # AllowAny
-    # IsAuthenticated
-    # IsAdminUser
-    # IsAuthenticatedOrReadOnly
+# AllowAny
+# IsAuthenticated
+# IsAdminUser
+# IsAuthenticatedOrReadOnly
 
 CORS_ALLOWED_ORIGINS = [
     # "https://example.com",
