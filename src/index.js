@@ -8,6 +8,7 @@ import Header from './layout/Header';
 import Footer from './layout/Footer';
 import {GlobalProvider} from './context/GlobalStore';
 import {BlogProvider} from './context/blogs/BlogStore';
+import { UserProvider } from './context/users/UserStore';
 import { QueryClientProvider, QueryClient } from "react-query";
 
 const queryClient = new QueryClient();
@@ -16,9 +17,11 @@ const routing = (
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <GlobalProvider>
-        <BlogProvider>
-          <App/>
-        </BlogProvider>
+        <UserProvider>
+          <BlogProvider>
+            <App/>
+          </BlogProvider>
+        </UserProvider>
       </GlobalProvider>
   </QueryClientProvider>
   </React.StrictMode>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useLocation } from 'react-router-dom';
 import { useBlogState} from '../context/blogs/BlogStore';
@@ -11,6 +12,7 @@ import Button from '@mui/material/Button';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { NavLink } from 'react-router-dom';
 
 
 const Header = ({title } ) => {
@@ -27,8 +29,12 @@ const Header = ({title } ) => {
 						borderColor: (theme) => theme.palette.divider }}
 			>
                 <Toolbar>
-                    <Typography variant="h6" color="inherit" noWrap>
-                       {title} 
+                    <Typography variant="h6" color="inherit" noWrap sx={{
+						flexGrow:1
+					}}>
+						<Link component={NavLink} to='/' underline='none' color="textPrimary" > 
+							{title} 
+						</Link>
                     </Typography>
 				    <Badge badgeContent={blogCount} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
             			<NotificationsIcon />
@@ -40,6 +46,37 @@ const Header = ({title } ) => {
               				Add        
          			 	</Button> 
          			}
+					 <nav>
+						<Link
+							color="textPrimary"
+							href="#"
+							sx={{margin: (theme) =>  theme.spacing(1, 1.5)}}
+							component={NavLink}
+							to="/register"
+						>
+							Register
+						</Link>
+					</nav>
+					<Button
+						href="#"
+						color="primary"
+						variant="outlined"
+						sx={{margin: (theme) =>  theme.spacing(1, 1.5)}}
+						component={NavLink}
+						to="/login"
+					>
+						Login
+					</Button>
+					<Button
+						href="#"
+						color="primary"
+						variant="outlined"
+						sx={{margin: (theme) =>  theme.spacing(1, 1.5)}}
+						component={NavLink}
+						to="/logout"
+					>
+						Logout
+					</Button>
                 </Toolbar>
 			</AppBar>
 		</React.Fragment>

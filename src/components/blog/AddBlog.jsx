@@ -1,10 +1,10 @@
-import { useBlogState } from '../context/blogs/BlogStore';
-import { useGlobalDispatch } from '../context/GlobalStore';
+import { useBlogState } from '../../context/blogs/BlogStore';
+import { useGlobalDispatch } from '../../context/GlobalStore';
 import { useHistory } from "react-router-dom";
 import BlogForm from './BlogForm';
 import {useCreate} from 'react-crud-plus-state-management';
-import { initialState } from '../context/blogs/initialState';
-import { actions } from '../context/Types';
+import { initialState } from '../../context/blogs/initialState';
+import { actions } from '../../context/Types';
 
 
 export const AddBlog = () => {

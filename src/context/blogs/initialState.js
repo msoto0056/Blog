@@ -14,7 +14,7 @@ export const initialState = {
     isError: false,
     errorMsg: '',
     count:0,
-    url: 'http://localhost:8000/blog/api/'
+    url: 'http://localhost:8000/api/blog'
 };
 
         

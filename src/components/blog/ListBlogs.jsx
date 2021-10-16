@@ -13,14 +13,14 @@ import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { green, pink } from '@mui/material/colors';
-import { useBlogState} from '../context/blogs/BlogStore';
-import { useGlobalStore, useGlobalDispatch} from '../context/GlobalStore';
-import {actions} from '../context/Types';
+import { useBlogState} from '../../context/blogs/BlogStore';
+import { useGlobalStore, useGlobalDispatch} from '../../context/GlobalStore';
+import {actions} from '../../context/Types';
 import { useHistory } from "react-router-dom";
-import Notification from '../layout/FormControlMaterialUI/Notification';
-import ConfirmationDialog from '../layout/FormControlMaterialUI/ConfirmationDialog';
+import Notification from '../../layout/FormControlMaterialUI/Notification';
+import ConfirmationDialog from '../../layout/FormControlMaterialUI/ConfirmationDialog';
 import {useRetrieve, useDelete, useUpdate} from 'react-crud-plus-state-management';
-import {Container} from  './Container'
+import {Container} from  '../../layout/Container'
 import Loader from "react-loader-spinner";
 
 

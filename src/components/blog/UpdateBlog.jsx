@@ -1,9 +1,9 @@
-import { useBlogState} from '../context/blogs/BlogStore';
-import { useGlobalDispatch} from '../context/GlobalStore';
+import { useBlogState} from '../../context/blogs/BlogStore';
+import { useGlobalDispatch} from '../../context/GlobalStore';
 import { useHistory } from "react-router-dom";
 import BlogForm from './BlogForm';
 import {useUpdate} from 'react-crud-plus-state-management';
-import { actions } from '../context/Types';
+import { actions } from '../../context/Types';
 
 
 export const UpdateBlog = () => {

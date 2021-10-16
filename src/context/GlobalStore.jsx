@@ -3,7 +3,6 @@ import {actions} from './Types';
 
 export const initialState = {
   // define elements to use in the app 
-  user: {id: 1, name: 'Miguel', email: 'mas@gmail.com'},
   confirmationDialog:{
       "confirmDel":false, 
       "isOpen":false,
@@ -15,12 +14,7 @@ export const initialState = {
       "isOpen":false,
       "message":'',
       "type":'info'
-    },
-    authentication: {
-      'method':'JWT',
-      'accessToken':'',
-      'refreshToken':''
-    },
+    }
 };
 const GlobalReducer = (state, action) => {
     switch (action.type) {

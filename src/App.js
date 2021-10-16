@@ -1,7 +1,8 @@
 import './App.css';
-import ListBlog from './components/ListBlogs';
-import {AddBlog} from './components/AddBlog';
-import {UpdateBlog} from './components/UpdateBlog';
+import ListBlog from './components/blog/ListBlogs';
+import {AddBlog} from './components/blog/AddBlog';
+import {UpdateBlog} from './components/blog/UpdateBlog';
+import Register from './components/users/Register';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Header from './layout/Header';
@@ -17,6 +18,9 @@ function App() {
           <Route exact path='/'>
             <ListBlog />
           </Route>  
+          <Route path="/register">
+            <Register />
+          </Route>
           <Route path='/addBlog'>
             <AddBlog />
           </Route> 
