@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 
     # My Apps,
     'blog.apps.BlogConfig',
@@ -121,8 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-#LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'es-CR'
+LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'es-CR'
 
 TIME_ZONE = 'UTC'
 
@@ -187,7 +188,8 @@ if os.environ.get('API_AUTHENTICATION') == 'JWT':
 else:
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+            #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+            'rest_framework.permissions.AllowAny',  # allow all
         ]
     }
 
@@ -201,5 +203,7 @@ CORS_ALLOWED_ORIGINS = [
     # "https://example.com",
     # "https://sub.example.com",
     "http://localhost:3000",
+    "http://localhost:3001",
     "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001"
 ]
