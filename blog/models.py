@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
+from django.db.models import Q
 
 User = settings.AUTH_USER_MODEL
 
@@ -12,6 +14,23 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PostQuerySet(models.QuerySet):
+    def search(self, query=None):
+        if query is None or query == "":
+            return self.none()
+        lookups = Q(title__icontains=query) | Q(content__icontains=query | 
+        Q(excerpt__icontains=query))
+        return self.filter(lookups)
+
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db)
+
+    def search(self, query=None):
+        return self.get_queryset().search(query=query)
 
 class Post(models.Model):
 
@@ -35,7 +54,7 @@ class Post(models.Model):
     active=models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now=True)
 
-    objects=models.Manager()
+    objects = PostManager()
     postobjects = PostObjects()
 
     class Meta:
@@ -43,3 +62,7 @@ class Post(models.Model):
     
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:detail', kwargs={'id': self.id})
+    

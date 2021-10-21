@@ -35,6 +35,7 @@ if not DEBUG:
 
 # Application definition
 AUTH_USER_MODEL = 'users.NewUser'  # Custom user model from .user using Email
+#APPEND_SLASH = False
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'django_filters',
 
     # My Apps,
     'blog.apps.BlogConfig',
@@ -146,9 +148,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Global Project permissions. using Django-est-framework
 if os.environ.get('API_AUTHENTICATION') == 'JWT':
+    print ("JWT", True)
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.AllowAny',  # allow all
+            #'rest_framework.permissions.AllowAny',  # allow all
+            'rest_framework.permissions.IsAuthenticated',
         ],
         'DEFAULT_AUTHENTICATION_CLASSES': [
             'rest_framework_simplejwt.authentication.JWTAuthentication',
