@@ -16,10 +16,10 @@ import { green, pink } from '@mui/material/colors';
 import { useBlogState} from '../../context/blogs/BlogStore';
 import { useGlobalStore, useGlobalDispatch} from '../../context/GlobalStore';
 import {actions} from '../../context/Types';
-import { useHistory } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 import ConfirmationDialog from '../../layout/FormControlMaterialUI/ConfirmationDialog';
-import {useRetrieve, useDelete, useUpdate} from 'react-crud-plus-state-management';
+import {useRetrieve, useDelete, useUpdate} from '../../custom-hooks';
 import {Container} from  '../../layout/Container'
 import Loader from "react-loader-spinner";
 
@@ -28,6 +28,7 @@ const size="medium";
 const title="Delete";
 const title1="Double click to toggle active - inactive";
 const title2="Update";
+const emptyMsg ='No hay blogs para mostrar'
 
 export default function ListBlog() {
     const history = useHistory();
@@ -44,7 +45,11 @@ export default function ListBlog() {
     const handleUpdate = (blog) => {
       // const newBlog={...blog,birthday:new Date(person.birthday)}
       dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
-      history.push(`/updateTask/:${blog.id}`);
+      history.push(`/updateBlog/${blog.slug}`);
+    }
+    const viewBlog = (blog) => {
+      dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
+      history.push(`/viewBlog/${blog.slug}`);
     }
     const handleDelete = (id)=>{
       if (confirmationDialog.confirmDel) {
@@ -107,7 +112,7 @@ export default function ListBlog() {
     if (blogs.length === 0 ) {
       return (
           <Container>
-            <Alert severity="error">No hay blogs para mostrar</Alert>
+            <Alert severity="error">{emptyMsg}</Alert>
           </Container>
       );
     } 
@@ -146,16 +151,15 @@ export default function ListBlog() {
                         // <Avatar sx={{ bgcolor: green[500] }}>A</Avatar>  :
                         // <Avatar sx={{ bgcolor: pink[500] }}>I</Avatar> 
                        }
-
                     </ListItemAvatar> 
-                              
-                  <Tooltip title={title1}> 
+                    <Tooltip title={title1}> 
                     <ListItemText 
                       primary={ 
                         <Typography variant='h6' noWrap sx={{maxWidth:280}}>{blog.title}</Typography>}
                       secondary={
                         <Typography variant='body2' noWrap sx={{maxWidth:180}}>{blog.excerpt}</Typography>}
-                      onDoubleClick={()=>updateStatus(blog)} />
+                      onDoubleClick={()=>updateStatus(blog)} 
+                      onClick={()=>viewBlog(blog)}/>
                     </Tooltip>
                 </ListItemButton>
               </ListItem>

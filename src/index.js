@@ -4,8 +4,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import App from './App';
-import Header from './layout/Header';
-import Footer from './layout/Footer';
 import {GlobalProvider} from './context/GlobalStore';
 import {BlogProvider} from './context/blogs/BlogStore';
 import { UserProvider } from './context/users/UserStore';

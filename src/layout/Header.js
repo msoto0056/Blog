@@ -9,7 +9,6 @@ import { useLocation } from 'react-router-dom';
 import { useBlogState} from '../context/blogs/BlogStore';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { NavLink } from 'react-router-dom';

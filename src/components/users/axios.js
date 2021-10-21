@@ -5,11 +5,11 @@ const baseURL =`${process.env.REACT_APP_API_SERVER}`
 const axiosInstance = axios.create({
 	baseURL: baseURL,
 	timeout: 5000,
-	headers: {
-		Authorization: 'JWT ',
-		'Content-Type': 'application/json',
-		accept: 'application/json',
-	}, 
+	// headers: {
+	// 	Authorization: 'JWT ',
+	// 	'Content-Type': 'application/json',
+	// 	accept: 'application/json',
+	// }, 
 });
 
 axiosInstance.interceptors.response.use(

@@ -1,4 +1,4 @@
-import {makeStore} from "react-crud-plus-state-management";
+import {makeStore} from "../custom-hooks";
 import {actions} from './Types';
 
 export const initialState = {

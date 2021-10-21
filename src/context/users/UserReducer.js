@@ -10,6 +10,8 @@
         case actions.LOGIN_SUCCESS:
         case actions.GOOGLE_AUTH_SUCCESS:
         case actions.FACEBOOK_AUTH_SUCCESS:
+            localStorage.setItem('access', action.payload.access);
+            localStorage.setItem('refresh', action.payload.refresh);
             return {
                 ...state,
                 isAuthenticated: true,
@@ -19,12 +21,14 @@
         case actions.SIGNUP_SUCCESS:
             return {
                 ...state,
-                isAuthenticated: false
+                isAuthenticated: false,
+                isAccountCreated: true
             }
         case actions.USER_LOADED_SUCCESS:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                isAuthenticated:true
             }
         case actions.AUTHENTICATED_FAIL:
             return {
@@ -36,17 +40,28 @@
                 ...state,
                 user: null
             }
-        case actions.GOOGLE_AUTH_FAIL:
-        case actions.FACEBOOK_AUTH_FAIL:
-        case actions.LOGIN_FAIL:
-        case actions.SIGNUP_FAIL:
         case action.LOGOUT:
             return {
                 ...state,
                 access: null,
                 refresh: null,
                 isAuthenticated: false,
-                user: null
+                user: null,
+            }
+        case actions.GOOGLE_AUTH_FAIL:
+        case actions.FACEBOOK_AUTH_FAIL:
+        case actions.LOGIN_FAIL:
+        case actions.SIGNUP_FAIL:
+            return {
+                ...state,
+                access: null,
+                refresh: null,
+                isAuthenticated: false,
+                isAccountCreated:false,
+                user: null,
+                isLoading: false,
+                isError:true,
+                errorMsg:`Activation Failed...!. The error message received!: ${action.payload}` 
             }
         case actions.PASSWORD_RESET_SUCCESS:
         case actions.PASSWORD_RESET_FAIL:
@@ -55,7 +70,7 @@
         case actions.ACTIVATION_SUCCESS:
         case actions.ACTIVATION_FAIL:
             return {
-                ...state
+                ...state,
             }
       case actions.INCREMENT:
         return {...state,

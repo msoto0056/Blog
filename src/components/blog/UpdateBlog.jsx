@@ -2,7 +2,7 @@ import { useBlogState} from '../../context/blogs/BlogStore';
 import { useGlobalDispatch} from '../../context/GlobalStore';
 import { useHistory } from "react-router-dom";
 import BlogForm from './BlogForm';
-import {useUpdate} from 'react-crud-plus-state-management';
+import {useUpdate} from '../../custom-hooks';
 import { actions } from '../../context/Types';
 
 

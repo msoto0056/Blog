@@ -1,14 +1,15 @@
 export const initialState = {
     blogCount:0,
     blog: {
-      "id":0,
+      "id": null,
       "title": "",
       "author": 0,
       "excerpt": "",
       "content":"",
       "status":"",
       // "published":new Date(),
-      "active": true
+      "active": true,
+      "slug":''
     },
     isLoading: false,  
     isError: false,

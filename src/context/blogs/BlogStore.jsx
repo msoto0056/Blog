@@ -1,4 +1,4 @@
-import {makeStore2} from "react-crud-plus-state-management";
+import {makeStore2} from "../../custom-hooks";
 import {initialState} from "./initialState";
 import BlogReducer from "./BlogReducer";
 

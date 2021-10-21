@@ -1,11 +1,13 @@
-import {makeStore2} from "react-crud-plus-state-management";
+import {makeStore2} from "../../custom-hooks";
 import {initialState} from "./initialState";
 import {actions} from '../Types';
 import UserReducer from "./UserReducer";
-import axios from 'axios';
+import axiosInstance from '../../components/users/axios';
 
 const url = `${process.env.REACT_APP_API_SERVER}`
-
+const msgActivationErr ='Activation Failed!.Sever unavailable';
+const msgActivation ='Activation Successful!';
+const msgLoginErr ='Login Error!';
 const [
   UserProvider,
   useUserState
@@ -13,17 +15,17 @@ const [
 
 export { UserProvider, useUserState }
 
-export const load_user = () => async (accessToken,dispatch) => {
-    if (accessToken) {
+export const load_user = async (dispatch,globalDispatch) => {
+    if (localStorage.getItem('access')) {
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${accessToken}`,
+                'Authorization': `JWT ${localStorage.getItem('access')}`,
                 'Accept': 'application/json'
             }
         }; 
         try {
-            const res = await axios.get(`${url}/user/create/`, config);
+            const res = await axiosInstance.get(`/token/`, config);
             dispatch({
                 type: actions.USER_LOADED_SUCCESS,
                 payload: res.data
@@ -32,11 +34,15 @@ export const load_user = () => async (accessToken,dispatch) => {
             dispatch({
                 type: actions.USER_LOADED_FAIL
             });
+            globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
+                {message: `Loading User Error: ${err.message}` ,isOpen:true, type:'error'}});  
         }
     } else {
         dispatch({
             type: actions.USER_LOADED_FAIL
         });
+        globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
+            {message: `Error in Local Storage access Token...!` ,isOpen:true, type:'error'}});  
     }
 };
 
@@ -56,7 +62,7 @@ export const googleAuthenticate = (state, code,accessToken,dispatch) => async di
         const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
 
         try {
-            const res = await axios.post(`${url}/auth/o/google-oauth2/?${formBody}`, config);
+            const res = await axiosInstance.post(`${url}/auth/o/google-oauth2/?${formBody}`, config);
 
             dispatch({
                 type: actions.GOOGLE_AUTH_SUCCESS,
@@ -88,7 +94,7 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
         const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
 
         try {
-            const res = await axios.post(`${url}/auth/o/facebook/?${formBody}`, config);
+            const res = await axiosInstance.post(`${url}/auth/o/facebook/?${formBody}`, config);
 
             dispatch({
                 type: actions.FACEBOOK_AUTH_SUCCESS,
@@ -116,7 +122,7 @@ export const checkAuthenticated = (accessToken) => async dispatch => {
         const body = JSON.stringify({ token: accessToken });
 
         try {
-            const res = await axios.post(`${url}/auth/jwt/verify/`, body, config)
+            const res = await axiosInstance.post(`${url}/auth/jwt/verify/`, body, config)
 
             if (res.data.code !== 'token_not_valid') {
                 dispatch({
@@ -140,51 +146,57 @@ export const checkAuthenticated = (accessToken) => async dispatch => {
     }
 };
 
-export const login = (email, password) => async dispatch => {
+export const login = async(formData,dispatch, globalDispatch) => {
+    const {email,password}={...formData}
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     };
-
     const body = JSON.stringify({ email, password });
-
     try {
-        const res = await axios.post(`${url}/auth/jwt/create/`, body, config);
-
+        const res = await axiosInstance.post(`/token/`, body, config);
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: res.data
         });
-
-        dispatch(load_user());
+        dispatch(load_user(dispatch,globalDispatch));
     } catch (err) {
         dispatch({
             type: actions.LOGIN_FAIL
         })
+        globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
+        {message: `${msgLoginErr} or ${err.message}` ,isOpen:true, type:'error'}})
     }
 };
 
-export const signup = ({user}) => async dispatch => {
-    const config = {
+export const signup = async(formData,dispatch,globalDispatch) => {
+    console.log('sign-up')
+    const conf = {
         headers: {
-            'Content-Type': 'application/json'
+            Authorization: null,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
         }
     };
-
-    const body = JSON.stringify({...user });
-
     try {
-        const res = await axios.post(`${url}/user/create/`, body, config);
-
+        const res = await axiosInstance.post(`/user/create/`, {
+        email: formData.email,
+		user_name: formData.username,
+		password: formData.password,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+    }, conf);
         dispatch({
             type: actions.SIGNUP_SUCCESS,
             payload: res.data
         });
+        globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
+            {message: `${msgActivation}` ,isOpen:true, type:'success'}}); 
     } catch (err) {
-        dispatch({
-            type: actions.SIGNUP_FAIL
-        })
+        dispatch({type: actions.SIGNUP_FAIL, payload:err.message});
+        globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
+        {message: `${msgActivationErr} or ${err.message}` ,isOpen:true, type:'error'}});  
     }
 };
 
@@ -198,7 +210,7 @@ export const verify = (uid, token) => async dispatch => {
     const body = JSON.stringify({ uid, token });
 
     try {
-        await axios.post(`${url}/auth/users/activation/`, body, config);
+        await axiosInstance.post(`${url}/auth/users/activation/`, body, config);
 
         dispatch({
             type: actions.ACTIVATION_SUCCESS,
@@ -220,7 +232,7 @@ export const reset_password = (email) => async dispatch => {
     const body = JSON.stringify({ email });
 
     try {
-        await axios.post(`${url}/auth/users/reset_password/`, body, config);
+        await axiosInstance.post(`${url}/auth/users/reset_password/`, body, config);
 
         dispatch({
             type: actions.PASSWORD_RESET_SUCCESS
@@ -242,7 +254,7 @@ export const reset_password_confirm = (uid, token, new_password, re_new_password
     const body = JSON.stringify({ uid, token, new_password, re_new_password });
 
     try {
-        await axios.post(`${url}/auth/users/reset_password_confirm/`, body, config);
+        await axiosInstance.post(`${url}/auth/users/reset_password_confirm/`, body, config);
 
         dispatch({
             type: actions.PASSWORD_RESET_CONFIRM_SUCCESS

@@ -8,6 +8,7 @@ export const initialState = {
     accessToken:'',
     refreshToken:'',
     isAuthenticated:null,
+    isAccountCreated:false,
     user: {
       'email': "",
       'username': "",
@@ -15,8 +16,7 @@ export const initialState = {
       'firstName':"",
       'lastName':"",
       're_password':''
-    },
-    url: 'http://localhost:8000/api/'
+    }
 };
 
 
