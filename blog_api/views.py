@@ -1,4 +1,5 @@
-from rest_framework import generics, viewsets, filters
+from rest_framework import generics, viewsets
+from django_filters import rest_framework as filters
 from rest_framework.response import Response
 from rest_framework.permissions import (
     IsAuthenticated,
@@ -34,11 +35,28 @@ class PostUserClassPermissions(BasePermission):
         return obj.author == request.user
 
 
+class PostFilter(filters.FilterSet):
+    # min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
+    # max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+
+    class Meta:
+        model = Post
+        fields = {
+            'category':['exact'],
+            'title':['exact', 'icontains'], 
+            'author':['exact'],
+            'excerpt': ['icontains'], 
+            'content': ['icontains'], 
+            'slug': ['exact', 'icontains']
+        }
+
+
+
 class PostViewSet(viewsets.ModelViewSet):  # This approach abstract even more but less control
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category','title','author', 'excerpt','content']
+    filterset_class = PostFilter
 
 
     def get_queryset(self):
