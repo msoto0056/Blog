@@ -20,6 +20,8 @@ from rest_framework.schemas import get_schema_view
 #from rest_framework.documentation import include_docs_urls
 from django.views.generic import TemplateView
 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,3 +42,5 @@ urlpatterns = [
     ), name='swagger-ui'),
     path('', include('blog.urls', namespace='blog')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
