@@ -21,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg'
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-
+SECRET_KEY = 'django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg'
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+print (os.environ.get('DJANGO_SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = os.environ.get('DEBUG') == '1'  # 1=True 0=False
+DEBUG = True
+#DEBUG = os.environ.get('DEBUG') == '1'  # 1=True 0=False
 
 ALLOWED_HOSTS = []
 if not DEBUG:
@@ -192,8 +192,8 @@ if os.environ.get('API_AUTHENTICATION') == 'JWT':
 else:
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
-            #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-            'rest_framework.permissions.AllowAny',  # allow all
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+            #'rest_framework.permissions.AllowAny',  # allow all
         ]
     }
 

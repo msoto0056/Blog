@@ -12,6 +12,7 @@ djangorestframework-simplejwt = "*"
 pyyaml = "*"
 uritemplate = "*"
 django-filter = "*"
+pillow = "*"
 
 [dev-packages]
 
