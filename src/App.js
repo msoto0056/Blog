@@ -7,7 +7,7 @@ import {UpdateBlog} from './components/blog/UpdateBlog';
 import Register from './components/users/Register';
 import Login from './components/users/Login';
 import Logout from './components/users/Logout';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
@@ -21,29 +21,15 @@ function App() {
     <div className="container">
       <Router>
         <Header title='BlogmeUp'/>
-        <Switch>
-          <Route exact path='/'>
-            <Posts  />
-          </Route>  
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/logout">
-            <Logout />
-          </Route>
-          <Route path='/addBlog/'>
-            <AddBlog />
-          </Route> 
-          <Route path="/viewBlog/:slug"> 
-            <Post />
-          </Route> 
-          <Route Path='/updateBlog/:slug'>
-            <UpdateBlog />
-          </Route> 
-      </Switch>
+        <Routes>
+          <Route exact path='/' element={<Posts  />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path='/addBlog/' element= {<AddBlog />} />
+          <Route path="/viewBlog/:slug" element ={<Post />}  />
+          <Route Path='/updateBlog/:slug' element ={<UpdateBlog />} />
+      </Routes>
       <Footer/>
     </Router>
     <ReactQueryDevtools />
