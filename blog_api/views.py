@@ -10,9 +10,12 @@ from rest_framework.permissions import (
 )
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from django.utils.translation import gettext_lazy as _
 from blog.models import Post
 from .serializers import PostSerializer
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class PostUserWritePermission(BasePermission):
@@ -57,7 +60,8 @@ class PostViewSet(viewsets.ModelViewSet):  # This approach abstract even more bu
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PostFilter
-
+    parser_classes = [MultiPartParser, FormParser]
+    #queryset = Post.objects.all()
 
     def get_queryset(self):
         query = self.request.query_params.get('slug', None)
@@ -67,9 +71,21 @@ class PostViewSet(viewsets.ModelViewSet):  # This approach abstract even more bu
             query = self.request.query_params.get('id', None)
             if query is not None:
                 return Post.objects.filter(id=query)
-        return Post.objects.all()
+        return Post.objects.all()   
     
 
+# class CreatePost(APIView):
+#     permission_classes = [IsAuthenticated]
+#     parser_classes = [MultiPartParser, FormParser]
+
+#     def post(self, request, format=None):
+#         print(request.data)
+#         serializer = PostSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # def get_object(self, queryset=None, *args, **kwargs):
     #     item = self.kwargs.get('pk')
