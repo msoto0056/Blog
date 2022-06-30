@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -24,7 +24,7 @@ import Loader from "react-loader-spinner";
 const emptyMsg ='No hay blogs para mostrar'
 
 function Posts() {
-  const history = useHistory();
+  let navigate = useNavigate();
   const [{url},dispatch] = useBlogState();
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'blogCount', payload:data.length})}
   const {data:posts, error, isLoading, isError} = useRetrieve("blog",url,onSuccessFetch);
@@ -54,7 +54,7 @@ function Posts() {
   
     const handleView = (blog) => {
       dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
-      history.push(`/viewBlog/${blog.slug}`);
+      navigate(`/viewBlog/${blog.slug}`);
     }
 
   return (

@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
-import axios from 'axios';
-import { useHistory, Redirect } from 'react-router-dom';
+// import axios from 'axios';
+import useAxios from './useAxios'
+import { Navigate } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalDispatch } from '../../context/GlobalStore';
-import { useUserState, login} from '../../context/users/UserStore';
+import { useUserState, Login} from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 
@@ -25,7 +26,9 @@ const theme = createTheme();
 const url = `${process.env.REACT_APP_API_SERVER}`;
 const msgPassLen = 'The password length most be at least 8 Characters long';
 
+
 export default function SignIn() {
+  const axios=useAxios();
   const globalDispatch=useGlobalDispatch();
   const [{isAuthenticated},dispatch]=useUserState();
   const initialFormData = Object.freeze({
@@ -41,10 +44,10 @@ export default function SignIn() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.password.length < 8 ) {
+    if (formData.password.length < 5 ) {
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
           {message: msgPassLen,isOpen:true, type:'error'}});    
-    } else  login(formData,dispatch,globalDispatch)
+    } else  Login(formData,dispatch,globalDispatch)
  
   };
 
@@ -69,7 +72,7 @@ export default function SignIn() {
     };
 
   if (isAuthenticated) {
-        return <Redirect to='/' />
+        return <Navigate to='/' replace />
   }
   return (
     <ThemeProvider theme={theme}>

@@ -2,7 +2,8 @@ import {makeStore2} from "../../custom-hooks";
 import {initialState} from "./initialState";
 import {actions} from '../Types';
 import UserReducer from "./UserReducer";
-import axiosInstance from '../../components/users/axios';
+import useAxios from "../../components/users/useAxios";
+
 
 const url = `${process.env.REACT_APP_API_SERVER}`
 const msgActivationErr ='Activation Failed!.Sever unavailable';
@@ -15,7 +16,8 @@ const [
 
 export { UserProvider, useUserState }
 
-export const load_user = async (dispatch,globalDispatch) => {
+export const Load_user = async (dispatch,globalDispatch) => {
+    const axiosInstance = useAxios();
     if (localStorage.getItem('access')) {
         const config = {
             headers: {
@@ -47,6 +49,7 @@ export const load_user = async (dispatch,globalDispatch) => {
 };
 
 export const googleAuthenticate = (state, code,accessToken,dispatch) => async dispatch => {
+    const axiosInstance = useAxios();
     if (state && code && !accessToken) {
         const config = {
             headers: {
@@ -69,7 +72,7 @@ export const googleAuthenticate = (state, code,accessToken,dispatch) => async di
                 payload: res.data
             });
 
-            dispatch(load_user());
+            dispatch(Load_user());
         } catch (err) {
             dispatch({
                 type: actions.GOOGLE_AUTH_FAIL
@@ -79,6 +82,7 @@ export const googleAuthenticate = (state, code,accessToken,dispatch) => async di
 };
 
 export const facebookAuthenticate = (state, code, accessToken) => async dispatch => {
+    const axiosInstance = useAxios();
     if (state && code && !accessToken) {
         const config = {
             headers: {
@@ -101,7 +105,7 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
                 payload: res.data
             });
 
-            dispatch(load_user());
+            dispatch(Load_user());
         } catch (err) {
             dispatch({
                 type: actions.FACEBOOK_AUTH_FAIL
@@ -111,6 +115,7 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
 };
 
 export const checkAuthenticated = (accessToken) => async dispatch => {
+    const axiosInstance = useAxios();
     if (accessToken) {
         const config = {
             headers: {
@@ -146,21 +151,26 @@ export const checkAuthenticated = (accessToken) => async dispatch => {
     }
 };
 
-export const login = async(formData,dispatch, globalDispatch) => {
+export const Login = async(formData,dispatch, globalDispatch) => {
+    const axiosInstance = useAxios();
+    console.log(axiosInstance)
     const {email,password}={...formData}
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
+    // const config = {
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     }
+    // };
     const body = JSON.stringify({ email, password });
+    console.log("login Body",body)
     try {
-        const res = await axiosInstance.post(`/token/`, body, config);
+        //const res = await axiosInstance.post(`/token/`, body, config);
+        const res = await axiosInstance.post(`/token/`, body);
+        console.log(res.data)
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: res.data
         });
-        dispatch(load_user(dispatch,globalDispatch));
+        dispatch(Load_user(dispatch,globalDispatch));
     } catch (err) {
         dispatch({
             type: actions.LOGIN_FAIL
@@ -170,7 +180,8 @@ export const login = async(formData,dispatch, globalDispatch) => {
     }
 };
 
-export const signup = async(formData,dispatch,globalDispatch) => {
+export const Signup = async(formData,dispatch,globalDispatch) => {
+    const axiosInstance = useAxios();
     console.log('sign-up')
     const conf = {
         headers: {
@@ -201,6 +212,7 @@ export const signup = async(formData,dispatch,globalDispatch) => {
 };
 
 export const verify = (uid, token) => async dispatch => {
+    const axiosInstance = useAxios();
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -223,6 +235,7 @@ export const verify = (uid, token) => async dispatch => {
 };
 
 export const reset_password = (email) => async dispatch => {
+    const axiosInstance = useAxios();
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -245,6 +258,7 @@ export const reset_password = (email) => async dispatch => {
 };
 
 export const reset_password_confirm = (uid, token, new_password, re_new_password) => async dispatch => {
+    const axiosInstance = useAxios();
     const config = {
         headers: {
             'Content-Type': 'application/json'

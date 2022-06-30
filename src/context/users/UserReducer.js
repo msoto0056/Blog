@@ -15,8 +15,8 @@
             return {
                 ...state,
                 isAuthenticated: true,
-                access: action.payload.access,
-                refresh: action.payload.refresh
+                accessToken: action.payload.access,
+                refreshToken: action.payload.refresh
             }
         case actions.SIGNUP_SUCCESS:
             return {
@@ -41,10 +41,12 @@
                 user: null
             }
         case action.LOGOUT:
+            localStorage.removeItem('access')
+            localStorage.removeItem('refresh')
             return {
                 ...state,
-                access: null,
-                refresh: null,
+                accessToken: null,
+                refreshToken: null,
                 isAuthenticated: false,
                 user: null,
             }
@@ -54,8 +56,8 @@
         case actions.SIGNUP_FAIL:
             return {
                 ...state,
-                access: null,
-                refresh: null,
+                accessToken: null,
+                refreshToken: null,
                 isAuthenticated: false,
                 isAccountCreated:false,
                 user: null,

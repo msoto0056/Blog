@@ -16,7 +16,7 @@ import { green, pink } from '@mui/material/colors';
 import { useBlogState} from '../../context/blogs/BlogStore';
 import { useGlobalStore, useGlobalDispatch} from '../../context/GlobalStore';
 import {actions} from '../../context/Types';
-import { useHistory} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 import ConfirmationDialog from '../../layout/FormControlMaterialUI/ConfirmationDialog';
 import {useRetrieve, useDelete, useUpdate} from '../../custom-hooks';
@@ -31,7 +31,7 @@ const title2="Update";
 const emptyMsg ='No hay blogs para mostrar'
 
 export default function ListBlog() {
-    const history = useHistory();
+    let navigate = useNavigate();
     const {confirmationDialog} = useGlobalStore();
     const [{url},dispatch] = useBlogState();
     const globalDispatch = useGlobalDispatch();
@@ -45,11 +45,11 @@ export default function ListBlog() {
     const handleUpdate = (blog) => {
       // const newBlog={...blog,birthday:new Date(person.birthday)}
       dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
-      history.push(`/updateBlog/${blog.slug}`);
+      navigate(`/updateBlog/${blog.slug}`);
     }
     const viewBlog = (blog) => {
       dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
-      history.push(`/viewBlog/${blog.slug}`);
+      navigate(`/viewBlog/${blog.slug}`);
     }
     const handleDelete = (id)=>{
       if (confirmationDialog.confirmDel) {

@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalDispatch } from '../../context/GlobalStore';
-import { useUserState, signup } from '../../context/users/UserStore';
+import { useUserState, Signup } from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 
@@ -43,7 +43,7 @@ export default function SignUp() {
       if (formData.password.length < 8 ) {
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
           {message: msgPassLen,isOpen:true, type:'error'}});    
-      } else  signup(formData,dispatch,globalDispatch)
+      } else  Signup(formData,dispatch,globalDispatch)
     } else globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
         {message: msgPassMat,isOpen:true, type:'error'}});  
   }
@@ -69,10 +69,10 @@ export default function SignUp() {
     };
    
     if (isAuthenticated) {
-        return <Redirect to='/' />
+        return <Navigate to='/' replace/>
     }
     if (isAccountCreated) {
-        return <Redirect to='/login' />
+        return <Navigate to='/login' replace />
     }
   return (
     <ThemeProvider theme={theme}>

@@ -1,6 +1,6 @@
 import { useBlogState} from '../../context/blogs/BlogStore';
 import { useGlobalDispatch} from '../../context/GlobalStore';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BlogForm from './BlogForm';
 import {useUpdate} from '../../custom-hooks';
 import { actions } from '../../context/Types';
@@ -9,7 +9,7 @@ import { actions } from '../../context/Types';
 export const UpdateBlog = () => {
   const [{blog,url},] = useBlogState();
   const globalDispatch=useGlobalDispatch();
-  const history = useHistory();
+  let navigate = useNavigate();
   const onSuccessUpd = ()=>{
     globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload:  {message:'Updated Successfully',isOpen:true, type:'success'}});
   }
@@ -17,7 +17,7 @@ export const UpdateBlog = () => {
 
   const OnFormSubmit = (data) => {
     update(data)
-    history.push("/");
+    navigate("/");
   }
 
   return (
