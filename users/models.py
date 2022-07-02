@@ -40,12 +40,14 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
+    idiom = models.CharField(max_length=15, default='en-US')
     start_date = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField()
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+
 
     objects = CustomAccountManager()
 
