@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
+    'djoser',
 
     # My Apps,
     'blog.apps.BlogConfig',
@@ -102,6 +103,14 @@ DATABASES = {
 }
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('PASSW')
+EMAIL_USE_TLS = True
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -146,7 +155,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Global Project permissions. using Django-est-framework
+# Global Project permissions. using Django-rest-framework
 if os.environ.get('API_AUTHENTICATION') == 'JWT':
     print ("JWT", True)
     REST_FRAMEWORK = {
@@ -162,8 +171,8 @@ if os.environ.get('API_AUTHENTICATION') == 'JWT':
     SIMPLE_JWT = {
         'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
         'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-        'ROTATE_REFRESH_TOKENS': False,
-        'BLACKLIST_AFTER_ROTATION': False,
+        'ROTATE_REFRESH_TOKENS': True,
+        'BLACKLIST_AFTER_ROTATION': True,
         'UPDATE_LAST_LOGIN': False,
 
         'ALGORITHM': 'HS256',
@@ -189,6 +198,7 @@ if os.environ.get('API_AUTHENTICATION') == 'JWT':
         'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
         'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     }
+   
 else:
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
