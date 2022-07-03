@@ -31,15 +31,9 @@ const useAxios = () => {
     
         const response = await axios.post(`${baseURL}/token/refresh/`, {
             refresh: refreshToken
-          });
-    
-        //localStorage.setItem('authTokens', JSON.stringify(response.data))
-        // setAuthTokens(response.data)
-        // setUser(jwt_decode(response.data.access))
-
+            });
         dispatch({type: 'field', fieldName: 'accessToken', payload:response.data.access}) ;
         dispatch({type: 'field', fieldName: 'refreshToken', payload:response.data.refresh}) ;
-        
         req.headers.Authorization = `JWT ${response.data.access}`
         return req
     })

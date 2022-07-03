@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalDispatch } from '../../context/GlobalStore';
-import { useUserState, Signup } from '../../context/users/UserStore';
+import { useUserState, signup } from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 
@@ -43,7 +43,7 @@ export default function SignUp() {
       if (formData.password.length < 8 ) {
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
           {message: msgPassLen,isOpen:true, type:'error'}});    
-      } else  Signup(formData,dispatch,globalDispatch)
+      } else  signup(formData,dispatch,globalDispatch)
     } else globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
         {message: msgPassMat,isOpen:true, type:'error'}});  
   }

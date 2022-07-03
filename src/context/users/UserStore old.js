@@ -3,8 +3,7 @@ import {initialState} from "./initialState";
 import {actions} from '../Types';
 import UserReducer from "./UserReducer";
 import axiosInstance from "../../components/users/axiosInstance";
-// import useAxiosPrivate from "../../components/users/useAxiosPrivate";
-import jwt_decode from "jwt-decode";
+
 
 
 const url = `${process.env.REACT_APP_API_SERVER}`
@@ -18,7 +17,8 @@ const [
 
 export { UserProvider, useUserState }
 
-export const load_user = async (dispatch,globalDispatch) => {
+export const Load_user = async (dispatch,globalDispatch) => {
+    const axiosInstance = useAxios();
     if (localStorage.getItem('access')) {
         const config = {
             headers: {
@@ -50,7 +50,7 @@ export const load_user = async (dispatch,globalDispatch) => {
 };
 
 export const googleAuthenticate = (state, code,accessToken,dispatch) => async dispatch => {
-
+    const axiosInstance = useAxios();
     if (state && code && !accessToken) {
         const config = {
             headers: {
@@ -73,7 +73,7 @@ export const googleAuthenticate = (state, code,accessToken,dispatch) => async di
                 payload: res.data
             });
 
-            dispatch(load_user());
+            dispatch(Load_user());
         } catch (err) {
             dispatch({
                 type: actions.GOOGLE_AUTH_FAIL
@@ -83,6 +83,7 @@ export const googleAuthenticate = (state, code,accessToken,dispatch) => async di
 };
 
 export const facebookAuthenticate = (state, code, accessToken) => async dispatch => {
+    const axiosInstance = useAxios();
     if (state && code && !accessToken) {
         const config = {
             headers: {
@@ -105,7 +106,7 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
                 payload: res.data
             });
 
-            dispatch(load_user());
+            dispatch(Load_user());
         } catch (err) {
             dispatch({
                 type: actions.FACEBOOK_AUTH_FAIL
@@ -115,10 +116,20 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
 };
 
 export const checkAuthenticated = (accessToken) => async dispatch => {
+    const axiosInstance = useAxios();
     if (accessToken) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }; 
+
         const body = JSON.stringify({ token: accessToken });
+
         try {
-            const res = await axiosInstance.post('/token/verify/', body)
+            const res = await axiosInstance.post(`${url}/auth/jwt/verify/`, body, config)
+
             if (res.data.code !== 'token_not_valid') {
                 dispatch({
                     type: actions.AUTHENTICATED_SUCCESS
@@ -133,6 +144,7 @@ export const checkAuthenticated = (accessToken) => async dispatch => {
                 type: actions.AUTHENTICATED_FAIL
             });
         }
+
     } else {
         dispatch({
             type: actions.AUTHENTICATED_FAIL
@@ -140,39 +152,18 @@ export const checkAuthenticated = (accessToken) => async dispatch => {
     }
 };
 
-export const login = async(formData,dispatch, globalDispatch) => {
-    console.log("Login Function")
-    const {email,password}={...formData}
-    const body = JSON.stringify({ email, password });
-    console.log ("body", body)
-    try {
-        const res = await axiosInstance.post(`/token/`, body);
-        console.log("access",res.data.access)
-        console.log("refresh",res.data.refresh)
-        dispatch({
-            type: actions.LOGIN_SUCCESS,
-            payload: res.data
-        });
-        // user data comes encoded in the token... validate this is the case and all information needed is encoded in the backend
-        dispatch({
-            type: actions.USER_LOADED_SUCCESS,
-            payload: jwt_decode(res.data.access)
-        });
-    } catch (err) {
-        console.log(err)
-        dispatch({
-            type: actions.LOGIN_FAIL
-        })
-        dispatch({
-            type: actions.USER_LOADED_FAIL
-        })
-        globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
-        {message: `${msgLoginErr} or ${err.message}` ,isOpen:true, type:'error'}})
-    }
-};
 
-export const signup = async(formData,dispatch,globalDispatch) => {
+
+export const Signup = async(formData,dispatch,globalDispatch) => {
+    const axiosInstance = useAxios();
     console.log('sign-up')
+    const conf = {
+        headers: {
+            Authorization: null,
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+        }
+    };
     try {
         const res = await axiosInstance.post(`/user/create/`, {
         email: formData.email,
@@ -180,7 +171,7 @@ export const signup = async(formData,dispatch,globalDispatch) => {
 		password: formData.password,
         first_name: formData.firstName,
         last_name: formData.lastName,
-    });
+    }, conf);
         dispatch({
             type: actions.SIGNUP_SUCCESS,
             payload: res.data
@@ -195,9 +186,18 @@ export const signup = async(formData,dispatch,globalDispatch) => {
 };
 
 export const verify = (uid, token) => async dispatch => {
+    const axiosInstance = useAxios();
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
     const body = JSON.stringify({ uid, token });
+
     try {
-        await axiosInstance.post(`${url}/auth/users/activation/`, body);
+        await axiosInstance.post(`${url}/auth/users/activation/`, body, config);
+
         dispatch({
             type: actions.ACTIVATION_SUCCESS,
         });
@@ -209,9 +209,17 @@ export const verify = (uid, token) => async dispatch => {
 };
 
 export const reset_password = (email) => async dispatch => {
+    const axiosInstance = useAxios();
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
     const body = JSON.stringify({ email });
+
     try {
-        await axiosInstance.post(`${url}/auth/users/reset_password/`, body);
+        await axiosInstance.post(`${url}/auth/users/reset_password/`, body, config);
 
         dispatch({
             type: actions.PASSWORD_RESET_SUCCESS
@@ -224,11 +232,17 @@ export const reset_password = (email) => async dispatch => {
 };
 
 export const reset_password_confirm = (uid, token, new_password, re_new_password) => async dispatch => {
-  
+    const axiosInstance = useAxios();
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
     const body = JSON.stringify({ uid, token, new_password, re_new_password });
 
     try {
-        await axiosInstance.post(`${url}/auth/users/reset_password_confirm/`, body);
+        await axiosInstance.post(`${url}/auth/users/reset_password_confirm/`, body, config);
 
         dispatch({
             type: actions.PASSWORD_RESET_CONFIRM_SUCCESS

@@ -27,8 +27,7 @@
         case actions.USER_LOADED_SUCCESS:
             return {
                 ...state,
-                user: action.payload,
-                isAuthenticated:true
+                user: action.payload
             }
         case actions.AUTHENTICATED_FAIL:
             return {
@@ -38,7 +37,9 @@
         case actions.USER_LOADED_FAIL:
             return {
                 ...state,
-                user: null
+                user: null,
+                accessToken: null,
+                refreshToken: null
             }
         case action.LOGOUT:
             localStorage.removeItem('access')
@@ -63,7 +64,7 @@
                 user: null,
                 isLoading: false,
                 isError:true,
-                errorMsg:`Activation Failed...!. The error message received!: ${action.payload}` 
+                errorMsg:`Login Failed...!. The error message received!: ${action.payload}` 
             }
         case actions.PASSWORD_RESET_SUCCESS:
         case actions.PASSWORD_RESET_FAIL:

@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
-// import axios from 'axios';
-import useAxios from './useAxios'
+import axios from 'axios';
+// import useAxios from './useAxios'
+// import useAxiosPrivate from './useAxiosPrivate';
 import { Navigate } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@mui/material/Avatar';
@@ -17,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalDispatch } from '../../context/GlobalStore';
-import { useUserState, Login} from '../../context/users/UserStore';
+import { useUserState, login} from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 
@@ -27,10 +28,10 @@ const url = `${process.env.REACT_APP_API_SERVER}`;
 const msgPassLen = 'The password length most be at least 8 Characters long';
 
 
-export default function SignIn() {
-  const axios=useAxios();
+export default function Login() {
+
   const globalDispatch=useGlobalDispatch();
-  const [{isAuthenticated},dispatch]=useUserState();
+  const [{isAuthenticated },dispatch]=useUserState();
   const initialFormData = Object.freeze({
 		email: '',
 		password: '',
@@ -40,18 +41,17 @@ export default function SignIn() {
 	updateFormData({
 	    ...formData,
 	    [e.target.name]: e.target.value.trim(),
-	});
+	  });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password.length < 5 ) {
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
           {message: msgPassLen,isOpen:true, type:'error'}});    
-    } else  Login(formData,dispatch,globalDispatch)
- 
+    } else  login(formData,dispatch,globalDispatch)
   };
 
-   const continueWithGoogle = async () => {
+  const continueWithGoogle = async () => {
         try {
             const res = await axios.get(`${url}/auth/o/google-oauth2/?redirect_uri=${process.env.REACT_APP_API_URL}/google`)
 

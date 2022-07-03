@@ -15,7 +15,10 @@ export const initialState = {
       'password': "",
       'firstName':"",
       'lastName':"",
-      're_password':''
+      're_password':'',
+      'idiom':'',
+      'is_active': null,
+      'is_staff': null,
     }
 };
 
