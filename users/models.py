@@ -42,7 +42,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=150, blank=True, null=True)
     idiom = models.CharField(max_length=15, default='en-US')
     start_date = models.DateTimeField(default=timezone.now)
-    last_login = models.DateTimeField()
+    last_login = models.DateTimeField(auto_now=True, null=True)
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)

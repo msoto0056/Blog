@@ -8,11 +8,11 @@ django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 django-dotenv = "*"
-djangorestframework-simplejwt = "*"
 pyyaml = "*"
 uritemplate = "*"
 django-filter = "*"
 pillow = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

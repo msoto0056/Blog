@@ -34,7 +34,9 @@ if not DEBUG:
     ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
 # Application definition
+
 AUTH_USER_MODEL = 'users.NewUser'  # Custom user model from .user using Email
+
 #APPEND_SLASH = False
 
 INSTALLED_APPS = [
