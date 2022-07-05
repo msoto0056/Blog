@@ -8,10 +8,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useLocation } from 'react-router-dom';
 import { useBlogState} from '../context/blogs/BlogStore';
 import Badge from '@mui/material/Badge';
-import Button from '@mui/material/Button';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { NavLink } from 'react-router-dom';
+import Drawer from './Drawer';
+import SearchAppBar from './Search';
+import Account from './Account';
 
 
 const Header = ({title } ) => {
@@ -23,59 +24,25 @@ const Header = ({title } ) => {
 			<AppBar
 				position="static"
 				color='inherit'
-				elevation={0}
+				elevation={3}
                     sx={{borderBottom: 1, 
-						borderColor: (theme) => theme.palette.divider }}
+						borderColor: (theme) => theme.palette.divider,
+						backgroundColor: (theme)=>theme.palette.grey[200] }}
 			>
                 <Toolbar>
+					<Drawer />
                     <Typography variant="h6" color="inherit" noWrap sx={{
-						flexGrow:1
-					}}>
+						flexGrow:1,  display: { xs: 'none', sm: 'block' }	}}>
 						<Link component={NavLink} to='/' underline='none' color="textPrimary" > 
 							{title} 
 						</Link>
                     </Typography>
-				    <Badge badgeContent={blogCount} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
+				
+					<SearchAppBar />
+					<Account />					
+					<Badge badgeContent={blogCount} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
             			<NotificationsIcon />
           			</Badge>
-					{location.pathname === '/' &&  
-         				<Button href='/addPeople' variant={"contained"} color="info" size="small"  
-              				endIcon={<AddCircleOutlineOutlinedIcon/>}
-							  sx={{marginLeft:5}}>
-              				Add        
-         			 	</Button> 
-         			}
-					 <nav>
-						<Link
-							color="textPrimary"
-							href="#"
-							sx={{margin: (theme) =>  theme.spacing(1, 1.5)}}
-							component={NavLink}
-							to="/register"
-						>
-							Register
-						</Link>
-					</nav>
-					<Button
-						href="#"
-						color="primary"
-						variant="outlined"
-						sx={{margin: (theme) =>  theme.spacing(1, 1.5)}}
-						component={NavLink}
-						to="/login"
-					>
-						Login
-					</Button>
-					<Button
-						href="#"
-						color="primary"
-						variant="outlined"
-						sx={{margin: (theme) =>  theme.spacing(1, 1.5)}}
-						component={NavLink}
-						to="/logout"
-					>
-						Logout
-					</Button>
                 </Toolbar>
 			</AppBar>
 		</React.Fragment>
