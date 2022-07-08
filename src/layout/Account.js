@@ -1,16 +1,16 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Divider from '@mui/material/Divider';
+import { useUserState } from '../context/users/UserStore';
+import { NavLink } from 'react-router-dom';
 
 export default function Accounts() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [{isAuthenticated},]= useUserState();
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -56,9 +56,9 @@ export default function Accounts() {
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <Divider />
-            <MenuItem onClick={handleClose}>Login </MenuItem>
-            <MenuItem onClick={handleClose}>Logut </MenuItem>
-            <MenuItem onClick={handleClose}>Register </MenuItem>
+            {!isAuthenticated && <MenuItem component={NavLink} to={'/login'}>Login </MenuItem>}
+            {isAuthenticated && <MenuItem component={NavLink} to={'/logout'}>Logout </MenuItem>}
+            <MenuItem component={NavLink} to={'/register'}>Register </MenuItem>
             </Menu>
         </div>
         )}
