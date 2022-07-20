@@ -2,8 +2,7 @@ import {makeStore2} from "../../custom-hooks";
 import {initialState} from "./initialState";
 import {actions} from '../Types';
 import UserReducer from "./UserReducer";
-import axiosInstance from "../../components/users/axiosInstance";
-// import useAxiosPrivate from "../../components/users/useAxiosPrivate";
+import axiosInstance from "../../components/users/axios";
 import jwt_decode from "jwt-decode";
 
 

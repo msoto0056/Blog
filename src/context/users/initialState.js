@@ -7,7 +7,7 @@ export const initialState = {
     authenticationMethod:'JWT',
     accessToken:'',
     refreshToken:'',
-    isAuthenticated:null,
+    isAuthenticated:true,
     isAccountCreated:false,
     user: {
       'email': "",

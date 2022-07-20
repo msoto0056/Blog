@@ -33,17 +33,29 @@ export const initialState = {
         path:"/"
       },
       {
+        text:"Item 2",
+        icon:<ArchiveOutlinedIcon color="secondary" />, 
+        path:"/anyPage"
+      },
+      {
+        text:"Item 3",
+        icon:<MoveToInboxOutlinedIcon color="secondary" />, 
+        path:"/"
+      },
+    ],
+
+    
+    // Menu Options for login users 
+    privateMenuItems: [
+      {
         text:"Create Blog",
         icon:<NoteAddOutlinedIcon color="secondary" />, 
         path:"/addBlog/"
       },
-    ],
-    // Menu Options for login users 
-    privateMenuItems: [
       {
         text:"All Mail",
         icon:<EmailOutlinedIcon color="primary" />, 
-        path:"/"
+        path:"/anyPage"
       },
       {
         text:"Trash",

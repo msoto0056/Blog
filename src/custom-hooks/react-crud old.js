@@ -1,10 +1,10 @@
-import axiosInstance from '../components/users/axios';
+import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 export const useCreate = (keyItem, url, onSuccess = null) => {
     const queryClient = useQueryClient()
     const addData = async ({ url, ...data }) => {
-        return await axiosInstance.post(url, data);
+        return await axios.post(url, data);
     };
     const { mutateAsync, isLoading, error, isError } = useMutation(addData, { onSuccess: onSuccess })
     const create = async (data) => {
@@ -18,8 +18,7 @@ export const useRetrieve = (keyItem, url, onSuccess = null) => {
     const useGetData = async ({ queryKey }) => {
         /* eslint-disable no-unused-vars */
         const [_key, { url }] = queryKey;
-        console.log ('axiosInstance', axiosInstance)
-        const { data } = await axiosInstance.get(url);
+        const { data } = await axios.get(url);
         return data;
     };
     // return data
@@ -29,7 +28,7 @@ export const useRetrieve = (keyItem, url, onSuccess = null) => {
 export const useUpdate = (keyItem, url, onSuccess = null) => {
     const queryClient = useQueryClient()
     const updateData = async ({ uri, ...data }) => {
-        return await axiosInstance.put(uri, data);
+        return await axios.put(uri, data);
     };
     const { mutateAsync, isLoading, error, isError } = useMutation(updateData, { onSuccess: onSuccess })
     const update = async (data) => {
@@ -43,7 +42,7 @@ export const useUpdate = (keyItem, url, onSuccess = null) => {
 export const useDelete = (keyItem, url, onSuccess = null, onMutate = null) => {
     const queryClient = useQueryClient()
     const deleteData = async (url) => {
-        const { data } = await axiosInstance.delete(url);
+        const { data } = await axios.delete(url);
         return data;
     };
     const { mutateAsync, isLoading, error, isError } = useMutation(deleteData, { onSuccess: onSuccess, onMutate: onMutate })

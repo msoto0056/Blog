@@ -7,6 +7,9 @@ import {UpdateBlog} from './components/blog/UpdateBlog';
 import Register from './components/users/Register';
 import Login from './components/users/Login';
 import Logout from './components/users/Logout';
+import Settings from './components/webSite/settings';
+import LocalSettings from './components/webSite/localSettings';
+import AnyPage from './components/webSite/anyPage';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Header from './layout/Header';
@@ -28,7 +31,10 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path='/addBlog/' element= {<AddBlog />} />
           <Route path="/viewBlog/:slug" element ={<Post />}  />
-          <Route Path='/updateBlog/:slug' element ={<UpdateBlog />} />
+          <Route path='/updateBlog/:slug' element ={<UpdateBlog />} />
+          <Route path='/settings' element ={<Settings />} />
+          <Route path='/localSettings' element ={<LocalSettings />} />
+          <Route path='/anyPage' element ={<AnyPage />} />
       </Routes>
       <Footer/>
     </Router>

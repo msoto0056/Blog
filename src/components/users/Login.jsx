@@ -1,7 +1,5 @@
 import React,{useState} from 'react';
 import axios from 'axios';
-// import useAxios from './useAxios'
-// import useAxiosPrivate from './useAxiosPrivate';
 import { Navigate } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@mui/material/Avatar';
