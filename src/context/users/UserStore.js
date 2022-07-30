@@ -146,8 +146,6 @@ export const login = async(formData,dispatch, globalDispatch) => {
     console.log ("body", body)
     try {
         const res = await axiosInstance.post(`/token/`, body);
-        console.log("access",res.data.access)
-        console.log("refresh",res.data.refresh)
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: res.data
@@ -166,7 +164,7 @@ export const login = async(formData,dispatch, globalDispatch) => {
             type: actions.USER_LOADED_FAIL
         })
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
-        {message: `${msgLoginErr} or ${err.message}` ,isOpen:true, type:'error'}})
+        {message: `${msgLoginErr}: ${err.message} - ${err.response.data.detail}` ,isOpen:true, type:'error'}})
     }
 };
 

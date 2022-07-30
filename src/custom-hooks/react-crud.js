@@ -1,12 +1,12 @@
 import axiosInstance from '../components/users/axios';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
-export const useCreate = (keyItem, url, onSuccess = null) => {
+export const useCreate = (keyItem, url, onSuccess = null, onError = null) => {
     const queryClient = useQueryClient()
     const addData = async ({ url, ...data }) => {
         return await axiosInstance.post(url, data);
     };
-    const { mutateAsync, isLoading, error, isError } = useMutation(addData, { onSuccess: onSuccess })
+    const { mutateAsync, isLoading, error, isError } = useMutation(addData, { onSuccess: onSuccess }, {onError: onError})
     const create = async (data) => {
         await mutateAsync({ url, ...data })
         queryClient.invalidateQueries(keyItem)
@@ -18,7 +18,6 @@ export const useRetrieve = (keyItem, url, onSuccess = null) => {
     const useGetData = async ({ queryKey }) => {
         /* eslint-disable no-unused-vars */
         const [_key, { url }] = queryKey;
-        console.log ('axiosInstance', axiosInstance)
         const { data } = await axiosInstance.get(url);
         return data;
     };

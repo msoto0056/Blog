@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 import dayjs from 'dayjs'
 import { Navigate } from 'react-router-dom';
 
+
 const BASE_URL  =`${process.env.REACT_APP_API_SERVER}`
 
 const axiosInstance = axios.create({
@@ -12,6 +13,7 @@ const axiosInstance = axios.create({
 		'Content-Type': 'application/json',
 		accept: 'application/json',
 	},
+	withCredentials: true
 });
 
 axiosInstance.interceptors.request.use(
@@ -41,8 +43,6 @@ axiosInstance.interceptors.response.use(
 		return response;
 	},
 	async (error) => {
-        console.log('Error in interceptor response',error)
-		const originalConfig = error.config;
 		if (typeof error.response === 'undefined') {
 			alert(
 				'A server/network error occurred. ' +
@@ -52,22 +52,28 @@ axiosInstance.interceptors.response.use(
 			);
 			return Promise.reject(error);
 		}
-        console.log("Config.url",originalConfig.url);
-        if (
-			error.response.status === 401 &&
-			originalConfig.url === BASE_URL + 'token/refresh/'
-		) {
-			// window.location.href = '/login/';
-			// return Promise.reject(error);
+        console.log('Error in interceptor response error->',error)
+		console.log('Error in interceptor response error message->',error.message)
+		console.log('Error in interceptor response error response data->',error.response.data.detail)
+		const originalConfig = error.config;
+		console.log("Config.url",originalConfig.url);
+		console.log('error en la picha de licha', error);
+		if (error.response.status === 401 && originalConfig.url === '/token/' ) {
+			console.log('otro Error en el Login');
+			return Promise.reject(error);
+		}
+		if (error.response.status !== 401) {
+			console.log('Occurrio otro Error!');
+			return Promise.reject(error);
+		}
+        if (error.response.status === 401 && originalConfig.url === '/token/refresh/') {
             console.log('Refresh token is expired');
 			return <Navigate to='/login' replace />
 		}
-
-        if (originalConfig.url !== BASE_URL + "/token/" && error.response) {
+        if (originalConfig.url !== "/token/" && error.response) {
             // Access Token was expired
 		    if (
 			    error.response.status === 401 &&
-			    originalConfig.url === BASE_URL + '/token/refresh/' && 
                 !originalConfig._retry
 		    ) {
                 originalConfig._retry = true;    //Avoid infintely loops Flag
@@ -113,4 +119,5 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
+
 

@@ -24,10 +24,6 @@ export default function Drawer() {
   const [state, setState] = React.useState(false);  // Drawer Status
   const [open, setOpen] = React.useState(true);     // Private Routes Sub-Menu
   const [{isAuthenticated},]= useUserState();
-  const handleClick = () =>{
-      setOpen(!open);
-      setState(true);
-  }
 return (
     <React.Fragment>
     <IconButton

@@ -4,6 +4,7 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 import MoveToInboxOutlinedIcon from '@mui/icons-material/MoveToInboxOutlined';
 
 export const initialState = {
@@ -41,6 +42,16 @@ export const initialState = {
         text:"Item 3",
         icon:<MoveToInboxOutlinedIcon color="secondary" />, 
         path:"/"
+      },
+      {
+        text:"Item 4",
+        icon:<MoveToInboxOutlinedIcon color="secondary" />, 
+        path:"/"
+      },
+      {
+        text:"Item 5",
+        icon:<AcUnitIcon color="primary" />, 
+        path:"/settings"
       },
     ],
 
