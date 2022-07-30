@@ -13,6 +13,8 @@ uritemplate = "*"
 django-filter = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
+pylint = "*"
+pylint-django = "*"
 
 [dev-packages]
 
