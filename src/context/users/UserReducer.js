@@ -41,20 +41,13 @@
                 accessToken: null,
                 refreshToken: null
             }
-        case action.LOGOUT:
-            localStorage.removeItem('access')
-            localStorage.removeItem('refresh')
-            return {
-                ...state,
-                accessToken: null,
-                refreshToken: null,
-                isAuthenticated: false,
-                user: null,
-            }
         case actions.GOOGLE_AUTH_FAIL:
         case actions.FACEBOOK_AUTH_FAIL:
         case actions.LOGIN_FAIL:
         case actions.SIGNUP_FAIL:
+        case actions.LOGOUT:  
+            localStorage.removeItem('access')
+            localStorage.removeItem('refresh')
             return {
                 ...state,
                 accessToken: null,

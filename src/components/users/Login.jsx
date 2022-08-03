@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -21,7 +21,30 @@ import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 
 
-const theme = createTheme();
+const theme = createTheme({
+  components:{
+    MuiTypography:{
+      variants: [
+        {
+          props: {
+            variant:"body3",
+          },
+            style: {
+              fontSize:11,
+            }
+        },
+        {
+          props: {
+            variant:"body4",
+          },
+            style: {
+              fontSize:9,
+            }
+        }
+      ]
+    }
+  }
+});
 const url = `${process.env.REACT_APP_API_SERVER}`;
 const msgPassLen = 'The password length most be at least 8 Characters long';
 
@@ -29,7 +52,7 @@ const msgPassLen = 'The password length most be at least 8 Characters long';
 export default function Login() {
 
   const globalDispatch=useGlobalDispatch();
-  const [{isAuthenticated },dispatch]=useUserState();
+  const [{isAuthenticated},dispatch]=useUserState();
   const initialFormData = Object.freeze({
 		email: '',
 		password: '',
@@ -127,12 +150,12 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link component={NavLink} to={'/resetPassw'} variant="body3">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body3">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

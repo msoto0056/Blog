@@ -13,19 +13,16 @@ const axiosInstance = axios.create({
 		'Content-Type': 'application/json',
 		accept: 'application/json',
 	},
-	withCredentials: true
+	// withCredentials: true
 });
 
 axiosInstance.interceptors.request.use(
     (config) => {
-      console.log("interceptor use")
       const token = localStorage.getItem('access') ? localStorage.getItem('access') : null
-      console.log('Token: ',token)
       if (token) {
         // config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
         // config.headers["x-access-token"] = token; // for Node.js Express back-end
         config.headers["Authorization"] = 'JWT ' + token; //For My Django Development -  MSQ
-        console.log('access token exist in request.use')
       }else {
         console.log('access token do not exist in request.use')
       }
@@ -33,7 +30,7 @@ axiosInstance.interceptors.request.use(
 
     },
     (error) => {
-      console.log('error en request.use',error)
+
       return Promise.reject(error);
     }
   );
@@ -52,12 +49,7 @@ axiosInstance.interceptors.response.use(
 			);
 			return Promise.reject(error);
 		}
-        console.log('Error in interceptor response error->',error)
-		console.log('Error in interceptor response error message->',error.message)
-		console.log('Error in interceptor response error response data->',error.response.data.detail)
 		const originalConfig = error.config;
-		console.log("Config.url",originalConfig.url);
-		console.log('error en la picha de licha', error);
 		if (error.response.status === 401 && originalConfig.url === '/token/' ) {
 			console.log('otro Error en el Login');
 			return Promise.reject(error);

@@ -5,8 +5,8 @@ export const initialState = {
     errorMsg: '',
     count:0,
     authenticationMethod:'JWT',
-    accessToken:'',
-    refreshToken:'',
+    accessToken:null,
+    refreshToken:null,
     isAuthenticated:false,
     isAccountCreated:false,
     user: {

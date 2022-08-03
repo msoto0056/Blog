@@ -208,18 +208,10 @@ export const verify = (uid, token) => async dispatch => {
     }
 };
 
-export const reset_password = (email) => async dispatch => {
-    const axiosInstance = useAxios();
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
+export const reset_password = async(email, dispatch) => {
     const body = JSON.stringify({ email });
-
     try {
-        await axiosInstance.post(`${url}/auth/users/reset_password/`, body, config);
+        await axiosInstance.post('/auth/users/reset_password/', body);
 
         dispatch({
             type: actions.PASSWORD_RESET_SUCCESS
@@ -231,19 +223,10 @@ export const reset_password = (email) => async dispatch => {
     }
 };
 
-export const reset_password_confirm = (uid, token, new_password, re_new_password) => async dispatch => {
-    const axiosInstance = useAxios();
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
+export const reset_password_confirm = async (uid, token, new_password, re_new_password, dispatch) => {
     const body = JSON.stringify({ uid, token, new_password, re_new_password });
-
     try {
-        await axiosInstance.post(`${url}/auth/users/reset_password_confirm/`, body, config);
-
+        await axiosInstance.post('/auth/users/reset_password_confirm/', body);
         dispatch({
             type: actions.PASSWORD_RESET_CONFIRM_SUCCESS
         });
@@ -251,6 +234,37 @@ export const reset_password_confirm = (uid, token, new_password, re_new_password
         dispatch({
             type: actions.PASSWORD_RESET_CONFIRM_FAIL
         });
+    }
+};
+
+
+export const login = async(formData,dispatch, globalDispatch) => {
+    console.log("Login Function")
+    const {email,password}={...formData}
+    const body = JSON.stringify({ email, password });
+    console.log ("body", body)
+    try {
+        // const res = await axiosInstance.post(`/token/`, body);  --> use this when no working with djoser
+        const res = await axiosInstance.post(`/token/`, body);
+        dispatch({
+            type: actions.LOGIN_SUCCESS,
+            payload: res.data
+        });
+        // user data comes encoded in the token... validate this is the case and all information needed is encoded in the backend
+        dispatch({
+            type: actions.USER_LOADED_SUCCESS,
+            payload: jwt_decode(res.data.access)
+        });
+    } catch (err) {
+        console.log(err)
+        dispatch({
+            type: actions.LOGIN_FAIL
+        })
+        dispatch({
+            type: actions.USER_LOADED_FAIL
+        })
+        globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
+        {message: `${msgLoginErr}: ${err.message} - ${err.response.data.detail}` ,isOpen:true, type:'error'}})
     }
 };
 

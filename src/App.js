@@ -7,6 +7,7 @@ import {UpdateBlog} from './components/blog/UpdateBlog';
 import Register from './components/users/Register';
 import Login from './components/users/Login';
 import Logout from './components/users/Logout';
+import ResetPassword from './components/users/ResetPassword';
 import Settings from './components/webSite/settings';
 import LocalSettings from './components/webSite/localSettings';
 import AnyPage from './components/webSite/anyPage';
@@ -35,6 +36,7 @@ function App() {
           <Route path='/settings' element ={<Settings />} />
           <Route path='/localSettings' element ={<LocalSettings />} />
           <Route path='/anyPage' element ={<AnyPage />} />
+          <Route path='/resetPassw' element ={<ResetPassword />} />
       </Routes>
       <Footer/>
     </Router>

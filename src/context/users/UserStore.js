@@ -18,16 +18,10 @@ const [
 export { UserProvider, useUserState }
 
 export const load_user = async (dispatch,globalDispatch) => {
-    if (localStorage.getItem('access')) {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`,
-                'Accept': 'application/json'
-            }
-        }; 
+        if (localStorage.getItem('access')) {
         try {
-            const res = await axiosInstance.get(`/token/`, config);
+            const res = await axiosInstance.get('/auth/users/me/');
+            //if successful will get all mandatory user information 
             dispatch({
                 type: actions.USER_LOADED_SUCCESS,
                 payload: res.data
@@ -113,7 +107,7 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
     }
 };
 
-export const checkAuthenticated = (accessToken) => async dispatch => {
+export const checkAuthenticated = async (accessToken, dispatch) => {
     if (accessToken) {
         const body = JSON.stringify({ token: accessToken });
         try {
@@ -139,21 +133,25 @@ export const checkAuthenticated = (accessToken) => async dispatch => {
     }
 };
 
-export const login = async(formData,dispatch, globalDispatch) => {
+export const login = async(formData, dispatch, globalDispatch) => {
     console.log("Login Function")
     const {email,password}={...formData}
     const body = JSON.stringify({ email, password });
-    console.log ("body", body)
     try {
-        const res = await axiosInstance.post(`/token/`, body);
+        const res = await axiosInstance.post('/token/', body);  // --> Use my Custom Token pair with encoded user data & avoid another DB Access
+        // const res = await axiosInstance.post('/auth/jwt/create/', body); --> use this if working with djoser
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: res.data
         });
-        // user data comes encoded in the token... validate this is the case and all information needed is encoded in the backend
+        // user data comes encoded in the token in object userInfo... validate this is the case and all information needed is encoded in the backend
+        // other alternative is to use Djoser scheme, if so uncomment below dispatch and comment the following
+        // dispatch(load_user(dispatch,globalDispatch));
+        const jwtData =jwt_decode(res.data.access)
+        console.log("userInfo",jwtData.userInfo)
         dispatch({
             type: actions.USER_LOADED_SUCCESS,
-            payload: jwt_decode(res.data.access)
+            payload: jwtData.userInfo
         });
     } catch (err) {
         console.log(err)
@@ -191,10 +189,10 @@ export const signup = async(formData,dispatch,globalDispatch) => {
     }
 };
 
-export const verify = (uid, token) => async dispatch => {
+export const verify = async (uid, token, dispatch) => {
     const body = JSON.stringify({ uid, token });
     try {
-        await axiosInstance.post(`${url}/auth/users/activation/`, body);
+        await axiosInstance.post('/auth/users/activation/', body);
         dispatch({
             type: actions.ACTIVATION_SUCCESS,
         });
@@ -205,11 +203,10 @@ export const verify = (uid, token) => async dispatch => {
     }
 };
 
-export const reset_password = (email) => async dispatch => {
+export const resetPassword = async (email, dispatch) => {
     const body = JSON.stringify({ email });
     try {
-        await axiosInstance.post(`${url}/auth/users/reset_password/`, body);
-
+        await axiosInstance.post('/auth/users/reset_password/', body);
         dispatch({
             type: actions.PASSWORD_RESET_SUCCESS
         });
@@ -220,13 +217,10 @@ export const reset_password = (email) => async dispatch => {
     }
 };
 
-export const reset_password_confirm = (uid, token, new_password, re_new_password) => async dispatch => {
-  
+export const resetPasswordConfirm = async (uid, token, new_password, re_new_password, dispatch) => {
     const body = JSON.stringify({ uid, token, new_password, re_new_password });
-
     try {
-        await axiosInstance.post(`${url}/auth/users/reset_password_confirm/`, body);
-
+        await axiosInstance.post('/auth/users/reset_password_confirm/', body);
         dispatch({
             type: actions.PASSWORD_RESET_CONFIRM_SUCCESS
         });
