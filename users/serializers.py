@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from users.models import NewUser
 
 
@@ -12,7 +13,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NewUser
-        fields = ('email', 'user_name', 'password','first_name','last_name')
+        fields = ('email', 'user_name', 'password','first_name','last_name','idiom','is_staff','is_active')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -28,13 +29,30 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewUser
-        fields = ('email', 'user_name', 'password', 'first_name', 'last_name','idom','is_staff','is_active' )
+        fields = ('email', 'user_name', 'password', 'first_name', 'last_name','idiom','is_staff','is_active' )
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
+        # as long as the fields are the same, we can just use this
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
         instance.save()
         return instance
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['email'] = user.email
+        token['firstName'] = user.first_name
+        token['lastName'] = user.last_name
+        token['idiom'] = user.idiom
+        token['is_staff'] = user.is_staff
+        token['is_active']= user.is_active
+        # ...
+
+        return token

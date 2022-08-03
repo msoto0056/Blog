@@ -104,6 +104,7 @@ DATABASES = {
     }
 }
 
+### Configuration for sending emails 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -151,6 +152,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# Ensable this code to have React and Djanog in the same project in Django....
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'build/static')
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+## Media file locations - customer loaded elements
+MEDIA_ROOT =os.path.join(BASE_DIR,'media')
+MEDIA_URL ='/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -209,7 +220,7 @@ else:
         ]
     }
 
-# Permissions:
+# Permissions at project level:
 # AllowAny
 # IsAuthenticated
 # IsAdminUser
@@ -224,5 +235,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3001"
 ]
 
-MEDIA_ROOT =os.path.join(BASE_DIR,'media')
-MEDIA_URL ='/media/'
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/
+# if None, you’ll get operating-system dependent behavior. On most platforms, temporary files will have a mode of 0o600, 
+# and files saved from memory will be saved using the system’s standard umask.
+
+FILE_UPLOAD_PERMISSIONS=0o640
