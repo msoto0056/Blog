@@ -9,7 +9,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     """
     email = serializers.EmailField(required=True)
     user_name = serializers.CharField(required=True)
-    password = serializers.CharField(min_length=8, write_only=True)
+    password = serializers.CharField(min_length=8, write_only=True) # valida el password lenght y no permite crear new user si es menor a 8 
 
     class Meta:
         model = NewUser
@@ -46,13 +46,17 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
+        userInfo = [{
+            "email":user.email,
+            "firstName": user.first_name,
+            "lastName": user.last_name,
+            "idiom": user.idiom,
+            "is_active": user.is_active,
+            "is_staff": user.is_staff,
+        }]
+
         # Add custom claims
-        token['email'] = user.email
-        token['firstName'] = user.first_name
-        token['lastName'] = user.last_name
-        token['idiom'] = user.idiom
-        token['is_staff'] = user.is_staff
-        token['is_active']= user.is_active
+        token['userInfo']= userInfo
         # ...
 
         return token

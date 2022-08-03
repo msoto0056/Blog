@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include,re_path
-from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView, TokenBlacklistView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+# from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView,  TokenBlacklistView --> had to remove due to error with djoser
 from users.views import MyTokenObtainPairView
 from rest_framework.schemas import get_schema_view
 #from rest_framework.documentation import include_docs_urls
@@ -16,9 +17,10 @@ urlpatterns = [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
+    # path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # path('api/docs/',include_docs_urls(title='BlogApi')),
+    path('api/auth/', include('djoser.urls')),
+    # path('api/auth/', include('djoser.urls.jwt')),
     path('openapi', get_schema_view(
         title="BlogApi",
         description="Blogs API for all things …",

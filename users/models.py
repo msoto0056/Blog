@@ -36,15 +36,14 @@ class CustomAccountManager(BaseUserManager):
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_('email address'), max_length=150, unique=True)
     user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
     idiom = models.CharField(max_length=15, default='en-US')
     start_date = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(auto_now=True, null=True)
-    about = models.TextField(_(
-        'about'), max_length=500, blank=True)
+    about = models.TextField(_('about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
@@ -55,5 +54,10 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['user_name', 'first_name', 'last_name']
 
     def __str__(self):
-        #return self.user_name
         return self.email
+
+    def get_full_name(self):
+        return self.first_name+' '+self.last_name
+
+    def get_short_name(self):
+        return self.first_name

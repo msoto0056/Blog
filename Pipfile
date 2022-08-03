@@ -15,6 +15,7 @@ pillow = "*"
 djangorestframework-simplejwt = "*"
 pylint = "*"
 pylint-django = "*"
+djoser = "*"
 
 [dev-packages]
 

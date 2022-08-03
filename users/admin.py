@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.forms import TextInput, Textarea, CharField
 from django import forms
 from django.db import models
+from django.contrib.auth.models import Group
 
 
 class UserAdminConfig(UserAdmin):
@@ -30,3 +31,6 @@ class UserAdminConfig(UserAdmin):
 
 
 admin.site.register(NewUser, UserAdminConfig)
+
+# Remove Group Model from admin. We're not using it.
+admin.site.unregister(Group)
