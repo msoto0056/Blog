@@ -41,6 +41,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-inside-Django":"rm -rf && react-scripts build && cp -r build ../backend/build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

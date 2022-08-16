@@ -107,11 +107,11 @@ export const facebookAuthenticate = (state, code, accessToken) => async dispatch
     }
 };
 
-export const checkAuthenticated = async (accessToken, dispatch) => {
-    if (accessToken) {
-        const body = JSON.stringify({ token: accessToken });
+export const checkAuthenticated = async (dispatch) => {
+    if (localStorage.getItem('access')) {
+        const body = JSON.stringify({ token: localStorage.getItem('access') });
         try {
-            const res = await axiosInstance.post('/token/verify/', body)
+            const res = await axiosInstance.post('auth/token/verify/', body)
             if (res.data.code !== 'token_not_valid') {
                 dispatch({
                     type: actions.AUTHENTICATED_SUCCESS
@@ -145,6 +145,7 @@ export const login = async(formData, dispatch, globalDispatch) => {
             payload: res.data
         });
         // user data comes encoded in the token in object userInfo... validate this is the case and all information needed is encoded in the backend
+        // It should be in python Django: Users/serializers.py MyTokenObtainPairSerializer class
         // other alternative is to use Djoser scheme, if so uncomment below dispatch and comment the following
         // dispatch(load_user(dispatch,globalDispatch));
         const jwtData =jwt_decode(res.data.access)
@@ -169,7 +170,8 @@ export const login = async(formData, dispatch, globalDispatch) => {
 export const signup = async(formData,dispatch,globalDispatch) => {
     console.log('sign-up')
     try {
-        const res = await axiosInstance.post(`/user/create/`, {
+        // const res = await axiosInstance.post(`/user/create/`, {    // this is for my own User create- Next Line is for Djoser URL 
+        const res = await axiosInstance.post(`auth/user/create/`, {
         email: formData.email,
 		user_name: formData.username,
 		password: formData.password,

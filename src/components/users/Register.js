@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 //MaterialUI
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -11,7 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -87,7 +87,7 @@ export default function SignUp() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'info.main' }}>
-            <LockOutlinedIcon />
+            <LockOpenOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
@@ -182,7 +182,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="caption">
+                <Link component={NavLink} to={"/login"} variant="caption">
                   Already have an account? Sign in
                 </Link>
               </Grid>
