@@ -1,6 +1,5 @@
 asgiref==3.5.2
 astroid==2.11.7
-backports.zoneinfo==0.2.1
 certifi==2022.6.15
 cffi==1.15.1
 charset-normalizer==2.1.0
@@ -27,6 +26,7 @@ mccabe==0.7.0
 oauthlib==3.2.0
 Pillow==9.2.0
 platformdirs==2.5.2
+psycopg2-binary==2.9.3
 pycparser==2.21
 PyJWT==2.4.0
 pylint==2.14.5
@@ -43,7 +43,6 @@ social-auth-core==4.3.0
 sqlparse==0.4.2
 tomli==2.0.1
 tomlkit==0.11.1
-typing-extensions==4.3.0
 uritemplate==4.1.1
 urllib3==1.26.11
 wrapt==1.14.1

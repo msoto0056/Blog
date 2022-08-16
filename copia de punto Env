@@ -1,4 +1,12 @@
-SECRET_KEY=y(*bef*3=qekshow-6ew-xu+yuy&f$mx$&9@+1o!ztf66vfmrb
+DJANGO_SECRET_KEY=django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg
 API_AUTHENTICATION=JWT 
 EMAIL=infosoftTech056@gmail.com
 PASSW=Rusia2018sefue!
+DEBUG=1
+DJANGO_ALLOWED_HOST=127.0.0.1
+DataBaseEngine=SQLITE
+POSTGRES_DB = 
+POSTGRES_PASSWORD = 
+POSTGRES_USER = 
+POSTGRES_HOST = 
+POSTGRES_PORT = 

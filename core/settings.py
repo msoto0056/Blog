@@ -21,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg'
-#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-print (os.environ.get('DJANGO_SECRET_KEY'))
+#SECRET_KEY = 'django-insecure-bbis004mab#_)fmgf%ql!n_0b0yn-2xks7%m6@(6&n-w#^17bg'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = os.environ.get('DEBUG') == '1'  # 1=True 0=False
+#DEBUG = True
+DEBUG = str(os.environ.get('DEBUG')) == '1'  # 1=True 0=False
 
 ALLOWED_HOSTS = []
 if not DEBUG:
@@ -99,12 +99,34 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DataBaseEngine = os.environ.get("DataBaseEngine")
+
+match DataBaseEngine:
+    case "SQLITE": 
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+    case "POSTGRES": 
+        POSTGRES_DB = os.environ.get("POSTGRES_DB") #database name
+        POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD") # database user password
+        POSTGRES_USER = os.environ.get("POSTGRES_USER") # database username
+        POSTGRES_HOST = os.environ.get("POSTGRES_HOST") # database host
+        POSTGRES_PORT = os.environ.get("POSTGRES_PORT") # database port
+        print("postgres is use")
+        DATABASES = {
+            "default": {
+                "ENGINE": 'django.db.backends.postgresql_psycopg2',
+                "NAME": POSTGRES_DB,
+                "USER": POSTGRES_USER,
+                "PASSWORD": POSTGRES_PASSWORD,
+                "HOST": POSTGRES_HOST,
+                "PORT": POSTGRES_PORT,
+            }
+        }
+
 
 ### Configuration for sending emails 
 
@@ -172,7 +194,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Global Project permissions. using Django-rest-framework
 if os.environ.get('API_AUTHENTICATION') == 'JWT':
-    print ("JWT", True)
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
             'rest_framework.permissions.AllowAny',  # allow all
