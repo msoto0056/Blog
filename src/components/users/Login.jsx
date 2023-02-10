@@ -19,6 +19,8 @@ import { useGlobalDispatch } from '../../context/GlobalStore';
 import { useUserState, login} from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
+import { useTranslation } from 'react-i18next'
+import cookies from 'js-cookie'
 
 
 const theme = createTheme({
@@ -46,11 +48,14 @@ const theme = createTheme({
   }
 });
 const url = `${process.env.REACT_APP_API_SERVER}`;
-const msgPassLen = 'The password length most be at least 8 Characters long';
+
 
 
 export default function Login() {
-
+  const { t, i18n } = useTranslation()
+  // const currentLanguageCode = cookies.get('i18next') || 'en'
+  const currentLanguageCode = i18n.language
+  console.log("Language", currentLanguageCode)  
   const globalDispatch=useGlobalDispatch();
   const [{isAuthenticated},dispatch]=useUserState();
   const initialFormData = Object.freeze({
@@ -66,11 +71,16 @@ export default function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const msgPassLen = t("msg_pass_len")
     if (formData.password.length < 5 ) {
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
           {message: msgPassLen,isOpen:true, type:'error'}});    
     } else  login(formData,dispatch,globalDispatch)
   };
+
+  
+  
+
 
   const continueWithGoogle = async () => {
         try {
@@ -119,7 +129,7 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t( "register_email_address")}
               name="email"
               autoComplete="email"
               autoFocus
@@ -130,7 +140,7 @@ export default function Login() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={t("register_password")}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -138,7 +148,7 @@ export default function Login() {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label={t("remember_me")}
             />
             <Button
               type="submit"
@@ -146,17 +156,17 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {t("sign_in")}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link component={NavLink} to={'/resetPassw'} variant="body3">
-                  Forgot password?
+                  {t("forgot_password")}
                 </Link>
               </Grid>
               <Grid item>
                 <Link component={NavLink} to={'/register'} variant="body3">
-                  {"Don't have an account? Sign Up"}
+                  {t("Don't_have_an_account")}
                 </Link>
               </Grid>
             </Grid>

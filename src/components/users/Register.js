@@ -11,34 +11,73 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useGlobalDispatch } from '../../context/GlobalStore';
+import { useGlobalStore,useGlobalDispatch } from '../../context/GlobalStore';
 import { useUserState, signup } from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
+import cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+// import i18next from 'i18next';
 
-const theme = createTheme();
 const url = `${process.env.REACT_APP_API_SERVER}`;
-const msgPassLen = 'The password length most be at least 8 Characters long';
-const msgPassMat = 'The passwords you entered  do not match';
+
+const theme = createTheme({
+  components:{
+    MuiTypography:{
+      variants: [
+        {
+          props: {
+            variant:"body3",
+          },
+            style: {
+              fontSize:11,
+            }
+        },
+        {
+          props: {
+            variant:"body4",
+          },
+            style: {
+              fontSize:9,
+            }
+        }
+      ]
+    }
+  }
+});
+
 
 export default function SignUp() {
+  const { t, i18n } = useTranslation()
+  // const currentLanguageCode = cookies.get('i18next') || 'en'
+  const msgPassLen = t('msg_pass_len');
+  const msgPassMat = t('msg_pass_mat');
   const globalDispatch=useGlobalDispatch();
+  const {languages} = useGlobalStore()
   const [{user,isAuthenticated,isAccountCreated},dispatch]=useUserState();
   const initialFormData = Object.freeze(user);
   const [formData, updateFormData] = useState(initialFormData);
   const handleChange = (e) => {
+    if (e.target.name === 'idiom') {
+      i18n.changeLanguage(e.target.value)
+    }
 		updateFormData({
 			...formData,
 			// Trimming any whitespace
 			[e.target.name]: e.target.value.trim(),
+
 		});
 	};
   const handleSubmit = (e) => {
     e.preventDefault();
+    cookies.set('django_language', formData.idiom)
     if (formData.password === formData.re_password) {
       if (formData.password.length < 8 ) {
         globalDispatch({type:actions.FIELDS, fieldName: 'notify', payload: 
@@ -90,7 +129,7 @@ export default function SignUp() {
             <LockOpenOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            {t("register_title")}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -99,7 +138,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={t( "register_email_address")}
                   name="email"
                   autoComplete="email"
                   onChange={handleChange}
@@ -111,7 +150,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="username"
-                  label="User Name"
+                  label={t("register_user_name")}
                   name="username"
                   autoComplete="username"
                   onChange={handleChange}
@@ -124,7 +163,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label={t("register_first_name")}
                   onChange={handleChange}
                 />
               </Grid>
@@ -133,7 +172,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label={t("register_last_name")}
                   name="lastName"
                   autoComplete="lname"
                   onChange={handleChange}
@@ -144,7 +183,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={t("register_password")}
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -156,17 +195,34 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="re_password"
-                  label="Confirm Password"
+                  label={t("register_re_password")}
                   type="password"
                   id="re_password"
                   autoComplete="new-password"
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="idiom"
+                  name="idiom"
+                  select
+                  label={t("register_idiom")}
+                  onChange={handleChange}
+                  helperText={t("register_idiom_msg")}
+                >
+                  {languages.map((option) => (
+                  <MenuItem key={option.code} value={option.code}>
+                    <ListItemIcon> {option.iconFlag}</ListItemIcon>
+                    <ListItemText>{option.name}</ListItemText>
+                  </MenuItem>
+                ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" size="small" />}
-                  label={<Typography variant="caption" color="textSecondary">I want to receive inspiration, marketing promotions and updates via email.</Typography> }
+                  label={<Typography variant="body3" color="textSecondary"> {t("register_check_box")}</Typography> }
                 />
               </Grid>
             </Grid>
@@ -178,12 +234,12 @@ export default function SignUp() {
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
             >
-              Sign Up
+              {t("register_button")}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link component={NavLink} to={"/login"} variant="caption">
-                  Already have an account? Sign in
+                <Link component={NavLink} to={"/login"} variant="body3">
+                  {t("register_already_have_account")}
                 </Link>
               </Grid>
             </Grid>

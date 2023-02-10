@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Poppins', 'sans-serif';
+  }
+pre {
+  font-size: 7em;
+}
+
+.marks .country {
+  fill:   #f0dbdb;
+}
+
+        
+.marks .country:hover {
+  fill: #8f095c;
+  cursor: pointer;
+}
+
+.marks .interiors {
+  fill: none;
+  stroke: #4d98c4;
+}
+
+.marks .graticule {
+  fill: none;
+  stroke: #E4E5E6;
+  stroke-width: 0.05rem 
+}
+
+.marks .sphere {
+  fill: #6196c2;
+}
+
+.tooltip {
+  background: #4A90E2;
+  color: #fff;
+  background-color: black;
+  font-family: sans-serif;
+  font-size: inherit;
+  text-align: center;
+  border-radius: 6px;
+  position: fixed;
+  z-index: 1;
+}
+
+  .btn {
+    display: inline-block;
+    background: #4A90E2;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: inherit;
+    line-height: 1.2;
+    padding: 0.5rem 1rem;
+    border: 0;
+    margin: 0.5rem;
+    border-radius: 0.1875rem;
+    cursor: pointer;
+  }
+  
+
+  .btn:hover,
+  .btn:focus {
+    background: #8ed1fc;
+  }
+

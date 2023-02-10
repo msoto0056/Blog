@@ -14,12 +14,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalDispatch } from '../../context/GlobalStore';
 import { useUserState, resetPassword} from '../../context/users/UserStore';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
-
+import { useTranslation } from 'react-i18next'
+// import i18next from 'i18next'
+import cookies from 'js-cookie'
 
 const theme = createTheme();
 
 
 export default function ResetPassword() {
+  const currentLanguageCode = cookies.get('i18next') || 'en'
+  const { t } = useTranslation()
   const globalDispatch=useGlobalDispatch();
   const [,dispatch]=useUserState();
   const initialFormData = Object.freeze({
@@ -59,7 +63,7 @@ export default function ResetPassword() {
             <LockResetOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {t('sign_in')}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -67,7 +71,7 @@ export default function ResetPassword() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t("register_email_address")}
               name="email"
               autoComplete="email"
               autoFocus
@@ -79,7 +83,7 @@ export default function ResetPassword() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Reset Password 
+              {t("reset_password")}
             </Button>
           </Box>
         </Box>

@@ -1,0 +1,27 @@
+{
+    "app_title": "Title",
+    "language": "Language",
+    "welcome_message": "Welcome",
+    "days_since_release": "it's been {{number_of_days}} days since this video was released",
+    "register_title": "Sign UP ",
+    "register_email_address": "Email Address",
+    "register_user_name": "User Name",
+    "register_first_name": "First Name",
+    "register_last_name": "Last Name",
+    "register_password": "Password",
+    "register_re_password": "Confirm Password",
+    "register_idiom": "Language",
+    "register_idiom_msg": "Preferred App Language",
+    "register_check_box" : "I want to receive inspiration, marketing promotions and updates via email.",
+    "register_button": "Sign Up",
+    "register_already_have_account":"Already have an account? Sign in",
+    "reset_password":"Reset Password",
+    "remember_me": "Remember me",
+    "sign_in": "Sign In",
+    "forgot_password":"Forgot password?",
+    "Don't_have_an_account": "Don't have an account? Sign Up",
+    "msg_pass_len":"The password length most be at least 8 Characters long",
+    "msg_pass_mat":"The passwords you entered  do not match",
+    "msg_logout":"Thanks for using our system...see you soon!"
+
+}

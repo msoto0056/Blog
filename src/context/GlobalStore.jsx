@@ -6,6 +6,8 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import MoveToInboxOutlinedIcon from '@mui/icons-material/MoveToInboxOutlined';
+import LanguageIcon from '@mui/icons-material/Language';
+import Flag from 'react-world-flags'
 
 export const initialState = {
   // define elements to use in the app 
@@ -39,23 +41,35 @@ export const initialState = {
         path:"/anyPage"
       },
       {
-        text:"Item 3",
-        icon:<MoveToInboxOutlinedIcon color="secondary" />, 
-        path:"/"
+        text:"Maps",
+        icon:<LanguageIcon color="primary" />, 
+        path:"/map"
       },
       {
-        text:"Item 4",
-        icon:<MoveToInboxOutlinedIcon color="secondary" />, 
-        path:"/"
+        text:"Mapa d3",
+        icon:<LanguageIcon color="secondary" />, 
+        path:"/mapa"
+      },
+      {
+        text:"Mapita d3 - Spring",
+        icon:<LanguageIcon color="warning" />, 
+        path:"/mapita"
       },
       {
         text:"Item 5",
         icon:<AcUnitIcon color="primary" />, 
         path:"/settings"
       },
+      {
+        text:"D3 GlobeMap - Zoom Pan Rotate",
+        icon:<LanguageIcon color="warning" />, 
+        path:"/d3GlobeMap"
+      },
     ],
 
+
     
+
     // Menu Options for login users 
     privateMenuItems: [
       {
@@ -78,10 +92,55 @@ export const initialState = {
         icon:<MoveToInboxOutlinedIcon color="secondary" />, 
         path:"/"
       },
+    ],
+
+    // Languages Enabled for the Application 
+    languages : [
+      {
+        code: "fr",
+        name: "Français",
+        country_code: "fr",
+        iconFlag: <Flag code="fr" height="16"  />
+      },
+      {
+        code: "en",
+        name: "English",
+        country_code: "gb",
+        iconFlag: <Flag code="gb" height="16" />
+      },
+      {
+        code: "es",
+        name: "Español",
+        country_code: 'cr',
+        iconFlag: <Flag code="cr" height="16" />
+      },
+      {
+        code: "it",
+        name: "Italiano",
+        country_code: 'it',
+        iconFlag: <Flag code="it" height="16" />
+      },
+      {
+        code: "pt",
+        name: "Português",
+        country_code: 'br',
+        iconFlag: <Flag code="br" height="16"  />
+      },
+      {
+        code: 'de',
+        name: "German",
+        // dir: 'rtl',
+        country_code: 'de',
+        iconFlag: <Flag code="de" height="16" />
+      },
+      {
+        code: 'ru',
+        name: "Русский",
+        // dir: 'rtl',
+        country_code: 'ru',
+        iconFlag: <Flag code="ru" height="16" />
+      },
     ]
-
-    
-
 
 };
 const GlobalReducer = (state, action) => {

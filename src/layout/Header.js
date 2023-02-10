@@ -8,7 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useLocation } from 'react-router-dom';
 import { useBlogState} from '../context/blogs/BlogStore';
 import { useUserState, checkAuthenticated, load_user } from '../context/users/UserStore';
-import { useGlobalDispatch } from '../../context/GlobalStore';
+import { useGlobalDispatch } from '../context/GlobalStore';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { NavLink } from 'react-router-dom';

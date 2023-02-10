@@ -19,6 +19,7 @@ import {useRetrieve} from '../../custom-hooks';
 import {useBlogState} from '../../context/blogs/BlogStore';
 import {actions} from '../../context/Types';
 import Loader from "react-loader-spinner";
+import AppPagination from './AppPagination';
 
 
 const emptyMsg ='No hay blogs para mostrar'
@@ -117,6 +118,7 @@ function Posts() {
 		 );
 		})}
         </Grid>
+        <AppPagination />
       </MuiContainer>
     </React.Fragment>
   );

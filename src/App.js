@@ -15,6 +15,10 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
+import Maps from './components/map/Maps'
+import {Mapa} from './components/map/Mapa';
+import {Mapita} from './components/map/Mapita';
+import D3_GlobeMap from './components/map/D3_GlobeMap';
 
 
 // import About from './layout/About';
@@ -22,7 +26,7 @@ import Footer from './layout/Footer';
 function App() {
  
   return (
-    <div className="container">
+    <div >
       <Router>
         <Header title='BlogmeUp'/>
         <Routes>
@@ -37,10 +41,14 @@ function App() {
           <Route path='/localSettings' element ={<LocalSettings />} />
           <Route path='/anyPage' element ={<AnyPage />} />
           <Route path='/resetPassw' element ={<ResetPassword />} />
+          <Route exact path='/map' element= {<Maps />} />
+          <Route exact path='/mapa' element= {<Mapa />} />
+          <Route exact path='/mapita' element= {<Mapita />} />
+          <Route exact path='/d3GlobeMap' element= {<D3_GlobeMap />} />
       </Routes>
       <Footer/>
     </Router>
-    <ReactQueryDevtools />
+    {/* <ReactQueryDevtools /> */}
     </div>
   );
 }
