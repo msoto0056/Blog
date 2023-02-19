@@ -36,11 +36,22 @@ class CustomAccountManager(BaseUserManager):
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
+    LANGUAGES = [
+    ('de', _('German')),
+    ('en', _('English')),
+    ('es', _('Spanish')),
+    ('fr', _('French')),
+    ('ja', _('Japanese')),
+    ('pt', _('Portuguese')),
+    ('it', _('Italian')),
+    ('ru', _('Russian')),
+    ]
+
     email = models.EmailField(_('email address'), max_length=150, unique=True)
     user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
-    idiom = models.CharField(max_length=15, default='en-US')
+    idiom = models.CharField(max_length=6, default='en-US',choices=LANGUAGES)
     start_date = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(auto_now=True, null=True)
     about = models.TextField(_('about'), max_length=500, blank=True)

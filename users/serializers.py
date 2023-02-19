@@ -2,6 +2,20 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from users.models import NewUser
 
+# **** For Djoser  *********
+from djoser.serializers import UserCreateSerializer
+from django.contrib.auth import get_user_model
+
+User=get_user_model()
+
+class UserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('email', 'user_name', 'password','first_name','last_name','idiom','is_staff','is_active')
+        extra_kwargs = {'password': {'write_only': True}}
+    
+# **** end of Djoser  *******
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     """

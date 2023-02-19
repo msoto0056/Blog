@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,7 +80,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates'
+            BASE_DIR / 'templates',
+            BASE_DIR / 'build',  # Directory to include the complied React App
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -177,10 +179,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # Ensable this code to have React and Djanog in the same project in Django....
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'build/static')
-# ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 ## Media file locations - customer loaded elements
@@ -196,7 +198,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if os.environ.get('API_AUTHENTICATION') == 'JWT':
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.AllowAny',  # allow all
+            #'rest_framework.permissions.AllowAny',  # allow all
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly',  
             #'rest_framework.permissions.IsAuthenticated',
         ],
         'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -234,7 +237,27 @@ if os.environ.get('API_AUTHENTICATION') == 'JWT':
         'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
         'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     }
-   
+    DJOSER = {
+        'LOGIN_FIELD': 'email',
+        'USER_CREATE_PASSWORD_RETYPE': True,
+        'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+        'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+        'SEND_CONFIRMATION_EMAIL': True,
+        'SET_USERNAME_RETYPE': True,
+        'SET_PASSWORD_RETYPE': True,
+        'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+        'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+        'ACTIVATION_URL': 'activate/{uid}/{token}',
+        'SEND_ACTIVATION_EMAIL': True,
+        'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
+        'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/google', 'http://localhost:8000/facebook'],
+        'SERIALIZERS': {
+            'user_create': 'users.serializers.UserCreateSerializer',
+            'user': 'users.serializers.UserCreateSerializer',
+            'current_user': 'users.serializers.UserCreateSerializer',
+            'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        }
+    }
 else:
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
