@@ -5,10 +5,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation } from 'react-router-dom';
 import { useBlogState} from '../context/blogs/BlogStore';
 import { useUserState, checkAuthenticated, load_user } from '../context/users/UserStore';
-import { useGlobalDispatch } from '../context/GlobalStore';
+import { useGlobalStore, useGlobalDispatch } from '../context/GlobalStore';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { NavLink } from 'react-router-dom';
@@ -17,11 +19,12 @@ import SearchAppBar from './Search';
 import Account from './Account';
 
 
-const Header = ({title } ) => {
+const Header = ({setState}) => {
 	const [{blogCount},] = useBlogState();
     const location = useLocation ()
 	const [,dispatch]=useUserState()
 	const globalDispatch=useGlobalDispatch();
+	const {title} = useGlobalStore()
 	React.useEffect ( ()=>{
 		checkAuthenticated(dispatch)
 		load_user(dispatch,globalDispatch)
@@ -30,7 +33,7 @@ const Header = ({title } ) => {
 		<React.Fragment>
 			<CssBaseline />
 			<AppBar
-				position="static"
+				position="fixed"
 				color='inherit'
 				elevation={3}
                     sx={{borderBottom: 1, 
@@ -38,7 +41,17 @@ const Header = ({title } ) => {
 						backgroundColor: (theme)=>theme.palette.grey[200] }}
 			>
                 <Toolbar>
-					<Drawer />
+					{/* <Drawer /> */}
+					<IconButton
+						size="large"
+						edge="start"
+						color="inherit"
+						aria-label="open drawer"
+						sx={{ mr: 2  }}
+						onClick={()=>setState(true)} 
+						>
+						<MenuIcon />
+					</IconButton>
                     <Typography variant="h6" color="inherit" noWrap sx={{
 						flexGrow:1,  display: { xs: 'none', sm: 'block' }	}}>
 						<Link component={NavLink} to='/' underline='none' color="textPrimary" > 

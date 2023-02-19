@@ -1,5 +1,6 @@
 import * as React from 'react';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import MuiDrawer from '@mui/material/Drawer';
+// import SwipeableDrawer from '@mui/material/SwipeableDrawer';   /try this for mobiles
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -7,10 +8,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
 import LocalSettings  from '@mui/icons-material/MiscellaneousServicesOutlined';
 import Settings from '@mui/icons-material/Settings';
 import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ArrowRight from '@mui/icons-material/ArrowRight';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Typography from '@mui/material/Typography';
@@ -18,29 +21,34 @@ import Tooltip from '@mui/material/Tooltip';
 import { NavLink } from 'react-router-dom';
 import { useGlobalStore } from '../context/GlobalStore';
 import { useUserState } from '../context/users/UserStore';
+import {theme} from './myTheme';
+import {ThemeProvider } from '@mui/material/styles';
 
-export default function Drawer() {
+
+export default function Drawer({state,setState}) {
   const {menuItems,privateMenuItems,anchor,appNameDrawer} = useGlobalStore()
-  const [state, setState] = React.useState(false);  // Drawer Status
+  // const [state, setState] = React.useState(false);  // Drawer Status
   const [open, setOpen] = React.useState(true);     // Private Routes Sub-Menu
   const [{isAuthenticated},]= useUserState();
+  console.log("En Drawer")
 return (
-    <React.Fragment>
-    <IconButton
+  <ThemeProvider theme={theme}> 
+    {/* <IconButton
         size="large"
         edge="start"
         color="inherit"
         aria-label="open drawer"
-        sx={{ mr: 2 }}
+        sx={{ mr: 2, mt: 4 }}
         onClick={()=>setState(true)} >
         <MenuIcon />
-    </IconButton>
-    <SwipeableDrawer
+    </IconButton> */}
+    <MuiDrawer
         anchor={anchor}
         open={state}
         onClose={()=>{(open) ? setState(true): setState(false)}}
         onOpen={()=>setState(true)}
-        // variant = 'persistent'
+        ModalProps={{ disableScrollLock: false }}
+        variant = "temporary"
         >
         <Typography
             variant="h6"
@@ -48,7 +56,13 @@ return (
             component="div"
             sx={{  display: { xs: 'none', sm: 'block' }, textAlign:'center', mt: { xs: 'none', sm:3} }} >
             {appNameDrawer}
+            <IconButton 
+             sx ={{ ml:6, justifyContent : 'flex-end'}}
+             onClick={()=>{(open) ? setState(false): setState(true)}}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
         </Typography>
+
         <Divider sx={{pt:2}}/>
         <Box
         sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
@@ -176,7 +190,7 @@ return (
             <Divider />
           </List>
         </Box>
-    </SwipeableDrawer>
-    </React.Fragment>
+    </MuiDrawer>
+    </ThemeProvider>
 );
 } 

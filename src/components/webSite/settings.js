@@ -1,11 +1,11 @@
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {ThemeProvider } from '@mui/material/styles';
 import MuiContainer from '@mui/material/Container';
 import GlobalStyles from '@mui/material/GlobalStyles';
+import {theme} from '../../layout/myTheme';
 
-const theme = createTheme()
 
 function Settings() {
   return (

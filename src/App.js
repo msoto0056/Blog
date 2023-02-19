@@ -13,6 +13,7 @@ import LocalSettings from './components/webSite/localSettings';
 import AnyPage from './components/webSite/anyPage';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import Layout from './layout/Layout';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import Maps from './components/map/Maps'
@@ -28,25 +29,25 @@ function App() {
   return (
     <div >
       <Router>
-        <Header title='BlogmeUp'/>
-        <Routes>
-          <Route exact path='/' element={<Posts  />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path='/addBlog/' element= {<AddBlog />} />
-          <Route path="/viewBlog/:slug" element ={<Post />}  />
-          <Route path='/updateBlog/:slug' element ={<UpdateBlog />} />
-          <Route path='/settings' element ={<Settings />} />
-          <Route path='/localSettings' element ={<LocalSettings />} />
-          <Route path='/anyPage' element ={<AnyPage />} />
-          <Route path='/resetPassw' element ={<ResetPassword />} />
-          <Route exact path='/map' element= {<Maps />} />
-          <Route exact path='/mapa' element= {<Mapa />} />
-          <Route exact path='/mapita' element= {<Mapita />} />
-          <Route exact path='/d3GlobeMap' element= {<D3_GlobeMap />} />
-      </Routes>
-      <Footer/>
+        <Layout>  
+          <Routes>
+            <Route exact path='/' element={<Posts  />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path='/addBlog/' element= {<AddBlog />} />
+            <Route path="/viewBlog/:slug" element ={<Post />}  />
+            <Route path='/updateBlog/:slug' element ={<UpdateBlog />} />
+            <Route path='/settings' element ={<Settings />} />
+            <Route path='/localSettings' element ={<LocalSettings />} />
+            <Route path='/anyPage' element ={<AnyPage />} />
+            <Route path='/resetPassw' element ={<ResetPassword />} />
+            <Route exact path='/map' element= {<Maps />} />
+            <Route exact path='/mapa' element= {<Mapa />} />
+            <Route exact path='/mapita' element= {<Mapita />} />
+            <Route exact path='/d3GlobeMap' element= {<D3_GlobeMap />} />
+          </Routes>
+      </Layout>
     </Router>
     {/* <ReactQueryDevtools /> */}
     </div>

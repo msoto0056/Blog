@@ -1,35 +1,12 @@
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {ThemeProvider } from '@mui/material/styles';
 import MuiContainer from '@mui/material/Container';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import {theme} from '../../layout/myTheme';
 
-const theme = createTheme({
-  components:{
-    MuiTypography:{
-      variants: [
-        {
-          props: {
-            variant:"body3",
-          },
-            style: {
-              fontSize:11,
-            }
-        },
-        {
-          props: {
-            variant:"body4",
-          },
-            style: {
-              fontSize:9,
-            }
-        }
-      ]
-    }
-  }
-});
 
 function AnyPage() {
   return (

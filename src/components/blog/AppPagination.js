@@ -18,7 +18,7 @@ export default function AppPagination() {
         margin: " 20px 0 px"
       }}
     >
-      <Pagination />
+      <Pagination count={3} />
     </Box>
   )
 }

@@ -25,6 +25,7 @@ export const initialState = {
     },
     appName:"BlogMe",
     appNameDrawer:"BlogMe App",
+    title:'BlogmeUp',
     // Menu Items:
     "drawerWidth": 240,
     "anchor": 'left', // options:  top, left, bottom, right 
@@ -36,7 +37,7 @@ export const initialState = {
         path:"/"
       },
       {
-        text:"Item 2",
+        text:"Any Page",
         icon:<ArchiveOutlinedIcon color="secondary" />, 
         path:"/anyPage"
       },
@@ -47,7 +48,7 @@ export const initialState = {
       },
       {
         text:"Mapa d3",
-        icon:<LanguageIcon color="secondary" />, 
+        icon:<LanguageIcon color="third" />, 
         path:"/mapa"
       },
       {
@@ -56,7 +57,7 @@ export const initialState = {
         path:"/mapita"
       },
       {
-        text:"Item 5",
+        text:"Settings",
         icon:<AcUnitIcon color="primary" />, 
         path:"/settings"
       },
