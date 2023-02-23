@@ -13,6 +13,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/blog/', include('blog_api.urls', namespace='blog_api')),
+    path('api/product/', include('product_api.urls', namespace='product_api')),
     path('api/user/',include('users.urls',namespace='users')),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -26,14 +27,20 @@ urlpatterns = [
         description="Blogs API for all things …",
         version="1.0.0"
     ), name='openapi-schema'),
-    # path('swagger-ui/', TemplateView.as_view(
-    #     template_name='swagger-ui.html',
-    #     extra_context={'schema_url': 'openapi-schema'}
-    # ), name='swagger-ui'),
+    path('swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
     path('', include('blog.urls', namespace='blog')),
+    path('', include('products.urls', namespace='products')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  - to delete if no issues
 
 # enable this line to add the React code inside this project. 
 # urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
+

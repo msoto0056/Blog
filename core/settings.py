@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'blog_api.apps.BlogApiConfig',
     'users.apps.UsersConfig',
+    'products.apps.ProductsConfig',
+    'carts.apps.CartsConfig',
 ]
 
 MIDDLEWARE = [
