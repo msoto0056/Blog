@@ -56,6 +56,17 @@ class ProductViewSet(viewsets.ModelViewSet):  # This approach abstract even more
         return Product.objects.all()   
     
 
+# class ProductImageViewSet(viewsets.ModelViewSet):
+#     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+#     serializer_class = ProductImageSerializer
+    
+#     def get_queryset(self):
+#         query = self.request.query_params.get('id', None)
+#         if query is not None:
+#             return ProductImages.objects.filter(id=query)
+#         return None
+
+
 # class CreatePost(APIView):
 #     permission_classes = [IsAuthenticated]
 #     parser_classes = [MultiPartParser, FormParser]

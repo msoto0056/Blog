@@ -33,6 +33,7 @@ urlpatterns = [
     ), name='swagger-ui'),
     path('', include('blog.urls', namespace='blog')),
     path('', include('products.urls', namespace='products')),
+    path('', include('carts.urls', namespace='carts')),
 ]
 
 if settings.DEBUG:

@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.db.models import Q
 from django.urls import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 from .utils import unique_slug_generator
@@ -22,6 +23,9 @@ def upload_image_path(instance, filename):
             new_filename=new_filename, 
             final_filename=final_filename
             )
+
+def upload_to(instance, filename):
+    return 'products/{filename}'.format(filename=filename)
 
 class ProductQuerySet(models.query.QuerySet):
     def active(self):
@@ -53,11 +57,16 @@ class ProductManager(models.Manager):
             return qs.first()
         return None
 
-
     def search(self, query):
         return self.get_queryset().active().search(query)
 
 class Product(models.Model):
+
+    class ProductObjects(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(active=True)
+    
+    
     title           = models.CharField(max_length=120)
     slug            = models.SlugField(blank=True, unique=True)
     description     = models.TextField()
@@ -66,22 +75,14 @@ class Product(models.Model):
     image           = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     featured        = models.BooleanField(default=False)
     active          = models.BooleanField(default=True)
-    photo           = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo1          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo2          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo3          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo4          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo5          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo6          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo7          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo8          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-    photo9          = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     video           = models.FileField(upload_to=upload_image_path, null=True, blank=True)
+    rating          = models.DecimalField(decimal_places=2, max_digits=4, default=2.5, validators=[MaxValueValidator(5), MinValueValidator(0)])
     timestamp       = models.DateTimeField(auto_now_add=True)
-    upload          = models.FileField(upload_to='uploads/', null=True, blank=True)
+    upload          = models.FileField(upload_to=upload_to, null=True, blank=True)
 
 
     objects = ProductManager()
+    Products = ProductObjects()
 
     def get_absolute_url(self):
         return "/products/{slug}/".format(slug=self.slug)
@@ -98,9 +99,17 @@ class Product(models.Model):
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.image:
-        instance.image = instance.photo
+        instance.image = 'Default.jpeg'
 
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
 pre_save.connect(product_pre_save_receiver, sender=Product)
+
+class ProductImages(models.Model):
+    
+    class Meta:
+        verbose_name_plural='Photograhs'
+    
+    product  = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE, related_name='productImages')
+    pictures = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
