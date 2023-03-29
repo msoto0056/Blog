@@ -1,6 +1,11 @@
 import { createTheme} from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 
-export const theme = createTheme({
+// const theme = useTheme();
+// const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
+const theme = createTheme({
     components:{
       MuiTypography:{
         variants: [
@@ -34,9 +39,13 @@ export const theme = createTheme({
       third: {
         main:  "#20d208"
       },
+      fourth: {
+        main:  "#919aa1"
+      },
       text: {
         alternate: " #4682b4"
       }
     },
   });
 
+  export default theme;

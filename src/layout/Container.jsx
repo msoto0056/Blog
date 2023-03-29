@@ -4,6 +4,7 @@ export const Container = ({ children }) => {
   return (
     <Box
       sx={{
+        display: "flex",
         width: "100%",
         py:"5",
         justifyContent:"center",

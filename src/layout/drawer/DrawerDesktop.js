@@ -12,41 +12,56 @@ import LocalSettings  from '@mui/icons-material/MiscellaneousServicesOutlined';
 import Settings from '@mui/icons-material/Settings';
 import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
+import Collapse from '@mui/material/Collapse';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ArrowRight from '@mui/icons-material/ArrowRight';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { NavLink } from 'react-router-dom';
-import { useGlobalStore } from '../context/GlobalStore';
-import { useUserState } from '../context/users/UserStore';
-import {theme} from './myTheme';
-import {ThemeProvider } from '@mui/material/styles';
+import { useGlobalStore,useGlobalDispatch } from '../../context/GlobalStore';
+import { useUserState } from '../../context/users/UserStore';
+import {actions} from '../../context/Types';
+import theme from "../../styles/theme";
 
 
-export default function Drawer({state,setState}) {
-  const {menuItems,privateMenuItems,anchor,appNameDrawer} = useGlobalStore()
-  // const [state, setState] = React.useState(false);  // Drawer Status
-  const [open, setOpen] = React.useState(true);     // Private Routes Sub-Menu
+export default function Drawer() {
+  const {menuItems,privateMenuItems,anchor,appNameDrawer,drawerState, openSubMenu, clickonSubMenu} = useGlobalStore()
+ 
+  const handleClick= ()=>{
+    globalDispatch({type:actions.FIELDS, fieldName: 'openSubMenu', payload:!openSubMenu});
+    globalDispatch({type:actions.FIELDS, fieldName: 'clickonSubMenu', payload:true});
+  }
+  const handleClickDrawer = () =>{
+    if (clickonSubMenu ) {
+      globalDispatch({type:actions.FIELDS, fieldName: 'drawerState', payload:true});
+      globalDispatch({type:actions.FIELDS, fieldName: 'clickonSubMenu', payload:false});
+    }else{
+      globalDispatch({type:actions.FIELDS, fieldName: 'drawerState', payload:false})
+    }
+  }
+  const handleCloseDrawer = () =>{
+    console.log("clickOnOpenSubMenu: - close", openSubMenu)
+    if (clickonSubMenu) {
+      globalDispatch({type:actions.FIELDS, fieldName: 'drawerState', payload:true});
+      globalDispatch({type:actions.FIELDS, fieldName: 'clikonSubMenu', payload:false});
+      return;
+    }
+  }
+
   const [{isAuthenticated},]= useUserState();
-  console.log("En Drawer")
+  // const isAuthenticated = true;
+
+	const globalDispatch=useGlobalDispatch();
 return (
-  <ThemeProvider theme={theme}> 
-    {/* <IconButton
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="open drawer"
-        sx={{ mr: 2, mt: 4 }}
-        onClick={()=>setState(true)} >
-        <MenuIcon />
-    </IconButton> */}
+  <React.Fragment> 
     <MuiDrawer
         anchor={anchor}
-        open={state}
-        onClose={()=>{(open) ? setState(true): setState(false)}}
-        onOpen={()=>setState(true)}
+        open={drawerState}
+        onClose= {handleCloseDrawer}
         ModalProps={{ disableScrollLock: false }}
         variant = "temporary"
         >
@@ -58,7 +73,7 @@ return (
             {appNameDrawer}
             <IconButton 
              sx ={{ ml:6, justifyContent : 'flex-end'}}
-             onClick={()=>{(open) ? setState(false): setState(true)}}>
+             onClick={()=>{globalDispatch({type:actions.FIELDS, fieldName: 'drawerState', payload:false})}}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </Typography>
@@ -67,8 +82,7 @@ return (
         <Box
         sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
         role="presentation"
-        onClick={()=>{(open) ? setState(false): setState(true)}}
-        onKeyDown={()=>setState(false)}
+        onClick={ handleClickDrawer }
         >
         <List>
             {menuItems.map((item) => (
@@ -84,56 +98,52 @@ return (
         </List>
         <Divider />
         <List>
-            <ListItemButton
-                alignItems="flex-start"
-                onClick={() => setOpen(!open)}
-                sx={{
-                  px: 3,
-                  pt: 2.5,
-                  pb: open ? 0 : 2.5,
-                  '&:hover, &:focus': { '& svg': { opacity: open ? 1 : 0.5 } },
-                }}
-            >
-                <ListItemText
-                    primary="Register Users"
-                    primaryTypographyProps={{
-                        fontSize: 15,
-                        fontWeight: 'medium',
-                        lineHeight: '20px',
-                        mb: '2px',
-                    }}
-                    secondary="Profile, Create Blogs, Realtime Database, Storage, Hosting, Functions, and Machine Learning"
-                    secondaryTypographyProps={{
-                        noWrap: true,
-                        fontSize: 12,
-                        lineHeight: '16px',
-                        color: open ? 'rgba(122,132,133,0)' : 'rgba(23,84,117,0.5)',
-                    }}
-                    sx={{ my: 0 }}
-                />
-                <Tooltip title="Register User Options">
-                    <IconButton>
-                        <KeyboardArrowDown
-                        sx={{
-                            mr: -1,
-                            opacity: 0,
-                            transform: open ? 'rotate(-180deg)' : 'rotate(0)',
-                            transition: '0.2s',
-                        }}
-                        />
-                    </IconButton>
-                </Tooltip>
-            </ListItemButton>
-            {open && isAuthenticated && privateMenuItems.map((item) => (
-            <ListItem key={item.text} disablePadding>
-                <ListItemButton component={NavLink} to={item.path} >
-                    <ListItemIcon>
-                        {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.text} />
-                </ListItemButton>
-            </ListItem>
-            ))}
+          <ListItemButton
+            alignItems="flex-start"
+            onClick={handleClick}
+            sx={{
+              px: 3,
+              pt: 2.5,
+              pb: openSubMenu ? 0 : 2.5,
+              '&:hover, &:focus': { '& svg': { opacity: openSubMenu ? 1 : 0.5 } },
+            }}
+          >
+            <ListItemText
+              primary="Register Users"
+              primaryTypographyProps={{
+                  fontSize: 15,
+                  fontWeight: 'medium',
+                  lineHeight: '20px',
+                  mb: '2px',
+              }}
+              secondary="Profile, Create Blogs, Realtime Database, Storage, Hosting, Functions, and Machine Learning"
+              secondaryTypographyProps={{
+                  noWrap: true,
+                  fontSize: 12,
+                  lineHeight: '16px',
+                  color: openSubMenu ? 'rgba(122,132,133,0)' : 'rgba(23,84,117,0.5)',
+              }}
+              sx={{ my: 0 }}
+            />
+            <Tooltip title="Register User Options">
+              <IconButton>
+              {openSubMenu ? <ExpandLess /> : <ExpandMore />} 
+              </IconButton>
+            </Tooltip>
+          </ListItemButton>
+
+            {openSubMenu && isAuthenticated && privateMenuItems.map((item) => (
+              <ListItem key={item.text} disablePadding>
+                  <Collapse in={openSubMenu} timeout="auto" unmountOnExit> 
+                  <ListItemButton sx={{pl:4}} component={NavLink} to={item.path} >
+                      <ListItemIcon>
+                          {item.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                  </ListItemButton>
+                  </Collapse>
+              </ListItem>
+              ))}
         </List>
         <Divider />
         <List>
@@ -191,6 +201,6 @@ return (
           </List>
         </Box>
     </MuiDrawer>
-    </ThemeProvider>
+    </React.Fragment> 
 );
 } 

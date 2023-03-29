@@ -34,5 +34,5 @@ export const actions = {
   FIELDS: 'FIELDS',
   //Counter
   INCREMENT:'INCREMENT',
-  DECREMENT:'DECREMENT'
+  DECREMENT:'DECREMENT',
 };

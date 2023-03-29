@@ -2,7 +2,7 @@ import React, { useState }  from 'react'
 import {useData2} from './useData2';
 import './WorldPage.css'
 
-function D3_GlobeMap() {
+function D3GlobeMap() {
   const [enableRotation, setRotation] = useState(false)
 
   const handleRotation = () => {
@@ -18,4 +18,4 @@ function D3_GlobeMap() {
   )
 }
 
-export default D3_GlobeMap
+export default D3GlobeMap

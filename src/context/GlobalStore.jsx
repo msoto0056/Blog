@@ -6,6 +6,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import MoveToInboxOutlinedIcon from '@mui/icons-material/MoveToInboxOutlined';
+import ProductionQuantityLimitsOutlinedIcon from '@mui/icons-material/ProductionQuantityLimitsOutlined';
 import LanguageIcon from '@mui/icons-material/Language';
 import Flag from 'react-world-flags'
 
@@ -26,8 +27,11 @@ export const initialState = {
     appName:"BlogMe",
     appNameDrawer:"BlogMe App",
     title:'BlogmeUp',
-    // Menu Items:
+    // Menu Items & Drawer
     "drawerWidth": 240,
+    "drawerState":false,  // Manage the State of the Drawer (Open =true / Close - false)
+    "openSubMenu":false, // Manage the State of the SubMenu of Register users (Open =true / Close - false)
+    "clickonSubMenu":false, // Control if the last click was on the option to open submenu for Register users
     "anchor": 'left', // options:  top, left, bottom, right 
     // Menu Options for All user including Guest
     menuItems: [
@@ -35,6 +39,11 @@ export const initialState = {
         text:"Blog",
         icon:<ArticleOutlinedIcon color="secondary" />, 
         path:"/"
+      },
+      {
+        text:"Products",
+        icon:<ProductionQuantityLimitsOutlinedIcon color="primary" />, 
+        path:"/Products"
       },
       {
         text:"Any Page",

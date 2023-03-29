@@ -7,28 +7,37 @@ import Link from '@mui/material/Link';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { useBlogState} from '../context/blogs/BlogStore';
+import { useProductState} from '../context/eCommerce/ProductStore';
 import { useUserState, checkAuthenticated, load_user } from '../context/users/UserStore';
 import { useGlobalStore, useGlobalDispatch } from '../context/GlobalStore';
+import {actions} from '../context/Types';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { NavLink } from 'react-router-dom';
-import Drawer from './Drawer';
+// import Drawer from './Drawer';
 import SearchAppBar from './Search';
 import Account from './Account';
 
 
-const Header = ({setState}) => {
+
+const Header = () => {
 	const [{blogCount},] = useBlogState();
-    const location = useLocation ()
+	const [{productCountInCart},] = useProductState();
+    // const location = useLocation ()
 	const [,dispatch]=useUserState()
 	const globalDispatch=useGlobalDispatch();
 	const {title} = useGlobalStore()
 	React.useEffect ( ()=>{
+		console.log('Header useEffect')
 		checkAuthenticated(dispatch)
 		load_user(dispatch,globalDispatch)
-	},[])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+
 	return (
 		<React.Fragment>
 			<CssBaseline />
@@ -41,14 +50,13 @@ const Header = ({setState}) => {
 						backgroundColor: (theme)=>theme.palette.grey[200] }}
 			>
                 <Toolbar>
-					{/* <Drawer /> */}
 					<IconButton
 						size="large"
 						edge="start"
-						color="inherit"
+						color="secondary"
 						aria-label="open drawer"
 						sx={{ mr: 2  }}
-						onClick={()=>setState(true)} 
+						onClick={()=>{globalDispatch({type:actions.FIELDS, fieldName: 'drawerState', payload:true})}}
 						>
 						<MenuIcon />
 					</IconButton>
@@ -62,7 +70,10 @@ const Header = ({setState}) => {
 					<SearchAppBar />
 					<Account />					
 					<Badge badgeContent={blogCount} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
-            			<NotificationsIcon />
+            			<NotificationsIcon color = 'secondary' />
+          			</Badge>
+					  <Badge badgeContent={productCountInCart} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
+            			<ShoppingCartOutlinedIcon color = 'primary'/>
           			</Badge>
                 </Toolbar>
 			</AppBar>

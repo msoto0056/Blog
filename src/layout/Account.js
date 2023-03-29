@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import { useUserState } from '../context/users/UserStore';
 import { NavLink } from 'react-router-dom';
 
+
 export default function Accounts() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,7 +26,7 @@ export default function Accounts() {
   };
 
   return (
-    <>
+      <React.Fragment> 
        {auth && (
         <div>
             <IconButton
@@ -34,9 +35,9 @@ export default function Accounts() {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
-            color="inherit"
+            color='fourth'
             >
-            <AccountCircle />
+            <AccountCircle  />
             </IconButton>
             <Menu
             id="menu-appbar"
@@ -62,6 +63,6 @@ export default function Accounts() {
             </Menu>
         </div>
         )}
-        </>
+    </React.Fragment> 
   );
 }

@@ -11,6 +11,7 @@ import App from './App';
 import { GlobalProvider } from './context/GlobalStore';
 import { BlogProvider } from './context/blogs/BlogStore';
 import { UserProvider } from './context/users/UserStore';
+import { ProductProvider } from './context/eCommerce/ProductStore';
 import { QueryClientProvider, QueryClient } from "react-query";
 
 
@@ -44,7 +45,9 @@ const routing = (
         <UserProvider>
           <BlogProvider>
             <Suspense fallback="...Language is loading">
+            <ProductProvider>
               <App/>
+            </ProductProvider>  
             </Suspense>  
           </BlogProvider>
         </UserProvider>

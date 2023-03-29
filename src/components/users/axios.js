@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 
 
 const BASE_URL  =`${process.env.REACT_APP_API_SERVER}`
+// http://localhost:8000/api
 
 const axiosInstance = axios.create({
 	baseURL: BASE_URL,

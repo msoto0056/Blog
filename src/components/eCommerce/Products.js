@@ -19,24 +19,30 @@ import MuiContainer from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import {Container} from  '../../layout/Container'
 import {useRetrieve} from '../../custom-hooks';
-import {useBlogState} from '../../context/blogs/BlogStore';
+import {useProductState} from '../../context/eCommerce/ProductStore';
 import {actions} from '../../context/Types';
 import Loader from "react-loader-spinner";
 // import AppPagination from './AppPagination';
 import Pagination from '@mui/material/Pagination';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
 
 
 
-
-const emptyMsg ='No hay blogs para mostrar'
+const emptyMsg ='No hay products para mostrar'
 const pageSize = 3;
 
-export default function Posts() {
-
+export default function Products() {
+  console.log ("llegue Products")
   let navigate = useNavigate();
-  const [{url,blogCount},dispatch] = useBlogState();
-  const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'blogCount', payload:data.length})}
-  const {data:posts, error, isLoading, isError} = useRetrieve("blog",url,onSuccessFetch);
+  const [{url,productCount},dispatch] = useProductState();
+    console.log("url",url)
+  console.log("Product count ",productCount)
+  const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
+  const {data:products, error, isLoading, isError} = useRetrieve("product",url,onSuccessFetch);
   const [checked, setChecked] = useState(true);  
 
 
@@ -51,7 +57,7 @@ export default function Posts() {
   };
 
   const [pagination, setPagination] = useState({
-    count:blogCount,
+    count:productCount,
     from:0,
     to: pageSize 
   });
@@ -73,7 +79,7 @@ export default function Posts() {
       </Container>
     );
   }
-  if (!posts || posts.length === 0) {
+  if (!products || products.length === 0) {
     return (
         <Container>
           <Alert severity="error">{emptyMsg}</Alert>
@@ -81,20 +87,25 @@ export default function Posts() {
     );
   } 
   
-  const newPosts = (checked) ? posts.slice(pagination.from, pagination.to) : posts
+  const newProducts = (checked) ? products.slice(pagination.from, pagination.to) : products
 
-
-  const handleView = (blog) => {
-    dispatch({type:actions.FIELDS, fieldName: 'blog', payload: blog})
-    navigate(`/viewBlog/${blog.slug}`);
+  const handleView = (product) => {
+    console.log("product", product)
+    dispatch({type:actions.FIELDS, fieldName: 'product', payload: product})
+    navigate(`/viewProduct/${product.slug}`);
   }
 
+  const handleView2 = (product) => {
+    console.log("AWS", product)
+    dispatch({type:actions.FIELDS, fieldName: 'product', payload: product})
+    navigate(`/viewAWSProduct/${product.slug}`);
+  }
 
   return (
-    <React.Fragment> 
+    <React.Fragment>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
-      <MuiContainer disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
+      <MuiContainer disableGutters maxWidth="sm" component="main" sx={{ pt: 6, pb: 4 }}>
         <Typography
           component="h1"
           variant="h2"
@@ -102,7 +113,7 @@ export default function Posts() {
           color="text.primary"
           gutterBottom
         >
-          Posts
+          Games
         </Typography>
         <Box sx={{display:"flex", justifyContent:"right"}}>
           <FormGroup>
@@ -114,21 +125,23 @@ export default function Posts() {
             }
           />
           </FormGroup>
+          <IconButton aria-label="settings" sx={{display:"flex", justifyContent:"right"}}>
+            <MoreVertIcon />
+        </IconButton>
         </Box>
       </MuiContainer>
 
       <MuiContainer maxWidth="sm" component="main">
         <Grid container spacing={5} alignItems="flex-end">
-          {newPosts.map((post) => {
+          {newProducts.map((product) => {
 		        return (
               // Enterprise card is full width at sm breakpoint
-            	  <Grid item key={post.id} xs={12} sm={6} md={4} >
+            	  <Grid item key={product.id} xs={12} sm={6} md={4} >
                   <Card>
                 		<CardHeader
-                      title={post.title.substr(0, 50)}
-                      // subheader={post.excerpt.substr(0, 60)}
+                      title={product.title.substr(0, 50)}
                       titleTypographyProps={{ align: 'center' }}
-                      action={post.title === 'Pro' ? <StarIcon /> : null}
+                      action={product.title === 'Pro' ? <StarIcon /> : null}
                         subheaderTypographyProps={{ align: 'center', }}
                         sx={{
                           backgroundColor: (theme) =>
@@ -137,9 +150,12 @@ export default function Posts() {
                           : theme.palette.grey[700],
                         }}
                     /> 
+                    {console.log("product.image",product.image)}
                     <CardMedia
                       sx={{paddingTop: '56.25%'}} 
-                      image="https://source.unsplash.com/random"
+                      // image="https://source.unsplash.com/random"
+                      image = {(product.image !== null)? product.image : "https://source.unsplash.com/random"}
+             
                       title="Image title"
                     />
                     <CardContent>
@@ -147,15 +163,29 @@ export default function Posts() {
                         variant="caption"
                         align="center"
                       >
-                        {post.excerpt.substr(0, 60)}...
+                        {product.description.substr(0, 60)}...
                       </Typography>
           			    </CardContent>
                     <CardActions>
-                      <Button fullWidth variant='contained'onClick={()=>{handleView(post)}}>
-                        Read blog
+                      <Button size="small"  variant={"outlined"} onClick={()=>{handleView(product)}}>
+                        <Typography variant="body4">
+                          View Product
+                        </Typography>
                       </Button>
+                      <Button size="small"  variant={"outlined"} onClick={()=>{handleView2(product)}}>
+                        <Typography variant="body4">
+                         AWS Product
+                        </Typography>
+                      </Button>
+                      <IconButton color="primary" aria-label="add to shopping cart">
+                        <AddShoppingCartIcon />
+                      </IconButton>
                     </CardActions>
+                    <Stack spacing={1}>
+                        <Rating name="half-rating"  size="small"  defaultValue={2.5} value={product.rating} precision={0.25} sx={{mt:1, mb:2}}/>
+                    </Stack>
                   </Card>
+
                 </Grid>
             );
 		      })}
@@ -163,16 +193,13 @@ export default function Posts() {
           
         </Grid>
           <Box sx={{display:"flex", mt:2, justifyContent:"center" }}>
-            {checked && <Pagination count={Math.ceil(blogCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
+            {checked && <Pagination count={Math.ceil(productCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
               {/* <Pagination 
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}/>  */}
             </Box>
       </MuiContainer>
-    </React.Fragment> 
+    </React.Fragment>
   );
 }
 
-// export default function Pricing() {
-//   return <Posts />;
-// }
