@@ -1,6 +1,5 @@
 import * as React from 'react';
 import MuiDrawer from '@mui/material/Drawer';
-// import SwipeableDrawer from '@mui/material/SwipeableDrawer';   /try this for mobiles
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -11,7 +10,6 @@ import ListItemText from '@mui/material/ListItemText';
 import LocalSettings  from '@mui/icons-material/MiscellaneousServicesOutlined';
 import Settings from '@mui/icons-material/Settings';
 import IconButton from '@mui/material/IconButton';
-// import MenuIcon from '@mui/icons-material/Menu';
 import Collapse from '@mui/material/Collapse';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -26,6 +24,7 @@ import { useGlobalStore,useGlobalDispatch } from '../../context/GlobalStore';
 import { useUserState } from '../../context/users/UserStore';
 import {actions} from '../../context/Types';
 import theme from "../../styles/theme";
+import {IconButtonWebSettings} from '../../styles/drawer'
 
 
 export default function Drawer() {
@@ -162,39 +161,13 @@ return (
                 />
               </ListItemButton>
               <Tooltip title="WebSite Settings">
-                <IconButton
+                <IconButtonWebSettings
                   size="large"
-                  sx={{
-                    '& svg': {
-                      color: 'rgba(23,84,117,0.8)',
-                      transition: '0.2s',
-                      transform: 'translateX(0) rotate(0)',
-                    },
-                    '&:hover, &:focus': {
-                      bgcolor: 'unset',
-                      '& svg:first-of-type': {
-                        transform: 'translateX(-4px) rotate(-20deg)',
-                      },
-                      '& svg:last-of-type': {
-                        right: 0,
-                        opacity: 1,
-                      },
-                    },
-                    '&:after': {
-                      content: '""',
-                      position: 'absolute',
-                      height: '80%',
-                      display: 'block',
-                      left: 0,
-                      width: '1px',
-                      bgcolor: 'divider',
-                    },
-                  }}
                   component={NavLink} to={'/settings'} 
                 >
                   <Settings />
                   <ArrowRight sx={{ position: 'absolute', right: 4, opacity: 0 }} />
-                </IconButton>
+                </IconButtonWebSettings>
               </Tooltip>
             </ListItem>
             <Divider />

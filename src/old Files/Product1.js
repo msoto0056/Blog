@@ -18,11 +18,11 @@ import { red } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 
-export default function AWSProduct() {
+export default function Product() {
   const [{product},] = useProductState();
 
 	return (
-        <React.Fragment>
+        <React.Fragment> 
             <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
             <CssBaseline />
             <MuiContainer disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>

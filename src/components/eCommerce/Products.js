@@ -29,6 +29,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
+import Promotions from './Promotions';
 
 
 
@@ -36,11 +37,8 @@ const emptyMsg ='No hay products para mostrar'
 const pageSize = 3;
 
 export default function Products() {
-  console.log ("llegue Products")
   let navigate = useNavigate();
   const [{url,productCount},dispatch] = useProductState();
-    console.log("url",url)
-  console.log("Product count ",productCount)
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
   const {data:products, error, isLoading, isError} = useRetrieve("product",url,onSuccessFetch);
   const [checked, setChecked] = useState(true);  
@@ -90,22 +88,12 @@ export default function Products() {
   const newProducts = (checked) ? products.slice(pagination.from, pagination.to) : products
 
   const handleView = (product) => {
-    console.log("product", product)
     dispatch({type:actions.FIELDS, fieldName: 'product', payload: product})
     navigate(`/viewProduct/${product.slug}`);
   }
 
-  const handleView2 = (product) => {
-    console.log("AWS", product)
-    dispatch({type:actions.FIELDS, fieldName: 'product', payload: product})
-    navigate(`/viewAWSProduct/${product.slug}`);
-  }
-
   return (
     <React.Fragment>
-      <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
-      <CssBaseline />
-      <MuiContainer disableGutters maxWidth="sm" component="main" sx={{ pt: 6, pb: 4 }}>
         <Typography
           component="h1"
           variant="h2"
@@ -129,15 +117,12 @@ export default function Products() {
             <MoreVertIcon />
         </IconButton>
         </Box>
-      </MuiContainer>
-
-      <MuiContainer maxWidth="sm" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
+        <Grid className='Tarjetas' container spacing={5} alignItems="center" justifyContent='center'>
           {newProducts.map((product) => {
 		        return (
               // Enterprise card is full width at sm breakpoint
-            	  <Grid item key={product.id} xs={12} sm={6} md={4} >
-                  <Card>
+            	  <Grid item key={product.id} xs={12} sm={6} md={4} xl={2}>
+                  <Card className='card'>
                 		<CardHeader
                       title={product.title.substr(0, 50)}
                       titleTypographyProps={{ align: 'center' }}
@@ -150,7 +135,7 @@ export default function Products() {
                           : theme.palette.grey[700],
                         }}
                     /> 
-                    {console.log("product.image",product.image)}
+
                     <CardMedia
                       sx={{paddingTop: '56.25%'}} 
                       // image="https://source.unsplash.com/random"
@@ -172,33 +157,22 @@ export default function Products() {
                           View Product
                         </Typography>
                       </Button>
-                      <Button size="small"  variant={"outlined"} onClick={()=>{handleView2(product)}}>
-                        <Typography variant="body4">
-                         AWS Product
-                        </Typography>
-                      </Button>
                       <IconButton color="primary" aria-label="add to shopping cart">
                         <AddShoppingCartIcon />
                       </IconButton>
                     </CardActions>
                     <Stack spacing={1}>
-                        <Rating name="half-rating"  size="small"  defaultValue={2.5} value={product.rating} precision={0.25} sx={{mt:1, mb:2}}/>
+                        <Rating name="half-rating"  size="small"  defaultValue={2.5} value={Number(product.rating)} precision={0.25} sx={{mt:1, mb:2}}/>
                     </Stack>
                   </Card>
-
                 </Grid>
             );
 		      })}
-          
-          
         </Grid>
           <Box sx={{display:"flex", mt:2, justifyContent:"center" }}>
             {checked && <Pagination count={Math.ceil(productCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
-              {/* <Pagination 
-            count={Math.ceil(pagination.count / pageSize)}
-            onChange={handlePageChange}/>  */}
-            </Box>
-      </MuiContainer>
+          </Box>
+          <Promotions />
     </React.Fragment>
   );
 }

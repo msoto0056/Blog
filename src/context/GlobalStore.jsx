@@ -1,3 +1,7 @@
+import axiosInstance from '../components/users/axios';
+// import axios from 'axios';
+import {Container} from  '../layout/Container'
+import Alert from '@mui/material/Alert';
 import {makeStore} from "../custom-hooks";
 import {actions} from './Types';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
@@ -76,9 +80,6 @@ export const initialState = {
         path:"/d3GlobeMap"
       },
     ],
-
-
-    
 
     // Menu Options for login users 
     privateMenuItems: [
@@ -173,3 +174,18 @@ const [
 ] = makeStore(GlobalReducer, initialState)
 
 export { GlobalProvider, useGlobalStore, useGlobalDispatch }
+
+
+
+export const InitialDataLoad = async ({url, dispatch}) => {
+  try {
+    const response = await axiosInstance.get(url);
+    dispatch({type:actions.FIELDS, fieldName: 'promotionMessages', payload:response.data})
+  } catch (errorMsg) {
+    <Container>
+      <Alert severity="error">{errorMsg.message}</Alert>
+    </Container>
+  }
+  
+}
+

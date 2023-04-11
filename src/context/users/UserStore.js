@@ -134,7 +134,6 @@ export const checkAuthenticated = async (dispatch) => {
 };
 
 export const login = async(formData, dispatch, globalDispatch) => {
-    console.log("Login Function")
     const {email,password}={...formData}
     const body = JSON.stringify({ email, password });
     try {
@@ -149,13 +148,11 @@ export const login = async(formData, dispatch, globalDispatch) => {
         // other alternative is to use Djoser scheme, if so uncomment below dispatch and comment the following
         // dispatch(load_user(dispatch,globalDispatch));
         const jwtData =jwt_decode(res.data.access)
-        console.log("userInfo",jwtData.userInfo)
         dispatch({
             type: actions.USER_LOADED_SUCCESS,
             payload: jwtData.userInfo
         });
     } catch (err) {
-        console.log(err)
         dispatch({
             type: actions.LOGIN_FAIL
         })
@@ -168,7 +165,6 @@ export const login = async(formData, dispatch, globalDispatch) => {
 };
 
 export const signup = async(formData,dispatch,globalDispatch) => {
-    console.log('sign-up')
     try {
         // const res = await axiosInstance.post(`/user/create/`, {    // this is for my own User create- Next Line is for Djoser URL 
         const res = await axiosInstance.post(`auth/user/create/`, {

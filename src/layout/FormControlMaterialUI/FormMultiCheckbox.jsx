@@ -29,7 +29,7 @@ export const FormCheckbox = ({ name, label, options, rules="" }) => {
     <FormControl size={"small"} variant={"outlined"}>
       <FormLabel  size={"small"} component="legend">{label}</FormLabel>
 
-      <div>
+      <>
         {options.map((option) => {
           return (
             <FormControlLabel
@@ -55,7 +55,7 @@ export const FormCheckbox = ({ name, label, options, rules="" }) => {
             />
           );
         })}
-      </div>
+      </>
     </FormControl>
   );
 };

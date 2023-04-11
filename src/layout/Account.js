@@ -27,41 +27,41 @@ export default function Accounts() {
 
   return (
       <React.Fragment> 
-       {auth && (
-        <div>
-            <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color='fourth'
-            >
-            <AccountCircle  />
-            </IconButton>
-            <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <Divider />
-            {!isAuthenticated && <MenuItem component={NavLink} to={'/login'}>Login </MenuItem>}
-            {isAuthenticated && <MenuItem component={NavLink} to={'/logout'}>Logout </MenuItem>}
-            <MenuItem component={NavLink} to={'/register'}>Register </MenuItem>
-            </Menu>
-        </div>
+       {auth && ( 
+            <>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color='fourth'
+              >
+              <AccountCircle  />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <Divider />
+              {!isAuthenticated && <MenuItem component={NavLink} to={'/login'}>Login </MenuItem>}
+              {isAuthenticated && <MenuItem component={NavLink} to={'/logout'}>Logout </MenuItem>}
+              <MenuItem component={NavLink} to={'/register'}>Register </MenuItem>
+              </Menu>
+        </>
         )}
     </React.Fragment> 
   );

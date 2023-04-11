@@ -31,7 +31,6 @@ const Header = () => {
 	const globalDispatch=useGlobalDispatch();
 	const {title} = useGlobalStore()
 	React.useEffect ( ()=>{
-		console.log('Header useEffect')
 		checkAuthenticated(dispatch)
 		load_user(dispatch,globalDispatch)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
