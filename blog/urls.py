@@ -1,10 +1,11 @@
 from django.urls import path
 from django.views.generic import TemplateView
+from .views import BlogListView
 
 app_name='blog'
 
 urlpatterns = [
-    path('',TemplateView.as_view(template_name='blog/index.html')),
-    path('<int:id>/', TemplateView.as_view(template_name='blog/index.html'), name='detail'),
-    path('<str:pk>/', TemplateView.as_view(template_name='blog/index.html'), name='detail'),
+    path('blog/',BlogListView.as_view(), name='list'),
+    path('blog/<int:id>/', BlogListView.as_view(), name='detail'),
+    path('blog/<str:pk>/', BlogListView.as_view(), name='detail'),
 ]

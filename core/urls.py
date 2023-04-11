@@ -14,6 +14,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/blog/', include('blog_api.urls', namespace='blog_api')),
     path('api/product/', include('product_api.urls', namespace='product_api')),
+    path('api/promotions/', include('promotions.urls', namespace='promotions')),
     path('api/user/',include('users.urls',namespace='users')),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

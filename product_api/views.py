@@ -35,8 +35,6 @@ class PostFilter(filters.FilterSet):
             # 'price': 
         }
 
-
-
 class ProductViewSet(viewsets.ModelViewSet):  # This approach abstract even more but less control
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
     serializer_class = ProductSerializer

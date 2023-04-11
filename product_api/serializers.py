@@ -15,3 +15,4 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ('id','title','image','slug','description','price','cost','upload','active','rating','productImages')
         depth=1 
+    

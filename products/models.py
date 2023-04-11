@@ -27,6 +27,17 @@ def upload_image_path(instance, filename):
 def upload_to(instance, filename):
     return 'products/{filename}'.format(filename=filename)
 
+class ProductCategories(models.Model):
+    
+    class Meta:
+        verbose_name_plural='Categories'
+    
+    category  = models.CharField(max_length=120)
+    image     = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+
+    def __str__(self):
+        return self.category
+    
 class ProductQuerySet(models.query.QuerySet):
     def active(self):
         return self.filter(active=True)
@@ -66,12 +77,13 @@ class Product(models.Model):
         def get_queryset(self):
             return super().get_queryset().filter(active=True)
     
-    
+    category        = models.ForeignKey(ProductCategories, on_delete=models.CASCADE, related_name='productCategories')
     title           = models.CharField(max_length=120)
     slug            = models.SlugField(blank=True, unique=True)
     description     = models.TextField()
     price           = models.DecimalField(decimal_places=2, max_digits=20, default=39.99)
     cost            = models.DecimalField(decimal_places=2, max_digits=20, default=39.99)
+    qty             = models.DecimalField(decimal_places=2, max_digits=20, default=1)
     image           = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     featured        = models.BooleanField(default=False)
     active          = models.BooleanField(default=True)
@@ -113,3 +125,5 @@ class ProductImages(models.Model):
     
     product  = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE, related_name='productImages')
     pictures = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+
+

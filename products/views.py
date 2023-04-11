@@ -7,14 +7,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import ObjectViewMixin
 
 from carts.models import Cart
-from .models import Product
+from .models import Product 
+
 
 class ProductFeaturedListView(ListView):
-    template_name = "products/prouduct_list.html"
-
+    template_name = "products/product_list.html"
+ 
     def get_queryset(self, *args, **kwargs):
         request = self.request
         return Product.objects.all().featured()
+
 
 class ProductFeaturedDetailView(ObjectViewMixin, DetailView):
     queryset = Product.objects.all().featured()
