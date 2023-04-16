@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import { useBlogState} from '../../context/blogs/BlogStore';
 //MaterialUI
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,7 +12,10 @@ import UndoOutlinedIcon from '@mui/icons-material/UndoOutlined';
 
 export default function Post() {
   const [{blog},] = useBlogState();
-
+  let navigate = useNavigate();
+  function handleClick() {
+    navigate(-1); // go back to the previous page
+  }
 	return (
         <React.Fragment> 
             <Container component="main" maxWidth="md">
@@ -43,7 +47,7 @@ export default function Post() {
                         {blog.excerpt}
                     </Typography>
                 </Container>
-                <Button href="/" variant={"outlined"}  size="small" 
+                <Button onClick={handleClick} variant={"outlined"}  size="small" 
                     startIcon={<UndoOutlinedIcon/>}>
                         {" "}
                         Return{" "}

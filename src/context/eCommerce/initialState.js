@@ -12,8 +12,10 @@ export const initialState = {
       "slug":'',
       'rating':null,
       'productImages':[],
+      'qty':null
     },
-    promotionMessages:{},
+    promotionMessages:null,
+    promotionMessagescopy:null,
     isLoading: false,  
     isError: false,
     errorMsg: '',

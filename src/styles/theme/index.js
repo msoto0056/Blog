@@ -43,7 +43,9 @@ const theme = createTheme({
         main:  "#919aa1"
       },
       text: {
-        alternate: " #4682b4"
+        success: "#0f5805",
+        error: "  ",
+        alternate: "#4682b4"
       }
     },
   });

@@ -31,12 +31,15 @@ export const initialState = {
     appName:"BlogMe",
     appNameDrawer:"BlogMe App",
     title:'BlogmeUp',
+
     // Menu Items & Drawer
     "drawerWidth": 240,
     "drawerState":false,  // Manage the State of the Drawer (Open =true / Close - false)
     "openSubMenu":false, // Manage the State of the SubMenu of Register users (Open =true / Close - false)
     "clickonSubMenu":false, // Control if the last click was on the option to open submenu for Register users
     "anchor": 'left', // options:  top, left, bottom, right 
+    // Display or not promotionMessages if promotions are in DB if not it won't display anything
+    'displayPromotionMsg':true,
     // Menu Options for All user including Guest
     menuItems: [
       {

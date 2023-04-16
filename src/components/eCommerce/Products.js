@@ -1,5 +1,7 @@
 import React, { useState} from 'react';
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -20,9 +22,9 @@ import Alert from '@mui/material/Alert';
 import {Container} from  '../../layout/Container'
 import {useRetrieve} from '../../custom-hooks';
 import {useProductState} from '../../context/eCommerce/ProductStore';
+import { useGlobalStore } from '../../context/GlobalStore';
 import {actions} from '../../context/Types';
 import Loader from "react-loader-spinner";
-// import AppPagination from './AppPagination';
 import Pagination from '@mui/material/Pagination';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import IconButton from '@mui/material/IconButton';
@@ -32,17 +34,18 @@ import Stack from '@mui/material/Stack';
 import Promotions from './Promotions';
 
 
-
 const emptyMsg ='No hay products para mostrar'
 const pageSize = 3;
 
 export default function Products() {
   let navigate = useNavigate();
-  const [{url,productCount},dispatch] = useProductState();
+  const [{url,productCount,promotionMessages},dispatch] = useProductState();
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
   const {data:products, error, isLoading, isError} = useRetrieve("product",url,onSuccessFetch);
   const [checked, setChecked] = useState(true);  
-
+  const {displayPromotionMsg}=useGlobalStore()
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -94,16 +97,21 @@ export default function Products() {
 
   return (
     <React.Fragment>
+      <CssBaseline />
+      {/* <Box sx={{display:"flex", justifyContent: 'center', alignItems: 'center'}}> */}
+      <Box sx={{display:"flex", justifyContent: 'flex-start',   position: 'relative'}}>
+        <Box sx={{flex: '0 1 auto', position:'absolute', ml: {sm:'50%', xs:'25%'}}}>
         <Typography
           component="h1"
-          variant="h2"
-          align="center"
+          variant={matches ? "h4" : "h3"} 
           color="text.primary"
           gutterBottom
         >
           Games
         </Typography>
-        <Box sx={{display:"flex", justifyContent:"right"}}>
+        </Box>
+        {/* <Box sx={{ ml: 'auto', display: { xs: 'none', sm: 'block' }}}> */}
+        <Box sx={{ ml: 'auto' }}>
           <FormGroup>
           <FormControlLabel control= {<Switch checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} size="small" />} 
             label={
@@ -113,15 +121,16 @@ export default function Products() {
             }
           />
           </FormGroup>
-          <IconButton aria-label="settings" sx={{display:"flex", justifyContent:"right"}}>
+          <IconButton aria-label="settings" sx={{display: 'flex', justifyContent:"flex-end"}}>
             <MoreVertIcon />
         </IconButton>
         </Box>
+      </Box>
         <Grid className='Tarjetas' container spacing={5} alignItems="center" justifyContent='center'>
           {newProducts.map((product) => {
 		        return (
               // Enterprise card is full width at sm breakpoint
-            	  <Grid item key={product.id} xs={12} sm={6} md={4} xl={2}>
+            	  <Grid item key={product.id} xs={12} sm={6} md={4} xl={2} sx={{margin:2}}>
                   <Card className='card'>
                 		<CardHeader
                       title={product.title.substr(0, 50)}
@@ -172,7 +181,7 @@ export default function Products() {
           <Box sx={{display:"flex", mt:2, justifyContent:"center" }}>
             {checked && <Pagination count={Math.ceil(productCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
           </Box>
-          <Promotions />
+          {promotionMessages!==null&&displayPromotionMsg&&<Promotions />}
     </React.Fragment>
   );
 }

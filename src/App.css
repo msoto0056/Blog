@@ -25,13 +25,16 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #db3636;
+  background-color: #e77600
+
 }
 
 svg {
   display: block;
   width: 100%;
   height:10px;
+  border: #0f5805;
 }
 
 @keyframes App-logo-spin {

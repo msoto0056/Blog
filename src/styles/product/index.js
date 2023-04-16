@@ -6,15 +6,31 @@ import Typography from '@mui/material/Typography';
  
   export const ProductImageContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up("md")]: {
-      padding: "160px 0px 160px 0px",
+      padding: "100px 0px 100px 0px",
     },
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "100px 0px 100px 0px",
+    padding: "50px 0px 50px 0px",
     marginTop:"10px",
     overflow: "hidden",
-    background: "#75adc7",
+  }));
+
+  export const ProductImage = styled ("img")(({ theme }) => ({
+  width: '120%',
+  height: '120%',
+  ObjectFit: 'cover',
+  }));
+
+  export const ProductImage1 = styled("img")(({ src, theme }) => ({
+    src: `url(${src})`,
+    width: "100%",
+    background: "rgb(230,230,230)",
+    padding: '5px',
+    [theme.breakpoints.down("md")]: {
+      width: "90%", 
+      padding: '5px',
+    },
   }));
 
   export const PromotionsContainer = styled(Box)(({ theme }) => ({
@@ -25,7 +41,7 @@ import Typography from '@mui/material/Typography';
     justifyContent: "center",
     alignItems: "center",
     padding: "15px 0px 15px 0px",
-    marginTop:"10px",
+    marginTop:"20px",
     overflow: "hidden",
     background: "#75adc7",
   }));
