@@ -17,9 +17,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalStore,useGlobalDispatch } from '../../context/GlobalStore';
 import { useUserState, signup } from '../../context/users/UserStore';
+import { useTheme } from "@mui/material/styles";
 import { actions } from '../../context/Types';
 import Notification from '../../layout/FormControlMaterialUI/Notification';
 import cookies from 'js-cookie';
@@ -28,33 +28,8 @@ import { useTranslation } from 'react-i18next';
 
 const url = `${process.env.REACT_APP_API_SERVER}`;
 
-const theme = createTheme({
-  components:{
-    MuiTypography:{
-      variants: [
-        {
-          props: {
-            variant:"body3",
-          },
-            style: {
-              fontSize:11,
-            }
-        },
-        {
-          props: {
-            variant:"body4",
-          },
-            style: {
-              fontSize:9,
-            }
-        }
-      ]
-    }
-  }
-});
-
-
 export default function SignUp() {
+  const theme = useTheme();
   const { t, i18n } = useTranslation()
   // const currentLanguageCode = cookies.get('i18next') || 'en'
   const msgPassLen = t('msg_pass_len');
@@ -114,7 +89,6 @@ export default function SignUp() {
         return <Navigate to='/login' replace />
     }
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -247,6 +221,5 @@ export default function SignUp() {
         </Box>
         <Notification />
       </Container>
-    </ThemeProvider>
-  );
+   );
 }

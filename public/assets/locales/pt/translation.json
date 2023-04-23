@@ -22,5 +22,8 @@
     "Don't_have_an_account": "Não tem uma conta? Inscrever-se",
     "msg_pass_len":"O comprimento da senha deve ter pelo menos 8 caracteres",    
     "msg_pass_mat":"As senhas inseridas não são iguais",
-    "msg_logout":"Obrigado por usar nosso sistema... até breve!"
+    "msg_logout":"Obrigado por usar nosso sistema... até breve!",
+    "emptyProdMsg" : "Não existem produtos para mostrar",
+    "emptyBlogMsg" : "Nenhum blog para exibir",
+    "isLoadingMsg": "Estamos aguardando o carregamento dos dados!"
 }

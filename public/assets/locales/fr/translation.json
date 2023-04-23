@@ -22,5 +22,8 @@
     "Don't_have_an_account": "Vous n'avez pas de compte ? S'inscrire",
     "msg_pass_len":"La longueur du mot de passe doit être d'au moins 8 caractères",    
     "msg_pass_mat":"Les mots de passe que vous avez entrés ne correspondent pas",
-    "msg_logout":"Merci d'utiliser notre système... à bientôt !"
+    "msg_logout":"Merci d'utiliser notre système... à bientôt !",
+    "emptyProdMsg" : "Il n'y a aucun produit à afficher",
+    "emptyBlogMsg" : "Aucun blog à afficher",
+    "isLoadingMsg": "Nous attendons que les données soient chargées !"
 }

@@ -14,6 +14,8 @@ export const initialState = {
       'productImages':[],
       'qty':null
     },
+    showCart: false,
+    cartItems: [],
     promotionMessages:null,
     promotionMessagescopy:null,
     isLoading: false,  
@@ -22,7 +24,7 @@ export const initialState = {
     count:0,
     url: 'http://localhost:8000/api/product/',
     urlPromo: 'http://localhost:8000/api/promotions/', 
-    productCountInCart:3,  
+    productCountInCart:0,  
 };
 
 

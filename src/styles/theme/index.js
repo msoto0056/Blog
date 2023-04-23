@@ -24,6 +24,14 @@ const theme = createTheme({
               style: {
                 fontSize:9,
               }
+          },
+          {
+            props: {
+              variant:"body5",
+            },
+              style: {
+                fontSize:7,
+              }
           }
         ]
       }

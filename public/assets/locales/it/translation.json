@@ -22,5 +22,8 @@
     "Don't_have_an_account": "Non hai un account? Iscrizione",
     "msg_pass_len":"La lunghezza massima della password deve essere di almeno 8 caratteri",    
     "msg_pass_mat":"Le password inserite non combaciano",
-    "msg_logout":"Grazie per aver utilizzato il nostro sistema...a presto!"
+    "msg_logout":"Grazie per aver utilizzato il nostro sistema...a presto!",
+    "emptyProdMsg" : "Non ci sono prodotti da visualizzare",
+    "emptyBlogMsg" : "Nessun blog da visualizzare",
+    "isLoadingMsg": "Aspettiamo il caricamento dei dati!"
 }

@@ -22,5 +22,8 @@
     "Don't_have_an_account": "Sie haben kein Konto? Anmeldung",
     "msg_pass_len":"Die Passwortlänge muss mindestens 8 Zeichen lang sein.",    
     "msg_pass_mat":"Die Passwörter die du eingegeben hast, passen nicht",
-    "msg_logout":"Vielen Dank, dass Sie unser System nutzen ... bis bald!"
+    "msg_logout":"Vielen Dank, dass Sie unser System nutzen ... bis bald!",
+    "emptyProdMsg" : "Es gibt keine anzuzeigenden Produkte",
+    "emptyBlogMsg" : "Keine Blogs zum Anzeigen",
+    "isLoadingMsg": "Wir warten darauf, dass die Daten geladen werden!"
 }

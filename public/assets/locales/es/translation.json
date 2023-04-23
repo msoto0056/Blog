@@ -22,5 +22,8 @@
     "Don't_have_an_account": "¿No tienes una cuenta? Inscribirse",
     "msg_pass_len":"La longitud de la contraseña debe ser de al menos 8 caracteres.",    
     "msg_pass_mat":"Las contraseñas no coinciden",
-    "msg_logout":"Gracias por usar nuestro sistema... ¡nos vemos pronto!"
+    "msg_logout":"Gracias por usar nuestro sistema... ¡nos vemos pronto!",
+    "emptyProdMsg" : "No hay products para mostrar",
+    "emptyBlogMsg" : "No hay blogs para mostrar",
+    "isLoadingMsg": "Estamos esperando a que se carguen los datos!"
 }

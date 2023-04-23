@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import axios from 'axios';
 import { Navigate, NavLink } from 'react-router-dom';
 //MaterialUI
+import { useTheme } from "@mui/material/styles";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +15,6 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useGlobalDispatch } from '../../context/GlobalStore';
 import { useUserState, login} from '../../context/users/UserStore';
 import { actions } from '../../context/Types';
@@ -23,35 +23,11 @@ import { useTranslation } from 'react-i18next'
 import cookies from 'js-cookie'
 
 
-const theme = createTheme({
-  components:{
-    MuiTypography:{
-      variants: [
-        {
-          props: {
-            variant:"body3",
-          },
-            style: {
-              fontSize:11,
-            }
-        },
-        {
-          props: {
-            variant:"body4",
-          },
-            style: {
-              fontSize:9,
-            }
-        }
-      ]
-    }
-  }
-});
+
 const url = `${process.env.REACT_APP_API_SERVER}`;
 
-
-
 export default function Login() {
+  const theme = useTheme();
   const { t, i18n } = useTranslation()
   // const currentLanguageCode = cookies.get('i18next') || 'en'
   const currentLanguageCode = i18n.language
@@ -106,7 +82,6 @@ export default function Login() {
         return <Navigate to='/' replace />
   }
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -174,7 +149,6 @@ export default function Login() {
         </Box>
         <Notification />
       </Container>
-    </ThemeProvider>
   );
 }
 

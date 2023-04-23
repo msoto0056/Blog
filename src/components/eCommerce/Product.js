@@ -8,8 +8,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid'; // Grid version 1
 import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Button from '@mui/material/Button';
-import MuiContainer from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -23,6 +21,7 @@ import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
+import {actions} from '../../context/Types';
 
 
 import Avatar from '@mui/material/Avatar';
@@ -32,7 +31,7 @@ export default function Product() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
-  const [{product},] = useProductState();
+  const [{product},dispatch] = useProductState();
   const [selectedPicture, setSelectedPicture] = useState(product.image);
   function handleClick() {
     navigate(-1); // go back to the previous page
@@ -91,7 +90,10 @@ export default function Product() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" startIcon={<AddShoppingCartOutlinedIcon />} color= "primary"> 
+                        <Button size="small" startIcon={<AddShoppingCartOutlinedIcon /> } color= "primary" 
+                        onClick ={( product) => {
+                            dispatch({ type: actions.ADD_TO_CART, payload: product });
+                          }} > 
                          <Typography variant="body4" >
                               Add to Cart
                           </Typography>

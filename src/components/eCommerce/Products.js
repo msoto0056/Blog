@@ -16,14 +16,14 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import MuiContainer from '@mui/material/Container';
+import {ProductViewButton} from '../../styles/product'
 import Alert from '@mui/material/Alert';
 import {Container} from  '../../layout/Container'
 import {useRetrieve} from '../../custom-hooks';
 import {useProductState} from '../../context/eCommerce/ProductStore';
 import { useGlobalStore } from '../../context/GlobalStore';
 import {actions} from '../../context/Types';
+import { useTranslation } from 'react-i18next'
 import Loader from "react-loader-spinner";
 import Pagination from '@mui/material/Pagination';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -32,18 +32,20 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import Promotions from './Promotions';
+import Cart from './Cart'
 
 
-const emptyMsg ='No hay products para mostrar'
-const pageSize = 3;
+
 
 export default function Products() {
   let navigate = useNavigate();
+  const { t } = useTranslation()
+	const emptyMsg = t('emptyProdMsg');
   const [{url,productCount,promotionMessages},dispatch] = useProductState();
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
   const {data:products, error, isLoading, isError} = useRetrieve("product",url,onSuccessFetch);
   const [checked, setChecked] = useState(true);  
-  const {displayPromotionMsg}=useGlobalStore()
+  const {displayPromotionMsg,pageSize}=useGlobalStore()
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -67,7 +69,7 @@ export default function Products() {
   if (isLoading) {
 	  return (
 		<p style={{ fontSize: '25px' }}>
-			We are waiting for the data to load!
+			{t('isLoadingMsg')}
 			<Loader type="ThreeDots" color="#4682b4" height={5} />
 		</p>
 	)
@@ -99,7 +101,7 @@ export default function Products() {
     <React.Fragment>
       <CssBaseline />
       {/* <Box sx={{display:"flex", justifyContent: 'center', alignItems: 'center'}}> */}
-      <Box sx={{display:"flex", justifyContent: 'flex-start',   position: 'relative'}}>
+      <Box sx={{display:"flex", justifyContent: 'flex-start',   position: 'relative', mt:5}}>
         <Box sx={{flex: '0 1 auto', position:'absolute', ml: {sm:'50%', xs:'25%'}}}>
         <Typography
           component="h1"
@@ -161,14 +163,11 @@ export default function Products() {
                       </Typography>
           			    </CardContent>
                     <CardActions>
-                      <Button size="small"  variant={"outlined"} onClick={()=>{handleView(product)}}>
-                        <Typography variant="body4">
+                      <ProductViewButton size="small"  variant={"outlined"} onClick={()=>{handleView(product)}}>
+                        <Typography variant="body5" color="text.primary">
                           View Product
                         </Typography>
-                      </Button>
-                      <IconButton color="primary" aria-label="add to shopping cart">
-                        <AddShoppingCartIcon />
-                      </IconButton>
+                      </ProductViewButton>
                     </CardActions>
                     <Stack spacing={1}>
                         <Rating name="half-rating"  size="small"  defaultValue={2.5} value={Number(product.rating)} precision={0.25} sx={{mt:1, mb:2}}/>
@@ -182,6 +181,7 @@ export default function Products() {
             {checked && <Pagination count={Math.ceil(productCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
           </Box>
           {promotionMessages!==null&&displayPromotionMsg&&<Promotions />}
+          <Cart />
     </React.Fragment>
   );
 }

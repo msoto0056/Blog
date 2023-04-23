@@ -35,4 +35,8 @@ export const actions = {
   //Counter
   INCREMENT:'INCREMENT',
   DECREMENT:'DECREMENT',
+  //Cart
+  SHOW_HIDE_CART: "SHOW_HIDE_CART",
+  ADD_TO_CART: "ADD_TO_CART",
+  REMOVE_ITEM: "REMOVE_ITEM",
 };
