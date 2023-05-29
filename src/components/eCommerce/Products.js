@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -26,14 +25,11 @@ import {actions} from '../../context/Types';
 import { useTranslation } from 'react-i18next'
 import Loader from "react-loader-spinner";
 import Pagination from '@mui/material/Pagination';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import Promotions from './Promotions';
-import Cart from './Cart'
-
 
 
 
@@ -41,7 +37,7 @@ export default function Products() {
   let navigate = useNavigate();
   const { t } = useTranslation()
 	const emptyMsg = t('emptyProdMsg');
-  const [{url,productCount,promotionMessages},dispatch] = useProductState();
+  const [{url,productCount,promotionMessages, cartItems},dispatch] = useProductState();
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
   const {data:products, error, isLoading, isError} = useRetrieve("product",url,onSuccessFetch);
   const [checked, setChecked] = useState(true);  
@@ -93,14 +89,15 @@ export default function Products() {
   const newProducts = (checked) ? products.slice(pagination.from, pagination.to) : products
 
   const handleView = (product) => {
-    dispatch({type:actions.FIELDS, fieldName: 'product', payload: product})
+    const id = product.id ;
+    dispatch({type:actions.FIELDS, fieldName: 'product', payload: product});
+    dispatch({type:actions.FIELDS, fieldName: 'count', payload: 1});
     navigate(`/viewProduct/${product.slug}`);
   }
 
   return (
     <React.Fragment>
       <CssBaseline />
-      {/* <Box sx={{display:"flex", justifyContent: 'center', alignItems: 'center'}}> */}
       <Box sx={{display:"flex", justifyContent: 'flex-start',   position: 'relative', mt:5}}>
         <Box sx={{flex: '0 1 auto', position:'absolute', ml: {sm:'50%', xs:'25%'}}}>
         <Typography
@@ -112,13 +109,12 @@ export default function Products() {
           Games
         </Typography>
         </Box>
-        {/* <Box sx={{ ml: 'auto', display: { xs: 'none', sm: 'block' }}}> */}
         <Box sx={{ ml: 'auto' }}>
           <FormGroup>
           <FormControlLabel control= {<Switch checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} size="small" />} 
             label={
               <Typography variant="body3">
-                  Pagination 
+                  {t('pagMsg')}
               </Typography>
             }
           />
@@ -151,7 +147,6 @@ export default function Products() {
                       sx={{paddingTop: '56.25%'}} 
                       // image="https://source.unsplash.com/random"
                       image = {(product.image !== null)? product.image : "https://source.unsplash.com/random"}
-             
                       title="Image title"
                     />
                     <CardContent>
@@ -165,7 +160,7 @@ export default function Products() {
                     <CardActions>
                       <ProductViewButton size="small"  variant={"outlined"} onClick={()=>{handleView(product)}}>
                         <Typography variant="body5" color="text.primary">
-                          View Product
+                          {t('viewProdMsg')}
                         </Typography>
                       </ProductViewButton>
                     </CardActions>
@@ -181,7 +176,7 @@ export default function Products() {
             {checked && <Pagination count={Math.ceil(productCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
           </Box>
           {promotionMessages!==null&&displayPromotionMsg&&<Promotions />}
-          <Cart />
+          {/* <Cart /> */}
     </React.Fragment>
   );
 }

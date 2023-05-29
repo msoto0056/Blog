@@ -25,6 +25,15 @@
     "msg_logout":"Thanks for using our system...see you soon!",
     "emptyProdMsg" : "There are no products to display",
     "emptyBlogMsg" : "No blogs to display",
-    "isLoadingMsg": "We are waiting for the data to load!"
-
+    "isLoadingMsg": "We are waiting for the data to load!",
+    "deleteMsg": "delete Item",
+    "cartTotalMsg": "Cart Total",
+    "cartEmptyMsg": "Cart is Empty",
+    "checkoutMsg": "Ready to Checkout",
+    "viewProdMsg":"View Product",
+    "pagMsg":"Pagination",
+    "add2CartMsg": "Add to Cart",
+    "returnMsg": "Return",
+    "inStockMsg": "In Stock",
+    "outofStockMsg": "Out of Stock"
 }

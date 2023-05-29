@@ -8,11 +8,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next'
-import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import IconButton from '@mui/material/IconButton';
 
 const Cart = () => {
   const [{ showCart, cartItems }, dispatch] = useProductState();
@@ -21,10 +17,10 @@ const Cart = () => {
     if (item.product && typeof item.product.price === 'string') {
       const price = parseFloat(item.product.price);
       if (!isNaN(price)) {
-        return total + (price*item.count);
+        return total + price;
       }
     } else if (item.product && typeof item.product.price === 'number') {
-      return total + (item.product.price*item.count);
+      return total + item.product.price;
     }
     return total;
   }, 0);
@@ -49,27 +45,19 @@ const Cart = () => {
             <CloseCartIcon onClick={() => { dispatch({ type: actions.SHOW_HIDE_CART })}} >
               <HighlightOffTwoToneIcon/>
             </CloseCartIcon>
-            <List sx={{ height: 'max-content', maxHeight: '50vh', bgcolor: 'background.paper',   overflowY: 'auto', listStyle:'none' }}>
+            <List sx={{ height: 'max-content', maxHeight: '50vh', bgcolor: 'background.paper',   overflowY: 'auto' }}>
             {cartItems.length === 0 ? (
               <h4>{t("cartEmptyMsg")}</h4>
             ) : (
-              <>
+              <ul style={{listStyle:'none'}}>
                 {cartItems.map((item,i) => (
                    <CartItem item={item} key={i} />
                 ))}
-              </>
+              </ul>
             )}
 
             <Divider  component="li" /> 
-            <ListItem alignItems="center"
-              secondaryAction={
-              <Tooltip title={t("checkoutMsg")} color='secondary'>
-                <IconButton edge="end" aria-label="delete" onClick={() => console.log("Check-out")} sx={{ ml: 'auto' }}>
-                  <ShoppingCartCheckoutOutlinedIcon color='shoppingCart'/>
-                </IconButton>
-              </Tooltip>            
-                      }
-            >
+            <ListItem alignItems="center">
               <ListItemText
                 primary={`${t("cartTotalMsg")} ${(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(amount))}`}
               />

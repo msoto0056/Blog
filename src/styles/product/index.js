@@ -1,9 +1,10 @@
 import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { slideInBottom, slideInRight } from "../../animation";
+import Icon from '@mui/material/Icon';
+import Badge from '@mui/material/Badge';
 
  
   export const ProductImageContainer = styled(Box)(({ theme }) => ({
@@ -34,6 +35,7 @@ import { slideInBottom, slideInRight } from "../../animation";
       padding: '5px',
     },
   }));
+
 
   export const PromotionsContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up("md")]: {
@@ -77,7 +79,7 @@ import { slideInBottom, slideInRight } from "../../animation";
   }));
 
   export const ProductViewButton = styled(Button)(() => ({
-    background: '#ffa430',
+    background: '#ffc300',
     fontSize: "10px",
     cursor: "pointer",
     margin: 4,
@@ -87,4 +89,50 @@ import { slideInBottom, slideInRight } from "../../animation";
     transition: 'all 0.2s ease-in',
     }));
 
+  export const CartWrapper = styled(Box) (() => ({
+    display: "flex",
+    position: 'fixed',
+    marginTop: '30px',
+    top: '60px',
+    right: '20px',
+    borderRadius: '12px',
+    backgroundColor: 'white',
+    border: '1px solid gray',
+    padding: '10px',
+    zIndex: '10'
+    }));
+
+
+  export const CloseCartIcon = styled(Icon)(() => ({
+    color: '#800000',
+    transition: 'transform 0.2s linear',
+    textAlign: "right",
+    alignContent:'right',
+    marginLeft:'auto',
+    cursor: "pointer",
+    ariaHidden: 'true',
+    '&:hover': {
+      transform: 'rotate(90deg)',
+      boxShadow: 'none',
+      color: 'red'
+    }
+  }));
+
+  export const ShoppingBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      right: 4,
+      top: 8,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 2px',
+    },
+  }));
   
+  export const IncDecWrapper = styled(Box)(({ theme }) => ({
+    background: `${theme.palette.background.paper}`,
+    fontSize: "10px",
+    cursor: "pointer",
+    margin: 4,
+    padding: '0.7px 8px',
+    borderRadius: '20px',
+    border: '1px solid #C0C0C0',   
+    }));

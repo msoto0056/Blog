@@ -25,5 +25,15 @@
     "msg_logout":"Merci d'utiliser notre système... à bientôt !",
     "emptyProdMsg" : "Il n'y a aucun produit à afficher",
     "emptyBlogMsg" : "Aucun blog à afficher",
-    "isLoadingMsg": "Nous attendons que les données soient chargées !"
+    "isLoadingMsg": "Nous attendons que les données soient chargées !",
+    "deleteMsg": "supprimer un objet",
+    "cartTotalMsg": "Achat total",
+    "cartEmptyMsg": "Le panier d'achat est vide",
+    "checkoutMsg": "prêt à payer",
+    "viewProdMsg":"Voir le produit",
+    "pagMsg":"Pagination",
+    "add2CartMsg": "Ajouter au panier",
+    "returnMsg": "Retourner",
+    "inStockMsg": "En stock",
+    "outofStockMsg": "Rupture de stock"
 }

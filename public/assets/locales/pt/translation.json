@@ -25,5 +25,15 @@
     "msg_logout":"Obrigado por usar nosso sistema... até breve!",
     "emptyProdMsg" : "Não existem produtos para mostrar",
     "emptyBlogMsg" : "Nenhum blog para exibir",
-    "isLoadingMsg": "Estamos aguardando o carregamento dos dados!"
+    "isLoadingMsg": "Estamos aguardando o carregamento dos dados!",
+    "deleteMsg": "excluir objeto",
+    "cartTotalMsg": "Compra Total",
+    "cartEmptyMsg": "O carrinho de compras está vazio",
+    "checkoutMsg": "pronto para pagar",
+    "viewProdMsg":"Veja o produto",
+    "pagMsg":"Paginação",
+    "add2CartMsg": "Adicionar ao carrinho",
+    "returnMsg": "Retornar",
+    "inStockMsg": "Em estoque",
+    "outofStockMsg": "Fora de estoque"
 }

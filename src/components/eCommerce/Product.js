@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useProductState} from '../../context/eCommerce/ProductStore';
 //MaterialUI
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid'; // Grid version 1
+// import Grid from '@mui/material/Grid'; // Grid version 1
 import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -22,16 +23,34 @@ import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import {actions} from '../../context/Types';
+import { useTranslation } from 'react-i18next'
+import Tooltip from '@mui/material/Tooltip';
+import IncDec from './QtyButton';
 
 
 import Avatar from '@mui/material/Avatar';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 
 export default function Product() {
+  const { t } = useTranslation()
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
-  const [{product},dispatch] = useProductState();
+  const [{product,cartItems},dispatch] = useProductState();
+  console.log ("product.qty", product.qty)
+
+  useEffect(() => {
+    // Update product qty if product is in the cart already - before writing the cart to the DB
+    const existingItem = cartItems.find(item => item.product.id === product.id);
+    console.log("existingItem1",existingItem)
+    if (existingItem) {
+      const newQty = product.qty - existingItem.count;
+      console.log("newQty:", newQty)
+      dispatch({ type: actions.UPDATE_CART, payload: newQty });
+    }
+  }, []);
+  
+
   const [selectedPicture, setSelectedPicture] = useState(product.image);
   function handleClick() {
     navigate(-1); // go back to the previous page
@@ -89,18 +108,24 @@ export default function Product() {
                             {product.description.substr(0, 60)}...
                         </Typography>
                     </CardContent>
-                    <CardActions>
-                        <Button size="small" startIcon={<AddShoppingCartOutlinedIcon /> } color= "primary" 
-                        onClick ={( product) => {
-                            dispatch({ type: actions.ADD_TO_CART, payload: product });
-                          }} > 
-                         <Typography variant="body4" >
-                              Add to Cart
-                          </Typography>
-                        </Button>
+                    <CardActions sx={{justifyContent:'space-between'}}>
+                        <Tooltip title={t("add2CartMsg")} color='primary'>
+                            <span> 
+                                <IconButton size="large" color= "primary"
+                                disabled={parseInt(product.qty) === 0}
+                                onClick ={() => {
+                                    dispatch({ type: actions.ADD_TO_CART, payload: {product} });
+                                    dispatch({ type: actions.UPDATE_QUANTITY });
+                                    navigate(-1);
+                                    }} > 
+                                    <AddShoppingCartOutlinedIcon fontSize='large'/>
+                                </IconButton>
+                            </span>
+                        </Tooltip>
+                        <IncDec/>
                         <Button size="small" onClick={handleClick} variant={"outlined"} > 
                         <Typography variant="body3">
-                            Return
+                            {t('returnMsg')}
                           </Typography>
                         </Button>
                     </CardActions>
@@ -109,6 +134,7 @@ export default function Product() {
                     </Stack>
                 </Card>
                 </Grid2> 
+                <Divider orientation="vertical" variant="middle" flexItem />
                 <Grid2 lg={1} md={2} sm={3}  xs={4}
                   sx={{
                   marginTop: 8,
@@ -119,7 +145,7 @@ export default function Product() {
                   justifyContent: 'center',
                   }}
                 >
-                    <Divider />
+
                     <Typography
                         component="h2"
                         variant={matches ? "h5" : "h4"} 
@@ -143,7 +169,11 @@ export default function Product() {
                         gutterBottom
                         sx= {{ alignSelf:'flex-start'}}
                     >
-                        {product.qty > 0 ? 'In Stock' : 'Out of Stock'}
+                        {product.qty > 0 ? `${t('inStockMsg')}: ${parseInt(product.qty)}` : t('outofStockMsg')}
+                        {/* {product.qty > 0 ? `${t('inStockMsg')}: ${Number.isInteger(product.qty) ? 
+                            product.qty : product.qty.toFixed(2).replace(/\.?0+$/, '')}` : 
+                            t('outofStockMsg')} */}
+
                     </Typography>
                     <Typography
                         component="h3"

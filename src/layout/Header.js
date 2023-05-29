@@ -23,9 +23,11 @@ import Account from './Account';
 
 
 
+
 const Header = () => {
 	const [{blogCount},] = useBlogState();
 	const [{productCountInCart},prodDispatch] = useProductState();
+	console.log ("productCountInCart", productCountInCart)
     // const location = useLocation ()
 	const [,dispatch]=useUserState()
 	const globalDispatch=useGlobalDispatch();
@@ -71,9 +73,9 @@ const Header = () => {
 					<Badge badgeContent={blogCount} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
             			<NotificationsIcon color = 'secondary' />
           			</Badge>
-					{productCountInCart>0 && <Badge badgeContent={productCountInCart} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
+					{productCountInCart>0 && (<Badge badgeContent={productCountInCart} color="error" anchorOrigin={{vertical: 'top',horizontal: 'right'}}> 
             			<ShoppingCartOutlinedIcon color = 'primary' onClick={() => { prodDispatch({ type: actions.SHOW_HIDE_CART })}}/>
-          			</Badge>}
+          			</Badge>)}
                 </Toolbar>
 			</AppBar>
 		</React.Fragment>

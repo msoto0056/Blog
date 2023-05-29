@@ -50,9 +50,15 @@ const theme = createTheme({
       fourth: {
         main:  "#919aa1"
       },
+      badgeProd: {
+        main: "#FFEFD5"
+      },
+      shoppingCart:{
+        main: "#ffa430"
+      },
       text: {
         success: "#0f5805",
-        error: "  ",
+        error: "#db3636",
         alternate: "#4682b4"
       }
     },

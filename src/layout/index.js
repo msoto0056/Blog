@@ -18,9 +18,7 @@ const Layout = ({children}) => {
         <Container maxWidth="xl" disableGutters sx={{mt:5}}>
         <Box
         //   sx={{ display: 'flex', mt:5, bgcolor: '#cfe8fc' }}
-          sx={{ mb: 2, mt: 5, pt: 3, display: 'flex', flexDirection: "column", height: 900, overflow: "hidden", overflowY: "auto",
-          // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
-          }}
+          sx={{ mb: 2, mt: 5, pt: 3, display: 'flex', flexDirection: "column", height: 900, overflow: "hidden", overflowY: "auto", scrollbarWidth: 'none',         }}
           component="main">
             {children}
             <Footer />

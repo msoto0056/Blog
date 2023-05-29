@@ -14,6 +14,7 @@ import Register from './components/users/Register';
 import Settings from './components/webSite/settings';
 import LocalSettings from './components/webSite/localSettings';
 import AnyPage from './components/webSite/anyPage';
+import Cart from './components/eCommerce/Cart';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Layout from './layout';
@@ -60,6 +61,7 @@ function App() {
             <Route exact path='/mapita' element= {<Mapita />} />
             <Route exact path='/d3GlobeMap' element= {<D3GlobeMap />} />
           </Routes>
+          <Cart />
       </Layout>
       <ReactQueryDevtools/>
     </Router>

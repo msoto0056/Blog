@@ -12,7 +12,7 @@ export const initialState = {
       "slug":'',
       'rating':null,
       'productImages':[],
-      'qty':null
+      'qty':0
     },
     showCart: false,
     cartItems: [],
@@ -21,10 +21,10 @@ export const initialState = {
     isLoading: false,  
     isError: false,
     errorMsg: '',
-    count:0,
+    count:1,
+    productCountInCart: 0,
     url: 'http://localhost:8000/api/product/',
     urlPromo: 'http://localhost:8000/api/promotions/', 
-    productCountInCart:0,  
 };
 
 
