@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets
 from django_filters import rest_framework as filters
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework.permissions import (
     IsAuthenticated,
     IsAdminUser,
@@ -13,13 +14,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from django.utils.translation import gettext_lazy as _
-from products.models import Product
-from .serializers import ProductSerializer
+from products.models import Product, ProductCategories
+from .serializers import ProductSerializer, ProductCategoriesSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
-
-
-
 
 
 class PostFilter(filters.FilterSet):
@@ -53,6 +51,21 @@ class ProductViewSet(viewsets.ModelViewSet):  # This approach abstract even more
                 return Product.objects.filter(id=query)
         return Product.objects.all()   
     
+    @action(detail=False, methods=['get'])
+    def filtered(self, request):
+        category_ids = request.query_params.getlist('categories')
+        queryset = self.filter_queryset(self.get_queryset())
+
+        if category_ids:
+            queryset = queryset.filter(category__in=category_ids)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProductCategoriesViewSet(viewsets.ModelViewSet):
+    queryset = ProductCategories.objects.all()
+    serializer_class = ProductCategoriesSerializer
 
 # class ProductImageViewSet(viewsets.ModelViewSet):
 #     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]

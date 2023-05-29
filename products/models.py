@@ -6,7 +6,6 @@ from django.db.models import Q
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
 from .utils import unique_slug_generator
 
 def get_filename_ext(filepath):
@@ -70,6 +69,7 @@ class ProductManager(models.Manager):
 
     def search(self, query):
         return self.get_queryset().active().search(query)
+
 
 class Product(models.Model):
 

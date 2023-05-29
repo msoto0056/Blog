@@ -7,7 +7,7 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'slug']
+    list_display = ['__str__', 'slug','qty']
     class Meta:
         model = Product
         
