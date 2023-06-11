@@ -35,5 +35,6 @@
     "add2CartMsg": "Add to Cart",
     "returnMsg": "Return",
     "inStockMsg": "In Stock",
-    "outofStockMsg": "Out of Stock"
+    "outofStockMsg": "Out of Stock",
+    "categoryMsg": "Categories"
 }

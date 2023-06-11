@@ -35,5 +35,6 @@
     "add2CartMsg": "Aggiungi al carrello",
     "returnMsg": "Ritorno",
     "inStockMsg": "In magazzino",
-    "outofStockMsg": "Esaurito"
+    "outofStockMsg": "Esaurito",
+    "categoryMsg": "Categorie"
 }

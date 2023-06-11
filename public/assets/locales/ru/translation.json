@@ -35,5 +35,6 @@
     "add2CartMsg": "добавить в корзину",
     "returnMsg": "Возвращаться",
     "inStockMsg": "В наличии",
-    "outofStockMsg": "Распродано"
+    "outofStockMsg": "Распродано",
+    "categoryMsg": "Категории"
 }
