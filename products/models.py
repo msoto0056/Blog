@@ -77,7 +77,7 @@ class Product(models.Model):
         def get_queryset(self):
             return super().get_queryset().filter(active=True)
     
-    category        = models.ForeignKey(ProductCategories, on_delete=models.CASCADE, related_name='productCategories')
+    category        = models.ForeignKey(ProductCategories, on_delete=models.CASCADE, related_name='products')
     title           = models.CharField(max_length=120)
     slug            = models.SlugField(blank=True, unique=True)
     description     = models.TextField()
@@ -125,5 +125,6 @@ class ProductImages(models.Model):
     
     product  = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE, related_name='productImages')
     pictures = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+
 
 

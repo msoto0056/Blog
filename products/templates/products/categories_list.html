@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h1>Categories</h1>
+{% if object_list %}
+    <div class='container'>
+        <div class='row'>
+            <ul>
+            {% for obj in object_list %}
+                <div class='col'>
+                    <li> {{ obj.message }} </li>     
+                </div>  
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% else%}
+    <h2> No hay Categorias</h2>
+{% endif %}
+{% endblock %}
+

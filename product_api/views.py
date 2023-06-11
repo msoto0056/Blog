@@ -67,6 +67,23 @@ class ProductCategoriesViewSet(viewsets.ModelViewSet):
     queryset = ProductCategories.objects.all()
     serializer_class = ProductCategoriesSerializer
 
+    @action(detail=True, methods=['get'])
+    def products(self, request, pk=None):
+        category = self.get_object()
+        products = category.products.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def all(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+# class ProductCategoriesViewSet(viewsets.ModelViewSet):
+#     queryset = ProductCategories.objects.all()
+#     serializer_class = ProductCategoriesSerializer
+
 # class ProductImageViewSet(viewsets.ModelViewSet):
 #     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 #     serializer_class = ProductImageSerializer

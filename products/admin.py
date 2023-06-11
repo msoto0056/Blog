@@ -15,12 +15,12 @@ class ProductAdmin(admin.ModelAdmin):
         ProductImageInline,
     ] 
 class ProductCategory(admin.ModelAdmin):
-    list_display = ['__str__']
+    list_display = ['id','__str__']
     class Meta:
         model = ProductCategories
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductCategories)
+admin.site.register(ProductCategories, ProductCategory)
 
 
 

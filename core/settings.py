@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'carts.apps.CartsConfig',
     'promotions.apps.PromotionsConfig',
+    'category_api.apps.CategoryAppConfig'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,6 @@ match DataBaseEngine:
         POSTGRES_USER = os.environ.get("POSTGRES_USER") # database username
         POSTGRES_HOST = os.environ.get("POSTGRES_HOST") # database host
         POSTGRES_PORT = os.environ.get("POSTGRES_PORT") # database port
-        print("postgres is use")
         DATABASES = {
             "default": {
                 "ENGINE": 'django.db.backends.postgresql_psycopg2',

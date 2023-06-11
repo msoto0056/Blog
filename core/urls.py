@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 # from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView,  TokenBlacklistView --> had to remove due to error with djoser
 from users.views import MyTokenObtainPairView
 from rest_framework.schemas import get_schema_view
+from product_api.views import ProductCategoriesViewSet
 #from rest_framework.documentation import include_docs_urls
 from django.views.generic import TemplateView
 
@@ -15,6 +16,8 @@ urlpatterns = [
     path('api/blog/', include('blog_api.urls', namespace='blog_api')),
     path('api/product/', include('product_api.urls', namespace='product_api')),
     path('api/promotions/', include('promotions.urls', namespace='promotions')),
+    path('api/categories/', include('category_api.urls', namespace='category_api')),
+    path('api/product/categories/all/', ProductCategoriesViewSet.as_view({'get': 'list_all'}), name='all-products'),
     path('api/user/',include('users.urls',namespace='users')),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

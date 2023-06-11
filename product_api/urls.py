@@ -6,6 +6,7 @@ app_name = 'product_api'
 router = routers.DefaultRouter()
 router.register('',ProductViewSet,basename='product ')
 router.register('categories', ProductCategoriesViewSet)
+
 # router.register('',ProductImageViewSet,basename='productsImages')
 urlpatterns = router.urls
 
