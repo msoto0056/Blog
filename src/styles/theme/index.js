@@ -36,6 +36,26 @@ const theme = createTheme({
         ]
       }
     },
+    typography: {
+      fontFamily: ["Fauna One", "sans-serif","Montez","Roboto"].join(","),
+      fontSize: 11,
+      h1: {
+        fontFamily: ["Cinzel", "sans-serif","Montez"].join(","),
+        fontSize: 48,
+      },
+      h2: {
+        fontFamily: ["Cinzel", "sans-serif","Montez"].join(","),
+        fontSize: 36,
+      },
+      h3: {
+        fontFamily: ["Cinzel", "sans-serif","Montez"].join(","),
+        fontSize: 20,
+      },
+      h4: {
+        fontFamily: ["Cinzel", "sans-serif","Montez"].join(","),
+        fontSize: 14,
+      },
+    },
     palette: {
       primary: {
         main: "#1976d2"

@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
@@ -29,7 +29,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-import Promotions from './Promotions';
+import Promotions from './Promotions';id
 import Categories from './Categories';
 
 
@@ -39,29 +39,17 @@ export default function Products() {
 	const emptyMsg = t('emptyProdMsg');
   const [{url,productCount,promotionMessages, category, categoryId},dispatch] = useProductState();
   const updatedUrl = categoryId === 0 ? `${url}categories/all/` : `${url}categories/${categoryId}`;
+
+  console.log('url & updatedUrl',url+" "+ updatedUrl)
+  console.log('categoryId',categoryId)
+
+  
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
   const {data:products, error, isLoading, isError} = useRetrieve("products",url,onSuccessFetch);
-  const onSuccessFetch1=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.products.length})}
-  const {data:categoryProducts, error1, isLoading1, isError1} = useRetrieve("categoryProducts",updatedUrl,onSuccessFetch1);
+  const {data:categoryProducts, error1, isLoading1, isError1} = useRetrieve("categoryProducts",updatedUrl);
 
-  // Define a state variable to store the updated arrayProducts
-  const [arrayProducts, setArrayProducts] = useState([]);
+  const arrayProducts= categoryId === 0 ? products: categoryProducts.products
 
-  useEffect(() => {
-    // Update arrayProducts when products or categoryProducts change
-    if (categoryId === 0) {
-      setArrayProducts(products);
-    } else if (categoryProducts && categoryProducts.products.length > 0) {
-      setArrayProducts(categoryProducts?.products || []);
-    }
-    console.log ("Esoty en useEffect")
-  }, [products, categoryProducts, categoryId]);
-
-  console.log ("arrayProducts",arrayProducts)
-  console.log("categoryId", categoryId)
-  console.log('categoryProducts', categoryProducts && categoryProducts);
-  console.log('categoryProducts.products', categoryProducts && categoryProducts?.products);
-  
   const [checked, setChecked] = useState(true);  
   const {displayPromotionMsg,pageSize}=useGlobalStore()
   const theme = useTheme();
@@ -100,7 +88,7 @@ export default function Products() {
       </Container>
     );
   }
-  if (!arrayProducts || arrayProducts.length === 0) {
+  if (!products || products.length === 0) {
     return (
         <Container>
           <Alert severity="error">{emptyMsg}</Alert>
@@ -108,8 +96,7 @@ export default function Products() {
     );
   } 
   
-  const newProducts = (checked) ? arrayProducts.slice(pagination.from, pagination.to) : arrayProducts
-  console.log ('newProducts',newProducts)
+  const newProducts = (checked) ? products.slice(pagination.from, pagination.to) : products
 
   const handleView = (product) => {
     dispatch({type:actions.FIELDS, fieldName: 'product', payload: product});

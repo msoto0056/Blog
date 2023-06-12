@@ -31,13 +31,18 @@ import { InitialDataLoad } from './context/GlobalStore';
 
 function App() {
 
-  const [{urlPromo:url}, dispatch] = useProductState();
+  const [{urlPromo, urlCategories}, dispatch] = useProductState();
+  let arrayName=''
 
   useEffect(() => {
     document.title = "Web Site - Home";
     //load promotions 
-    InitialDataLoad({url, dispatch});
-  }, [url, dispatch]);
+    arrayName='promotionMessages'
+    InitialDataLoad({url:urlPromo, dispatch, arrayName});
+    //load categories 
+    arrayName='categories'
+    InitialDataLoad({url:urlCategories, dispatch, arrayName});
+  }, [urlPromo, urlCategories, dispatch]);
 
   return (
       <Router>

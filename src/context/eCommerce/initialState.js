@@ -16,8 +16,10 @@ export const initialState = {
     },
     showCart: false,
     cartItems: [],
+    category:'All Products',
+    categoryId:0,
+    categories:[],
     promotionMessages:null,
-    promotionMessagescopy:null,
     isLoading: false,  
     isError: false,
     errorMsg: '',
@@ -25,6 +27,7 @@ export const initialState = {
     productCountInCart: 0,
     url: 'http://localhost:8000/api/product/',
     urlPromo: 'http://localhost:8000/api/promotions/', 
+    urlCategories: 'http://localhost:8000/api/categories/',
 };
 
 

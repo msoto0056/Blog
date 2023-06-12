@@ -19,7 +19,7 @@ export const initialState = {
       'idiom':"",
       'is_active': null,
       'is_staff': null,
-    }
+    },
 };
 
 

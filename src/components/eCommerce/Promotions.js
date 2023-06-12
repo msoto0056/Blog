@@ -4,12 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { MessageText, PromotionsContainer } from "../../styles/product";
 import {useProductState} from '../../context/eCommerce/ProductStore';
 
-const messages = [
-  "20% off on your first order!",
-  "Summer sale starts now, visit any store.",
-  "Please like and subscribe :)",
-];
-
 export default function Promotions() {
 
   const [{promotionMessages},] = useProductState();
@@ -36,7 +30,7 @@ export default function Promotions() {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [promotionMessages.length]);
 
   return (
     <PromotionsContainer ref={containerRef} overflow="hidden">

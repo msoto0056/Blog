@@ -27,7 +27,6 @@ import Account from './Account';
 const Header = () => {
 	const [{blogCount},] = useBlogState();
 	const [{productCountInCart},prodDispatch] = useProductState();
-	console.log ("productCountInCart", productCountInCart)
     // const location = useLocation ()
 	const [,dispatch]=useUserState()
 	const globalDispatch=useGlobalDispatch();

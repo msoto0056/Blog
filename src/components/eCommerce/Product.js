@@ -37,15 +37,12 @@ export default function Product() {
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const [{product,cartItems},dispatch] = useProductState();
-  console.log ("product.qty", product.qty)
 
   useEffect(() => {
     // Update product qty if product is in the cart already - before writing the cart to the DB
     const existingItem = cartItems.find(item => item.product.id === product.id);
-    console.log("existingItem1",existingItem)
     if (existingItem) {
       const newQty = product.qty - existingItem.count;
-      console.log("newQty:", newQty)
       dispatch({ type: actions.UPDATE_CART, payload: newQty });
     }
   }, []);
