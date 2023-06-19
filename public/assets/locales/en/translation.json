@@ -36,5 +36,6 @@
     "returnMsg": "Return",
     "inStockMsg": "In Stock",
     "outofStockMsg": "Out of Stock",
-    "categoryMsg": "Categories"
+    "categoryMsg": "Categories",
+    "categoryAllMsg": "All Products"
 }

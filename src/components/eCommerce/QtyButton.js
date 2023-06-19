@@ -7,7 +7,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {useProductState} from '../../context/eCommerce/ProductStore';
 import {actions} from '../../context/Types';
 import {ShoppingBadge, IncDecWrapper} from '../../styles/product'
-import Divider from '@mui/material/Divider';
 
 
 export default function IncDec() {
@@ -30,7 +29,7 @@ export default function IncDec() {
         </IconButton>
         <IconButton aria-label="cart">
         <ShoppingBadge badgeContent={count} color="primary">
-            <ShoppingCartIcon />
+            <ShoppingCartIcon fontSize='large'/>
         </ShoppingBadge>
         </IconButton>
             <IconButton color="secondary" aria-label="increase" component="label" size="small"

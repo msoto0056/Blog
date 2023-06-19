@@ -36,7 +36,7 @@ export default function Product() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
-  const [{product,cartItems},dispatch] = useProductState();
+  const [{product,cartItems, selectedCategory},dispatch] = useProductState();
 
   useEffect(() => {
     // Update product qty if product is in the cart already - before writing the cart to the DB
@@ -45,35 +45,41 @@ export default function Product() {
       const newQty = product.qty - existingItem.count;
       dispatch({ type: actions.UPDATE_CART, payload: newQty });
     }
-  }, []);
+  },  [cartItems, dispatch, product.id, product.qty]);
   
 
   const [selectedPicture, setSelectedPicture] = useState(product.image);
   function handleClick() {
     navigate(-1); // go back to the previous page
   }
+
+  const categoryLetter = selectedCategory && typeof selectedCategory.category === 'string' ? selectedCategory.category.charAt(0).toUpperCase() : 'A';
+
 	return (
         <Box sx={{ flexGrow: 1 , margin:1}}>
             <Grid2 container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    <ImageList sx={{ width: {xs:70, sm:70, md:80}, height: {xs:350, sm:450, md:500 }, rowHeight: {xs:50, sm:55,  md:60} }} cols={1} >   
-                        {product.productImages.map((image,i) => (
-                            <ImageListItem key={i} sx={{border:1, borderColor:'#cccdd1'}}>  
-                                <img
-                                src={`${image.pictures}?w=150&h=164&fit=crop&auto=format`}
-                                srcSet={`${image.picture}?w=150&h=164&fit=crop&auto=format&dpr=2 2x`}
-                                alt={''}
-                                loading="lazy"
-                                onClick={()=>setSelectedPicture(image.pictures)}
-                                />
-                        </ImageListItem>
-                        ))}
-                    </ImageList>
+            {!matches && (
+                <ImageList sx={{ width: {xs:70, sm:70, md:80}, height: {xs:350, sm:450, md:500 }, rowHeight: {xs:50, sm:55,  md:60} }} cols={1} >   
+                    {product.productImages.map((image,i) => (
+                        <ImageListItem key={i} sx={{border:1, borderColor:'#cccdd1'}}>  
+                            <img
+                            src={`${image.pictures}?w=150&h=164&fit=crop&auto=format`}
+                            srcSet={`${image.picture}?w=150&h=164&fit=crop&auto=format&dpr=2 2x`}
+                            alt={''}
+                            loading="lazy"
+                            onClick={()=>setSelectedPicture(image.pictures)}
+                            />
+                    </ImageListItem>
+                    ))}
+                </ImageList>
+            )}
+            {!matches && (
                 <Grid2 lg={1} md={2} sm={3} sx={4}>
                     <ProductImageContainer> 
                         <ProductImage1 src={selectedPicture} />    
-                        {/* <img src={`${selectedPicture}?w=164&h=164&fit=crop&auto=format`} />  */}
                     </ProductImageContainer>
                 </Grid2>
+            )}
                <Grid2 lg={1} md={2} sm={3}  xs={4}
                   sx={{
                   marginTop: 8,
@@ -84,17 +90,20 @@ export default function Product() {
                 >
                 <Card sx={{ maxWidth: 345 }}>
                     <CardHeader
-                        avatar={
-                        <Avatar sx={{ bgcolor: red[500] }} aria-label="Games">
-                            G
+                    avatar={
+                        <Avatar sx={{ bgcolor: red[500] }} aria-label="Category">
+                        {categoryLetter}
                         </Avatar>
-                        }
+                    }
                         title= {product.title}
                         subheader= {`$ ${product.price}`}
                     />
                     <CardMedia
-                        sx={{ height: 140 }}
-                        image={(product.image !== null)? product.image : "https://source.unsplash.com/random"}
+                      sx={{
+                        paddingTop: '75%', // Increase the paddingTop value to make the image larger
+                        backgroundSize: 'cover', // Use 'cover' to fill the entire area without cropping
+                        backgroundImage: `url(${(product.image !== null) ? product.image : "https://source.unsplash.com/random"})`,
+                      }}
                         title={product.title}
                     />
                     <CardContent>

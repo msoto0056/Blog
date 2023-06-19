@@ -70,8 +70,11 @@ const theme = createTheme({
       fourth: {
         main:  "#919aa1"
       },
-      badgeProd: {
+      badgeProd1: {
         main: "#FFEFD5"
+      },
+      badgeProd: {
+        main: "#78b8ed"
       },
       shoppingCart:{
         main: "#ffa430"

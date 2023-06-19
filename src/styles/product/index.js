@@ -5,8 +5,15 @@ import Button from '@mui/material/Button';
 import { slideInBottom, slideInRight } from "../../animation";
 import Icon from '@mui/material/Icon';
 import Badge from '@mui/material/Badge';
+import Avatar from '@mui/material/Avatar';
 
  
+  export const SquareAvatar = styled(Avatar)(({ theme }) => ({
+    borderRadius: '8px', // Adjust the border radius to your preference
+    width: '64px', // Adjust the width and height to your preference
+    height: '64px',
+  }));
+
   export const ProductImageContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up("md")]: {
       padding: "100px 0px 100px 0px",

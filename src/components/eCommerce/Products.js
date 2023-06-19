@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState ,useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
@@ -37,53 +37,103 @@ export default function Products() {
   let navigate = useNavigate();
   const { t } = useTranslation()
 	const emptyMsg = t('emptyProdMsg');
-  const [{url,productCount,promotionMessages, category, categoryId},dispatch] = useProductState();
+  const [{url,productCount,promotionMessages, categoryId, selectedCategory, categorySelectionEnabled},dispatch] = useProductState();
   const updatedUrl = categoryId === 0 ? `${url}categories/all/` : `${url}categories/${categoryId}`;
   const onSuccessFetch=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.length})}
-  const {data:products, error, isLoading, isError} = useRetrieve("products",url,onSuccessFetch);
-  const onSuccessFetch1=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data.products.length})}
+  const { data: products = [], error, isLoading, isError } = useRetrieve("products", url, onSuccessFetch);
+  const onSuccessFetch1=(data) =>{dispatch({type:actions.FIELDS, fieldName: 'productCount', payload:data?.products.length})}
   const {data:categoryProducts, error1, isLoading1, isError1} = useRetrieve("categoryProducts",updatedUrl,onSuccessFetch1);
-
-  // Define a state variable to store the updated arrayProducts
-  const [arrayProducts, setArrayProducts] = useState([]);
-
-  useEffect(() => {
-    // Update arrayProducts when products or categoryProducts change
-    if (categoryId === 0) {
-      setArrayProducts(products);
-    } else if (categoryProducts && categoryProducts.products.length > 0) {
-      setArrayProducts(categoryProducts?.products || []);
-    }
-    console.log ("Esoty en useEffect")
-  }, [products, categoryProducts, categoryId]);
-
-  console.log ("arrayProducts",arrayProducts)
-  console.log("categoryId", categoryId)
-  console.log('categoryProducts', categoryProducts && categoryProducts);
-  console.log('categoryProducts.products', categoryProducts && categoryProducts?.products);
-  
+  // State Variable to manage the current page. For highlighting the correct page #
+  const [currentPage, setCurrentPage] = useState(1);
+  // State Variable to Manage the Pagination Switch
   const [checked, setChecked] = useState(true);  
+  // State Variable to Manage the Category Switch
+  // const [categorySelectionEnabled, setCategorySelectionEnabled] = useState(true);
+  // Global Variables for promotial message, if any, and the page size for pagination
   const {displayPromotionMsg,pageSize}=useGlobalStore()
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const productsRef = useRef(products);
+
+  const handleCategorySelection = (category) => {
+    dispatch({type:actions.FIELDS, fieldName: 'selectedCategory', payload:category})
+    // Reset pagination to display the first page
+    setPagination((prevState) => ({
+      ...prevState,
+      from: 0,
+      to: pageSize,
+    }));
+    // Reset current page to 1
+    setCurrentPage(1);
   };
 
-  const handlePageChange = (event, page) => {
-    const from = (page- 1) * pageSize;
-    const to = (page -1 ) * pageSize + pageSize
-    setPagination({...pagination, from: from, to: to })
-  };
-
+  // Define a state variable to store the updated arrayProducts
+  const [arrayProducts, setArrayProducts] = useState([]);
+  // Define a state variable to store pagination information 
   const [pagination, setPagination] = useState({
     count:productCount,
     from:0,
     to: pageSize 
   });
+ 
+  useEffect(() => {
+    productsRef.current = products;
+  }, [products]);
 
+  useEffect(() => {
+    // Update arrayProducts when categoryProducts change
+    if (categoryId === 0) {
+      setArrayProducts(productsRef.current);
+    } else if (categoryProducts && categoryProducts.products && categoryProducts.products.length > 0) {
+      setArrayProducts(categoryProducts.products);
+    }
+    
+    // Update product count based on category selection and categoryProducts availability
+    let updatedProductCount = 0;
+    if (categorySelectionEnabled) {
+      updatedProductCount = categoryId === 0 ? productsRef.current.length : (categoryProducts && categoryProducts.products) ? categoryProducts.products.length : 0;
+    } else {
+      updatedProductCount = productsRef.current.length;
+    }
+    setPagination((prevState) => ({
+      ...prevState,
+      count: updatedProductCount,
+    }));
+    console.log ("Updated product Count",updatedProductCount)
+    // Update categoryId field in the reducer based on categorySelectionEnabled
+    dispatch({ type: actions.FIELDS, fieldName: 'categoryId', payload: categorySelectionEnabled ? (selectedCategory ? selectedCategory.id : 0) : 0 });
+    dispatch({ type: actions.FIELDS, fieldName: 'selectedCategory', payload: categorySelectionEnabled ? (selectedCategory ? selectedCategory : null) : null });
+    
+    // Update product count in the reducer
+    dispatch({ type: actions.FIELDS, fieldName: 'productCount', payload: updatedProductCount });
+    
+  }, [categoryProducts, categoryId, selectedCategory, categorySelectionEnabled, dispatch]);
 
+  console.log ("productCount",productCount)
+
+  console.log ("arrayProducts",arrayProducts)
+  console.log("categoryId", categoryId)
+  console.log('categoryProducts', categoryProducts && categoryProducts);
+  console.log('categoryProducts.products', categoryProducts && categoryProducts?.products);
+  console.log( ' categoria seleccionada',selectedCategory)
+
+  const handlePaginationSwitch = (event) => {
+    setChecked(event.target.checked);
+  };
+
+  const handleCategorySelectionToggle = () => {
+    dispatch({ type: actions.TOGGLE_CATEGORY_SELECTION });
+    };
+
+  
+  const handlePageChange = (event, page) => {
+    const from = (page- 1) * pageSize;
+    const to = (page -1 ) * pageSize + pageSize
+    setPagination({...pagination, from: from, to: to })
+    setCurrentPage(page);
+  };
+  
   if (isLoading) {
 	  return (
 		<p style={{ fontSize: '25px' }}>
@@ -109,7 +159,6 @@ export default function Products() {
   } 
   
   const newProducts = (checked) ? arrayProducts.slice(pagination.from, pagination.to) : arrayProducts
-  console.log ('newProducts',newProducts)
 
   const handleView = (product) => {
     dispatch({type:actions.FIELDS, fieldName: 'product', payload: product});
@@ -130,12 +179,12 @@ export default function Products() {
           fontFamily={"Cinzel"}
           fontWeight={"bold"}
         >
-          {category}
+          {(categoryId === 0 || !selectedCategory) ? t('categoryAllMsg') : selectedCategory.category}
         </Typography>
         </Box>
         <Box sx={{ ml: 'auto' }}>
           <FormGroup>
-          <FormControlLabel control= {<Switch checked={checked} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} size="small" />} 
+          <FormControlLabel control= {<Switch checked={checked} onChange={handlePaginationSwitch} inputProps={{ 'aria-label': 'controlled' }} size="small" />} 
             label={
               <Typography variant="body3">
                   {t('pagMsg')}
@@ -143,14 +192,24 @@ export default function Products() {
             }
           />
           </FormGroup>
-          <IconButton aria-label="settings" sx={{display: 'flex', justifyContent:"flex-end"}}>
+          {/* <IconButton aria-label="settings" sx={{display: 'flex', justifyContent:"flex-end"}}>
             <MoreVertIcon />
-        </IconButton>
+        </IconButton> */}
+          <FormGroup>
+            <FormControlLabel
+              control={<Switch checked={categorySelectionEnabled} onChange={handleCategorySelectionToggle}  size="small" />}
+              label={
+                <Typography variant="body3">
+                    {t('categoryMsg')}
+                </Typography>
+              }
+            />
+          </FormGroup>
         </Box>
       </Box>
         <Grid className='Tarjetas' container spacing={5} alignItems="center" justifyContent='center'>
           <Box display='flex' sx={{mr:10, p:0}}>
-            <Categories />
+            {categorySelectionEnabled && <Categories handleCategorySelection={handleCategorySelection} />}
           </Box>
           {newProducts.map((product) => {
 		        return (
@@ -171,9 +230,11 @@ export default function Products() {
                     /> 
 
                     <CardMedia
-                      sx={{paddingTop: '56.25%'}} 
-                      // image="https://source.unsplash.com/random"
-                      image = {(product.image !== null)? product.image : "https://source.unsplash.com/random"}
+                      sx={{
+                        paddingTop: '75%', // Increase the paddingTop value to make the image larger
+                        backgroundSize: 'cover', // Use 'cover' to fill the entire area without cropping
+                        backgroundImage: `url(${(product.image !== null) ? product.image : "https://source.unsplash.com/random"})`,
+                      }}
                       title="Image title"
                     />
                     <CardContent>
@@ -200,7 +261,7 @@ export default function Products() {
 		      })}
         </Grid>
           <Box sx={{display:"flex", mt:2, justifyContent:"center" }}>
-            {checked && <Pagination count={Math.ceil(productCount / pageSize)} variant="outlined" color="primary" onChange={handlePageChange}/>}
+            {checked && <Pagination count={Math.ceil(productCount / pageSize)} page={currentPage} variant="outlined" color="primary" onChange={handlePageChange}/>}
           </Box>
           {promotionMessages!==null&&displayPromotionMsg&&<Promotions />}
           {/* <Cart /> */}

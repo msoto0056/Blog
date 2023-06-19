@@ -81,8 +81,13 @@
             productCountInCart: state.productCountInCart - 1
           };
         }
-      default:
-        return state;
+        case actions.TOGGLE_CATEGORY_SELECTION:
+          return {
+            ...state,
+            categorySelectionEnabled: !state.categorySelectionEnabled
+          };
+        default:
+          throw new Error(`Unsupported action type: ${action.type}`);
     }
   };
   export default ProductReducer

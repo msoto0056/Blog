@@ -36,5 +36,6 @@
     "returnMsg": "Возвращаться",
     "inStockMsg": "В наличии",
     "outofStockMsg": "Распродано",
-    "categoryMsg": "Категории"
+    "categoryMsg": "Категории",
+    "categoryAllMsg": "Все продукты"
 }

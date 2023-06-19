@@ -5,8 +5,8 @@ import { timer } from "d3"
 // import { Motion, spring } from "@serprex/react-motion";
 
 const mapStyles = {
-  width: "90%",
-  height: "auto"
+  width: "100%",
+  height: "500px"
 };
 
 
@@ -22,7 +22,9 @@ const mapStyles = {
           rotate: [center[0], center[1], 0],
           center: [-5,-3],
           scale: 250,
-        }}>
+        }}
+        style={mapStyles} // Update this line
+        >
           <ZoomableGroup center={[0,0]} zoom={1}>
             <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
             <Geographies geography={geoUrl}>

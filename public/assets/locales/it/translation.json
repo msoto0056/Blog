@@ -36,5 +36,6 @@
     "returnMsg": "Ritorno",
     "inStockMsg": "In magazzino",
     "outofStockMsg": "Esaurito",
-    "categoryMsg": "Categorie"
+    "categoryMsg": "Categorie",
+    "categoryAllMsg": "Tutti i prodotti"
 }
