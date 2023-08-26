@@ -1,6 +1,6 @@
 import React, { Suspense }  from 'react';
-import ReactDOM from 'react-dom';
-// import ReactDOM from 'react-dom/client'; // React 18 new import
+// import ReactDOM from 'react-dom'; // For Legacy React 17.0.2
+import ReactDOM from 'react-dom/client'; // React 18 new import
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
@@ -57,11 +57,12 @@ const routing = (
   </React.StrictMode>
 );
 
-ReactDOM.render(routing, document.getElementById('root'));
+// Old code for REact 17.0.2
+// ReactDOM.render(routing, document.getElementById('root'));
 
 // New for React 18
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(routing)
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(routing)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
