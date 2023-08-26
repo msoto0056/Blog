@@ -34,7 +34,8 @@ const theme = createTheme({
               }
           }
         ]
-      }
+      ,
+    }
     },
     typography: {
       fontFamily: ["Fauna One", "sans-serif","Montez","Roboto"].join(","),
@@ -84,6 +85,23 @@ const theme = createTheme({
         error: "#db3636",
         alternate: "#4682b4"
       }
+    },
+    styleOverrides: {
+      MuiAccordionSummary: {
+        root: {
+          backgroundColor: ({ palette }) =>
+            palette.mode === 'dark' ? palette.grey[700] : palette.grey[100],
+        },
+      },
+      variants: [
+        {
+          props: { variant: 'customV1' },
+          style: {
+            backgroundColor: ({ palette }) =>
+            palette.mode === 'dark' ? palette.grey[700] : palette.grey[100],
+          },
+        },
+      ],
     },
   });
 

@@ -10,7 +10,8 @@ import Button from '@mui/material/Button';
 import FindReplaceIcon from '@mui/icons-material/FindReplace';
 import Box from '@mui/material/Box';
 import Map from "./Map"
-
+// The problem with this Map is that the Tooltip never put the name of the country
+// Also the react-motion is deprecated. 
 
 import "./styles.css"
 
@@ -42,11 +43,10 @@ const theme = createTheme({
 function Maps() {
   const[center, setCenter]=useState([0, 0]);
   const[content,setContent]=useState ("");
-  console.log("maps")
+  console.log("content", content)
   return (
     <ThemeProvider theme={theme}>
         <GlobalStyles styles={{ ul: { margin: 0, padding: "1rem 0", listStyle: 'none' }, textAlign: "center", alignItems: "center" }} />
-        {/* <GlobalStyles styles={{ ul: { margin: 0, padding: 1, listStyle: 'none' } }} /> */}
         <CssBaseline />
         <MuiContainer disableGutters maxWidth="sm" component="main" sx={{ pt: 2, pb: 3 }}>
           <Paper elevation={4}>
@@ -140,7 +140,7 @@ function Maps() {
               </Button>
             </Box>
             <Map center={center} setTooltipContent={setContent}/>
-            <ReactTooltip offset={{ top: 335, left: 45 }}>{content}</ReactTooltip>
+            <ReactTooltip className="tooltip" offset={{ top: 200, left: 45 }} >{content}</ReactTooltip>
           </Paper>
         </MuiContainer>
     </ThemeProvider>

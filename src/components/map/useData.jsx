@@ -7,7 +7,7 @@ const geoUrl1="https://unpkg.com/world-atlas@2.0.2/countries-50m.json";
 export const useData= () => {
     const[data,setData]= useState(null);
     useEffect(() => {
-        json(geoUrl0).then(topology =>{
+        json(geoUrl1).then(topology =>{
             const {countries, land} = topology.objects;
             setData({
                 land: feature(topology, land ),

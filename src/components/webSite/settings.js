@@ -5,8 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiContainer from '@mui/material/Container';
 import GlobalStyles from '@mui/material/GlobalStyles';
 
-
-
 function Settings() {
   return (
     <React.Fragment>

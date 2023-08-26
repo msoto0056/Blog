@@ -8,6 +8,7 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
+import BugReportOutlinedIcon from '@mui/icons-material/BugReportOutlined';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import MoveToInboxOutlinedIcon from '@mui/icons-material/MoveToInboxOutlined';
 import ProductionQuantityLimitsOutlinedIcon from '@mui/icons-material/ProductionQuantityLimitsOutlined';
@@ -75,6 +76,11 @@ export const initialState = {
         path:"/mapita"
       },
       {
+      text:"Mapa Marks Cheep tricks",
+      icon:<LanguageIcon color="shoppingCart" />, 
+      path:"/mapCheep"
+    },
+      {
         text:"Settings",
         icon:<AcUnitIcon color="primary" />, 
         path:"/settings"
@@ -83,6 +89,11 @@ export const initialState = {
         text:"D3 GlobeMap - Zoom Pan Rotate",
         icon:<LanguageIcon color="warning" />, 
         path:"/d3GlobeMap"
+      },
+      {
+        text:"Just Testing",
+        icon:<BugReportOutlinedIcon  color="primary" />, 
+        path:"/testing"
       },
     ],
 

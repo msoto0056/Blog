@@ -16,7 +16,7 @@ export const useData2= () => {
     const svgRef = useRef();
 
     useEffect(() => {
-        const svg = select(svgRef.current);
+        // const svg = select(svgRef.current);
         Promise.all([
             tsv(tsv1),
             json(geoUrl0)

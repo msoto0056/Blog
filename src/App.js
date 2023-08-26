@@ -21,9 +21,11 @@ import Layout from './layout';
 import Maps from './components/map/Maps'
 import {Mapa} from './components/map/Mapa';
 import {Mapita} from './components/map/Mapita';
-import D3GlobeMap from './components/map/D3GlobeMap';
+// import D3GlobeMap from './components/D3Maps/D3GlobeMap';
+import ReMapa from './components/map/ReMapa';
 import { useProductState } from "./context/eCommerce/ProductStore";
 import { InitialDataLoad } from './context/GlobalStore';
+import Temp from './components/webSite/temp'
 
 
 
@@ -64,7 +66,9 @@ function App() {
             <Route exact path='/map' element= {<Maps />} />
             <Route exact path='/mapa' element= {<Mapa />} />
             <Route exact path='/mapita' element= {<Mapita />} />
-            <Route exact path='/d3GlobeMap' element= {<D3GlobeMap />} />
+            <Route exact path='/mapCheep' element= {<ReMapa />} />
+            <Route exact path='/testing' element= {<Temp />} />
+            {/* <Route exact path='/d3GlobeMap' element= {<D3GlobeMap />} /> */}
           </Routes>
           <Cart />
       </Layout>
